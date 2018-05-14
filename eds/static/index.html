@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>专家发现系统</title>
+<link href="/static/css/css.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/reset.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="./resources/bootstrap3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
+<link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <style >
+        	.btn_color{background-color:#00d3d4;color:#fff}
+        	.footer { margin:0px; background-color: #fff; text-align: center;padding:30px;margin-top:40px; clear: both;letter-spacing: 0.08em;}
+            .footer_nav { display: inline-block; color: #9e9e9e;padding:10px 50px; vertical-align: top;}
+            .footer_nav li{ font-size: 14px;text-align: left;line-height: 30px;}
+            .footer_nav li a{ color: #9e9e9e;}
+            .footer_nav li a:hover{ opacity: .9;}
+            .footer_nav .title{ font-size: 18px;}
+            .footer .copyright { color: #787878;font-size: 12px;margin-top: 30px;}
+            .footer .copyright img { margin-left:6px;margin-right:6px;margin-top:-10px;}
+            .footer .copyright span { color: #57dfc7;}
+            .footer .copyright span.phone_large { font-size: 20px;}
+    </style>
+    <script>
+        function ClearSubmit(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+   }
+    </script>
+</head>
+
+<body>
+<div id='app'>
+    <nav role="navigation" class="navbar navbar-default" style="font-size:15px !important;">
+        <div class="navbar-header" style="margin-right:5%;margin-left:5%;">
+            <a href="#" class="navbar-brand">
+                <img src="./images/logo-new.png" style="height:100%"/>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" style="margin-right:5%">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#"  @click='open("KEKE TEAM")'>关于我们</a>
+                </li>
+                <li>
+                <a href="#"  @click='open("Project")'>项目介绍</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="search1">
+        <div class="imglog">
+            <img src="/static/images/Polaris.png" />
+        </div>
+        <div class="collapse navbar-collapse" style="">
+            <form role="search" class="navbar-form navbar-left">
+                <div class="form-group" v-if="adv">
+                    <input type="text"  onkeydown="return ClearSubmit(event)"  placeholder="搜索" v-on:keydown.enter="go_search"  v-model="keyword" class="form-control" style="width:420px;height:40px">
+                </div>
+                <div class="form-group" v-if="!adv">
+                    <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="关键字" v-on:keydown.enter="go_search" v-model="keyword"  class="form-control" style="width:120px;height:40px">
+                    <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="姓名" v-on:keydown.enter="go_search" v-model="name" class="form-control" style="width:120px;height:40px">
+                    <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="机构" v-on:keydown.enter="go_search" v-model="institution" class="form-control" style="width:150px;height:40px">
+                </div>
+                <button class="btn btn_color" type="button" @click='go_search()' style="height:40px">搜索</button>
+                <button class="btn btn_color" type="button" @click='change_search()' style="height:40px">{{search_type}}</button>
+            </form>
+        </div>
+    </div >
+        <div class="imglist1">
+            <ul class="clear">
+                <li v-for="f in list"><a href="#" @click='search_word($event)' align="center"><span style="z-index:100">{{f}}</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron footer navbar-fixed-bottom">
+    <p class="copyright"><a href="" class="copyright" target="_blank">copyright@ 2018 东南大学 刻刻团队</a>&nbsp;&nbsp;&nbsp;keke@seu.edu.cn</p>
+</div>
+
+<script src="./resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+<script src="./resources/bootstrap3/js/bootstrap.min.js"></script>
+<script  src="./resources/flat-ui-2.2.2-dist/js/flat-ui.min.js"></script>
+<script src="./resources/vue/vue.js"></script>
+<script src="./resources/vue/commonTools.js"></script>
+<script src="./js/index.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+
+</body>
+</html>

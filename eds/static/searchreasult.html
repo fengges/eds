@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="renderer" content="webkit"/>
+<meta name="keywords" content=""/>
+<meta name="description" content="">
+<link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="./resources/bootstrap3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
+<link rel="stylesheet" href="./resources/vue/index.css">
+<title>专家搜索</title>
+<style>
+    .body {font-size: 16px;line-height: 1.4em;letter-spacing: 0.08em;padding: 0;margin: 0;color: #010101;}
+    .footer { margin:0px; background-color: #fff; text-align: center;padding:30px;margin-top:40px; clear: both;letter-spacing: 0.08em;}
+    .footer_nav { display: inline-block; color: #9e9e9e;padding:10px 50px; vertical-align: top;}
+    .footer_nav li{ font-size: 14px;text-align: left;line-height: 30px;}
+    .footer_nav li a{ color: #9e9e9e;}
+    .footer_nav li a:hover{ opacity: .9;}
+    .footer_nav .title{ font-size: 18px;}
+    .footer .copyright { color: #787878;font-size: 12px;margin-top: 30px;}
+    .footer .copyright img { margin-left:6px;margin-right:6px;margin-top:-10px;}
+    .footer .copyright span { color: #57dfc7;}
+    .footer .copyright span.phone_large { font-size: 20px;}
+	 ol,ul{list-style: none;margin:0;padding:0;}.page{font-size:14px;}.content-label{margin:0px 5px 8px 5px;clear:both;}
+	.content-label>ul{overflow:hidden;}.content-label>ul>li{float:left;margin-right:10px;margin-bottom:15px;}
+	.content-label>ul>li>a{color:#777;border-radius:16px;padding:2px 15px;}
+	.content-label-span{color:#bbb;float:left;}
+	.content-label>ul>li>a:active,.content-label>ul>li>a:hover{background-color: #00d3d4;border-radius:16px;color:#fff;padding:2px 15px 4px 15px;}
+	.content-label>ul>li>a.active{background-color: #00d3d4;border-radius:16px;color:#fff;padding:2px 15px 4px 15px;}
+	.content-title{font-size:16px;;color:#00d3d4;margin:-10px 5px 20px 5px;padding-bottom:5px;border-bottom:1px solid #ddd;}
+	.content-divider{height:50px;background-color:#F5F5F5;border:1px solid #ddd;margin:0px 5px 20px 5px;line-height: 45px;}
+	.content-divider>a.active{color:#00d3d4 !important;}
+	.content-divider>a{margin:0px 5px 0px 40px;color:#777} .content-divider>a:active,.content-divider>a:hover{color:#00d3d4;}
+	.thumbnail{border:1px solid #fff;border-bottom:1px solid #ddd;border-radius:0px;padding:12px 10px 12px 10px;margin:2px;}
+	a.thumbnail:hover{border-radius:0px;border:1px solid #fff;-webkit-box-shadow:0 0 10px rgba(63, 63, 63, .5);-moz-box-shadow:0 0 10px rgba(63, 63, 63, .5);box-shadow:0 0 10px rgba(63, 63, 63, .5);}
+	.thumbnail .caption{padding:0px;}.caption>h6{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;font-size:14px;margin:9px 0px 2px 0px;font-weight:400;padding-top:1px;padding-bottom: 1px;}
+	.subhead{font-size:13px !important;color:#bbb;}.col-xs-6.col-md-3.edit{ padding:0px;margin-bottom:30px;}
+	.subhead-titie{font-size: 12px ;color:#FA6441;margin:0px;} .subhead-content{ font-size: 12px;color:#bbb;} .pagination-self{text-align: center;font-size:15px;margin-top:10px;}
+	.pagination-self>ul{display: inline-block}
+	.pagination-self>ul>li{display: inline-block;margin:0px 4px;}
+	.pagination-self>ul>li>a{display: inline-block;color:#bbb;padding:1px 8px;font-family: "Arial";}
+	.pagination-self>ul>li>a:active,.pagination-self>ul>li>a:hover{color:#fff;background-color: #00d3d4}
+	.pagination-self>ul>li>a.active{color:#fff;background-color: #00d3d4}
+	.content-title-1{padding:15px 0px 10px;font-size:16px;border-bottom:1px solid #d7dee0;}
+	.tips{color:#ff0000;}
+    .content{overflow:hidden;border-bottom:1px solid #d7dee0;padding-bottom:27px;padding-top:27px;}
+    .content:last-child{overflow:hidden;padding-bottom:20px;border:none}	
+	.content-1-div-1{padding:0 0;}
+    .content-1-div-2{padding:0;}
+    .content-1-div-2>ul>li>h6,p{margin:0;padding:0;font-weight: normal;line-height:1;}
+    .content-1-div-2>ul>li{padding:0px 0px 0px 15px;}
+    .content-1-div-2>ul>li>h6{color:#000000;font-size:16px;margin-bottom: 10px;}
+    .content-1-div-2>ul>li>p{text-overflow:ellipsis;overflow:hidden;line-height: 24px;max-height:48px;text-overflow:ellipsis;}
+    .p1{font-size:15px;color:#777;height:30px;}
+	.p2{color:#969696;font-size:15px;}
+	.btn_color{background-color:#00d3d4;color:#fff}
+	.mui-ellipsis-3 {display: -webkit-box;overflow: hidden;white-space: normal!important;text-overflow:ellipsis;word-wrap: break-word;-webkit-line-clamp: 3;-webkit-box-orient: vertical;}
+    .mui-ellipsis-3>em{color:red;}
+    .mui-ellipsis {display: -webkit-box;white-space: normal!important;-webkit-box-orient: vertical;}
+    .innerCtn{text-indent: 1rem}
+    .light{color:red;}
+    .paper{margin:20px}
+</style>
+</head>
+<body>
+<div id='app'>
+<nav role="navigation" class="navbar navbar-default" style="font-size:15px !important;">
+    <div class="navbar-header" style="margin-right:5%;margin-left:5%;">
+        <a href="/static/index.html" class="navbar-brand">
+            <img src="./images/logo-new.png" style="height:100%"/>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" style="margin-right:5%">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#"  @click='open("KEKE TEAM")'>关于我们</a>
+            </li>
+            <li>
+                <a href="#"  @click='open("Project")'>项目介绍</a>
+            </li>
+        </ul>
+        <form role="search" class="navbar-form navbar-left">
+            <div class="form-group" v-if="adv">
+                <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="搜索" @keydown.enter="enter_search" v-model="keyword" class="form-control" style="width:350px">
+            </div>
+			<div class="form-group" v-if="!adv">
+                <input type="text" onkeydown="return ClearSubmit(event)" placeholder="关键字" v-on:keydown.enter="enter_search" v-model="keyword"  class="form-control" style="width:100px">
+				<input type="text" onkeydown="return ClearSubmit(event)" placeholder="姓名" v-on:keydown.enter="enter_search" v-model="name" class="form-control" style="width:100px">
+				<input type="text" onkeydown="return ClearSubmit(event)" placeholder="机构" v-on:keydown.enter="enter_search" v-model="institution" class="form-control" style="width:140px">
+            </div>
+            <button class="btn btn_color" type="button" @click='go_search($event)'>搜索</button>
+			<button class="btn btn_color" type="button" @click='change_search()'>{{search_type}}</button>
+            <el-checkbox v-model="accurate_search" label="精确搜索"></el-checkbox>
+        </form>
+    </div>
+</nav>
+
+<div class="page">
+    <div class="container">
+        <div class="row">
+            <div class="content-title">
+                <span>全部专家</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-label">
+                <span class="content-label-span">h-index ：</span>
+                <ul>
+                    <li>
+                        <a href="#" @click='click_index($event)' :class="{ active: h_index=='' }" href="#">全部</a>
+                    </li>
+					<li v-for="item in hindexs">
+    					<a href="#" @click='click_index($event)' :class="{active:h_index==item.value}">{{item.value}}({{item.num}})</a>
+					</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-label">
+                <span class="content-label-span">Fields ： </span>
+                <ul>
+                    <li>
+                        <a href="#" @click='click_fields($event)':class="{ active: field=='' }" href="#">全部</a>
+                    </li>
+					<li v-for="item in fields">
+    					<a href="#" @click='click_fields($event)':class="{active:field==item.value}">{{item.value}}({{item.num}})</a>
+					</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="content-divider">
+                <a href="#" @click='change_order("all")' :class="{active:order=='all'}">综合</a>
+                <a href="#" @click='change_order("paper_num")' :class="{active:order=='paper_num'}">Paper</a>
+                <a href="#" @click='change_order("citation")' :class="{active:order=='citation'}">Citation</a>
+				<a href="#" style="float: right!important;color:#777!important;"><span id='page'>每页显示：</span><span style="cursor: hand;" @click='change_page($event,5)'>5 </span><span @click='change_page($event,10)'>10 </span><span @click='change_page($event,20)'>20 </span></a>
+            </div>
+        </div>
+		<div class="row">
+			<div class="col-md-9">
+				<ul class="content-title-1">
+					<li>
+						为您找到相关专家<span class="tips">{{num}}</span>个
+					</li>
+				</ul>
+				<ul >
+					<li class="content" v-for="item in results">
+						<div class="col-md-3 content-1-div-1">
+							<img style="width:150px":src="'/main/propic/'+item.author_id">
+						</div>
+						<div class="col-md-9 content-1-div-2">
+							<ul>
+								<li>
+									<h6>
+                                        <a :href="item.link"><strong class="search-strong" style=" color:#777">{{item.name}}</strong></a>
+									</h6>
+									<p class="p2">
+										<span class="text-danger">
+											<span style="font-style:italic">h</span>-index: &nbsp;
+										</span>
+										<span class="ng-binding">{{item.h_index}}</span>
+										<span class="color-grey">&nbsp; | &nbsp;</span>
+										<span class="text-danger ng-binding">#Paper: &nbsp;</span>
+										<span class="ng-binding">{{item.paper_num}}</span>
+										<span class="color-grey">&nbsp; | &nbsp;</span>
+										<span class="text-danger ng-binding">#Citation: &nbsp;</span>
+										<span class="ng-binding">{{item.citation}}</span>
+									</p>
+									<p class="p1">
+										<span  class="ng-binding ng-scope" style="margin-right:10px">{{item.school}}</span>
+                                        <span  class="ng-binding ng-scope">{{item.institution}}</span>
+                                        <a href="#" @click='show_paper(item)' style="float:right">显示论文</a>
+										<br/>
+                                        <div class="innerCtn">
+                                            <span class="mui-ellipsis-3" v-html="item.light_abstract"></span>
+                                        </div>
+									</p>
+									<p class="p2">
+										<ul class="list-inline">
+											<li  v-for="f in item.fields">
+												<a href="#" @click='search_word($event)'>{{f}}</a>
+											</li>
+										</ul>
+									</p>
+									<p class="p3">
+										<span>
+										<i class="fa fa-eye font-xs ng-binding"></i>
+										</span>
+									</p>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-3">
+				<ul class="content-title-1" style="margin-bottom: 11px;">
+					<li>热门搜索</li>
+				</ul>
+				<ul class="list-inline">
+					<li v-for="item in hot_word">
+						<a href="#" @click='search_word($event)'>{{item}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+        <div class="row">
+            <div class="pagination-self">
+                <ul>
+                    <li>
+                        <a href="#" @click='go(1)'>首页</a>
+                    </li>
+                    <li>
+                        <a href="#" @click='pre()'>上一页</a>
+                    </li>
+                    <li v-for="item in pageList">
+                        <a href="#" @click='go(item)':class="{active:page==item}">{{item}}</a>
+                    </li>
+                    <li>
+                        <a href="#" @click='next()'>下一页</a>
+                    </li>
+                    <li>
+                        <a href="#" @click='go(allPage)'>尾页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="jumbotron footer" >
+
+    <p class="copyright"><a href="" class="copyright" target="_blank">copyright@ 2018 东南大学 刻刻团队</a>&nbsp;&nbsp;&nbspkeke@seu.edu.cn</p>
+
+</div>
+
+</div>
+<script src="./resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+<script src="./resources/bootstrap3/js/bootstrap.min.js"></script>
+<script src="./resources/flat-ui-2.2.2-dist/js/flat-ui.min.js"></script>
+<script src="./resources/vue/vue.js"></script>
+<script src="./resources/layer/layer.js"></script>
+<script src="./resources/vue/commonTools.js"></script>
+<script src="./js/search.js"></script>
+<script src="./resources/vue/index.js"></script>
+
+</body>
+</html>

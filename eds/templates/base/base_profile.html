@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}{{ info_dict["name"] }}_专家详情</title>
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon" />
+    <style >
+        	.btn_color{background-color:#00d3d4;color:#fff}
+        	.footer { margin:0px; background-color: #fff; text-align: center;padding:30px;margin-top:40px; clear: both;}
+            .footer_nav { display: inline-block; color: #9e9e9e;padding:10px 50px; vertical-align: top;}
+            .footer_nav li{ font-size: 14px;text-align: left;line-height: 30px;}
+            .footer_nav li a{ color: #9e9e9e;}
+            .footer_nav li a:hover{ opacity: .9;}
+            .footer_nav .title{ font-size: 18px;}
+            .footer .copyright { color: #787878;font-size: 12px;margin-top: 30px;}
+            .footer .copyright img { margin-left:6px;margin-right:6px;margin-top:-10px;}
+            .footer .copyright span { color: #57dfc7;}
+            .footer .copyright span.phone_large { font-size: 20px;}
+    </style>
+</head>
+<body>
+<div id='app'>
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top" style="font-size:15px !important;">
+    <div class="navbar-header" style="margin-right:5%;margin-left:5%;">
+        <a href="/static/index.html" class="navbar-brand">
+            <img src="/static/images/logo-new.png" style="height:100%"/>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" style="margin-right:5%">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#"  @click='open("KEKE TEAM")'>关于我们</a>
+            </li>
+            <li>
+                <a href="#"  @click='open("Project")'>项目介绍</a>
+            </li>
+        </ul>
+        <form role="search" class="navbar-form navbar-left">
+            <div class="form-group" v-if="adv">
+                <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="搜索"  v-on:keydown.enter="go_search" v-model="keyword" class="form-control" style="width:350px">
+            </div>
+			<div class="form-group" v-if="!adv">
+                <input type="text" onkeydown="return ClearSubmit(event)"  placeholder="关键字" v-on:keydown.enter="go_search" v-model="keyword"  class="form-control" style="width:100px">
+				<input type="text" onkeydown="return ClearSubmit(event)"  placeholder="姓名" v-on:keydown.enter="go_search" v-model="name" class="form-control" style="width:100px">
+				<input type="text" onkeydown="return ClearSubmit(event)"  placeholder="机构" v-on:keydown.enter="go_search" v-model="institution" class="form-control" style="width:140px">
+            </div>
+            <button class="btn btn_color" type="button" @click='go_search($event)'>搜索</button>
+			<button class="btn btn_color" type="button" @click='change_search($event)'>高级</button>
+        </form>
+    </div>
+</nav>
+</div>
+{%block profile %}{% endblock %}
+
+<div class="jumbotron footer navbar-fixed-bottom">
+    <p class="copyright"><a href="" class="copyright" target="_blank">copyright@ 2018 东南大学 刻刻团队</a>&nbsp;&nbsp;&nbsp;keke@seu.edu.cn</p>
+</div>
+
+<script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+<script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
+<script src="/static/resources/flat-ui-2.2.2-dist/js/flat-ui.min.js"></script>
+<script src="/static/resources/vue/vue.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+<script src="/static/resources/vue/commonTools.js"></script>
+<script>
+window.onload = function(){
+   var vm = new Vue({
+  el : '#app',
+  extends: CommonTools,
+
+  data : function() {
+    return {
+       keyword:'',
+       name:'',
+	   institution:'',
+	   adv:true,
+	   search_type:'高级'
+	   }
+  },
+  methods: {
+    open:function(t){
+       if (t=='KEKE TEAM'){
+            content = ['/static/aboutus.html', 'yes']
+       }
+       else{
+            content = ['/static/aboutproject.html', 'yes']
+       }
+      layer.open({
+          type: 2,
+          title:t,
+          area: ['40%', '80%'], //宽高
+          content: content
+       });
+    },
+    search_word:function(event){
+        t=event.target.innerText;
+        this.keyword=t;
+        this.go_search();
+    },
+    go_search:function(){
+        this.page=1;
+        this.field='';
+        this.h_index='';
+        this.order='Paper',
+        url='/static/searchreasult.html?keyword='+encodeURI(encodeURI(this.keyword))+'&name='+encodeURI(encodeURI(this.name))+'&institution='+encodeURI(encodeURI(this.institution));
+        window.location.href=url
+    },
+    change_search:function(){
+        if(this.search_type=='高级'){
+            this.search_type='简单';
+            this.adv=false;
+        }else{
+            this.search_type='高级';
+            this.adv=true;
+        }
+    },
+  },
+  created:function() {
+  },
+});
+}
+</script>
+</body>
+</html>
