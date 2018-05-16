@@ -7,7 +7,7 @@
 
 import jieba.posseg as pseg
 from eds import config
-from flask import Flask,redirect,json
+from flask import Flask,redirect,json,render_template
 from eds.controller import bp_list
 from eds.error import *
 
