@@ -14,9 +14,11 @@ var vm = new Vue({
 	  }
   },
   methods: {
-    open:function(t){
+     open:function(t){
        if (t=='KEKE TEAM'){
             content = ['/static/aboutus.html', 'yes']
+       }else if(t=='Need'){
+            content = ['/static/publicNeed.html', 'yes']
        }
        else{
             content = ['/static/aboutproject.html', 'yes']

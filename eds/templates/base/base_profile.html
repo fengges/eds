@@ -31,6 +31,9 @@
     <div class="collapse navbar-collapse" style="margin-right:5%">
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <a href="#"  @click='open("Need")'>发布需求</a>
+            </li>
+            <li>
                 <a href="#"  @click='open("KEKE TEAM")'>关于我们</a>
             </li>
             <li>
@@ -83,6 +86,8 @@ window.onload = function(){
     open:function(t){
        if (t=='KEKE TEAM'){
             content = ['/static/aboutus.html', 'yes']
+       }else if(t=='Need'){
+            content = ['/static/publicNeed.html', 'yes']
        }
        else{
             content = ['/static/aboutproject.html', 'yes']
