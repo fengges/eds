@@ -52,7 +52,7 @@
     <el-form-item label="添加标签">
     <el-tag
   :key="tag"
-  v-for="tag in dynamicTags"
+  v-for="tag in needTopic"
   closable
   :disable-transitions="false"
   @close="handleClose(tag)">
@@ -63,12 +63,12 @@
   v-if="inputVisible"
   v-model="inputValue"
   ref="saveTagInput"
-  size="small"
-  @keyup.enter.native="handleInputConfirm"
-  @blur="handleInputConfirm"
->
+  size="small">
 </el-input>
 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+  </el-form-item>
+    <el-form-item label="推荐主题">
+        <el-button :key="tag" v-for="tag in dynamicTags"  @click="handleInputConfirm(tag)" size="mini" round>{{tag}}</el-button>
   </el-form-item>
   <el-form-item label="需求描述">
     <el-input type="textarea" v-model="desc"></el-input>
@@ -96,13 +96,15 @@
                           title: '',
                           topic:'',
                           desc: '',
-                         dynamicTags: ['标签一', '标签二', '标签三'],
-                         inputVisible: false,
-                         inputValue: ''
+                          needTopic:[],
+                          dynamicTags: ['人工智能', '数据挖掘'],
+                          inputVisible: false,
+                          inputValue: '',
                   }
               },
             watch: {
-                topic: function (newQuestion, oldQuestion) {
+                inputValue: function (newQuestion, oldQuestion) {
+                       self=this;
                        $.ajax({
                             url:"/needtopic/getTopic",
                             type:'POST',
@@ -110,7 +112,12 @@
                             dataType: 'json',
                             success:function(data){
                                 re=data.obj;
-                                console.log(re);s
+                                console.log(re);
+                                self.dynamicTags=[];
+                                for(var i=0;i<re.length;i++)
+                                      if(self.needTopic.indexOf(re[i]['topic'])<0){
+                                          self.dynamicTags.push(re[i]['topic']);
+                                      }
                             }
                         });
                 }
@@ -118,10 +125,9 @@
             methods: {
               onSubmit() {
                 console.log('submit!');
-              }
-            },
-              handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+              },
+			   handleClose(tag) {
+                this.needTopic.splice(this.needTopic.indexOf(tag), 1);
               },
 
               showInput() {
@@ -131,14 +137,18 @@
                 });
               },
 
-              handleInputConfirm() {
-                let inputValue = this.inputValue;
+              handleInputConfirm(tag) {
+                let inputValue = tag;
                 if (inputValue) {
-                  this.dynamicTags.push(inputValue);
+                  if(this.needTopic.indexOf(inputValue)<0){
+                      this.needTopic.push(inputValue);
+                      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                  }
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
               }
+            }
           });
   });
 

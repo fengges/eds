@@ -9,6 +9,8 @@ class NeedTopicDao:
         params=('%'+params[0]+'%',)
         sql = "SELECT * FROM need_topic where topic like %s"
         radar_result = dbs.getDics(sql, params)
-        return radar_result[0]
+        if len(radar_result)==0:
+            return []
+        return radar_result
 
 needTopicDao=NeedTopicDao()
