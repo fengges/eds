@@ -109,4 +109,3 @@ class SearchService:
         return f
 
 searchService=SearchService()
-
