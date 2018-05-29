@@ -26,7 +26,7 @@ var vm = new Vue({
       layer.open({
           type: 2,
           title:t,
-          area: ['40%', '80%'], //宽高
+          area: ['1100px', '80%'], //宽高
           content: content
        });
     },
