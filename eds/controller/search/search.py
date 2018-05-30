@@ -31,3 +31,23 @@ def index():
     ajax['obj'] = result
     s=json.jsonify(ajax)
     return s
+
+
+@main_main.route('/search/index',methods=['GET','POST'])
+def index2():
+    params = ['keyword', 'name', 'institution', 'h_index', 'field', 'order', 'page', 'pPageNum', 'accurate_search']
+    search_params={}
+    t=request.form.get('data')
+    data = json.loads(t)
+    for p in params:
+        if p in data.keys():
+            search_params[p]=data[p]
+        else :
+            search_params[p]=None
+    result=searchService.getIndexSearchResult(search_params)
+    ajax={}
+    ajax['success']=True
+    ajax['msg']=''
+    ajax['obj'] = result
+    s=json.jsonify(ajax)
+    return s

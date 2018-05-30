@@ -107,5 +107,25 @@ class SearchService:
         for i in range(n):
             f['fields'].append({'value':c1[i][0],'num':c1[i][1]})
         return f
+        # 得到查询结果
+
+    def getIndexSearchResult(self, params):
+
+        key = params['keyword']
+        temp = jeibaUitl.cut(params['keyword'])
+        if len(temp) == 0:
+            if len(key) == 0:
+                params['keyword'] = []
+            else:
+                temp = [key]
+                params['keyword'] = temp
+        else:
+            params['keyword'] = temp
+        temp = paperSearch.IndexSearchdao(params)
+
+        for r in temp['result']:
+            r["link"] = "/main/profile/" + str(r["author_id"])
+
+        return temp
 
 searchService=SearchService()

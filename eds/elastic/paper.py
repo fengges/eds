@@ -11,6 +11,16 @@ class PaperSearch:
         self.es = Elasticsearch([{"host": "120.78.201.159", "port": 9200}])
         # self.es = Elasticsearch()
     # 生成过滤条件的返回字段
+    def IndexSearchdao(self,params):
+        result = {}
+        dic = self.getType()
+        dic["query"]["bool"]["must"] = self.getQuery(params)
+        dic["size"] = 5
+        dic["from"] = 0
+        dic = self.setResultSource(dic)
+        result["result"],result["num"] = self.dosearch2(dic)
+
+        return result
     def setFilterSource(self,dic):
         dic["_source"]["include"] = ["h_index", "fields"]
         return dic
@@ -21,7 +31,6 @@ class PaperSearch:
         dic["query"]={}
         dic["query"]["bool"] = {}
         dic["collapse"]= { "field": "author_id"}
-
         return dic
     # 设置排序
     def setOrder(self,dic,param):
@@ -37,6 +46,9 @@ class PaperSearch:
     # 生成 查询结构
     def getQuery(self,params):
         dic=[]
+        for k in params:
+            if params[k] is None:
+                params[k]=''
         if len(params["institution"])>0 :
             dic.append({
                 "bool": {
@@ -120,6 +132,12 @@ class PaperSearch:
         dic["size"]=params['pPageNum']
         return dic
     # 请求
+    def dosearch2(self,dic):
+        print(dic)
+        res = self.es.search(index="teachers", body=dic)
+        sources=[source["_source"] for source in res['hits']['hits']]
+        total=res['hits']['total']
+        return sources,total
     def dosearch(self,dic):
         res = self.es.search(index="teachers", body=dic)
         sources=[source["_source"] for source in res['hits']['hits']]

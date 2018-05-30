@@ -1,38 +1,49 @@
 <!DOCTYPE html>
 <!-- saved from url=(0028)https://www.kickstarter.com/ -->
 <html>
-  
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
     <title>Kickstarter</title>
-    
-    
     <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
-    
-   
+    <script src="./resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+    <script src="./resources/vue/vue.js"></script>
+    <script src="./resources/vue/commonTools.js"></script>
+    <script src="./resources/layer/layer.js"></script>
+    <script src="./js/Kickstarter.js"></script>
   </head>
   
   <body class="site maison-book not-mobile not-phone not-mobile-safari not-chrome-ios not-forces-video-controls not-tablet not-ipad not-iphone not-ios not-android not-touchable not-native-app-request not-apple-pay-capable not-android-pay-capable responsive " id="site_index_refresh">
     <div class="NS_layouts__notifications"></div>
-    <div id="global-header" class="relative">
+    <div id="global_header" class="relative">
       <section class="section_global-nav js-site-nav-container bg-white flex flex-wrap flex-nowrap-md border-bottom border-dark-grey-500 justify-between w100p">
         <div class="animation-fade-in animation-300 animation-easeOutQuart w100p t0 l0 absolute z-guided-search-3 display-none">
           <div class="relative m-auto bg-white w100p">
             <div class="relative">
               <div class="p0 flex z-dropdown-3 relative shadow-2 items-center">
-                <input class="keyboard-focusable no-outline h13 h11-md medium z-dropdown-3 w100p relative no-radius pl4 pl7-md type-18 inline-block border-none shadow-none js-search-term-gs" type="text" tabindex="-1" placeholder="Search for projects or categories" value="">
+                <input class="keyboard-focusable no-outline h13 h11-md medium z-dropdown-3 w100p relative no-radius pl4 pl7-md type-18 inline-block border-none shadow-none js-search-term-gs" type="text" tabindex="-1" placeholder="Search for projects or categories" v-model="keyWord" @keyup.enter='search'>
                 <div class="inline-block z-guided-search-3 relative">
                   <button class="p0 flex justify-center items-center w7 w10-md h10 bg-white mr3-md keyboard-focusable" id ="cancel">
                     <img class="svg-icon__icon--cross icon-medium hover-fill-ksr-green-500 fill-soft-black" aria-hidden="true"/>
-                      
-                   
                   </button>
                 </div>
               </div>
-              <div class="z-dropdown-3 scroll-y relative webkit-scrolling bg-white" style="height: 0px; opacity: 0; transition: 0.3s;">
-                <ul class="mt3 mr0 ml0 mb1 p0 w100p"></ul>
-              </div>
+              <div class="z-dropdown-3 scroll-y relative webkit-scrolling bg-white" style="height: 867.813px; opacity: 1; transition: 0.3s;">
+                <ul class="mt3 mr0 ml0 mb1 p0 w100p">
+                  <li><h3 class="mt1 mb1 navy-600 type-14 normal ml4">Teachers</h3></li>
+                  <li class="" v-for="item in results">
+                    <a :href="item.link">
+                    <div role="link" tabindex="1" class="type-18 pointer pt2 pb2 pl4 pr4 flex">
+                      <img style='width:80px' class="mr2 self-start w20 flex-noshrink rounded" :src="'/main/propic/'+item.author_id" role="presentation">
+                      <div class="flex flex-column">
+                        <div class="type-16 soft-black medium mb1_2">{{item.name}}</div>
+                        <div class="type-12 soft-black mb1_2 hide block-sm block-md block-lg">{{item.school}}</div>
+                        <div class="type-12"><div class="soft-black inline-block mr1">{{item.institution}}</div></div>
+                      </div>
+                    </div>
+                    </a>
+                  </li>
+                  <li><a href="/discover/advanced?ref=nav_search&amp;result=all&amp;term=555" class="bttn bttn-medium bttn-white keyboard-focusable shadow-button block mt3 ml4 mr4">See all {{num}} results</a></li></ul></div>
             </div>
           </div>
         </div>
@@ -201,18 +212,8 @@
         <section class="section_global-nav-right justify-end order-3 flex grow-1-md pr3 pr4-sm items-center py2 basis50p-md">
           <button class="p0 flex items-center type-14 keyboard-focusable hover-ksr-green-700 fill-soft-black hover-fill-ksr-green-700" id="search">
             <span class="display-none block-sm">Search</span>
-			
-			<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-			<script>
-			$("#search").click(function(){
-			  $(".animation-fade-in").toggleClass('display-none');
-			});
-			
-			$("#cancel").click(function(){
-			  $(".animation-fade-in").toggleClass('display-none');
-			});
-			
-			</script>
+
+
 			
             <svg class="svg-icon__icon--search icon-medium ml1" aria-hidden="true">
               <use xlink:href="#icon--search"></use>
@@ -221,6 +222,7 @@
           <a href="" class="soft-black hover-ksr-green-700 ml3">Sign in</a></section>
       </section>
     </div>
+
     <main role="main">
       <div id="main_content">
         <div id="content-wrap">
@@ -228,7 +230,6 @@
             <a rel="publisher" style="display:none" href="https://plus.google.com/118239121095465976293">Google+</a>
             <div class="min-h100vh" id="index-container">
               <div>
-                <div></div>
                 <section class="section_stats-block border-bottom border-dark-grey-500 block-md display-none mb6 mb10-md">
                   <div class="grid-container">
                     <div class="grid-row">
@@ -422,11 +423,12 @@
                     </div>
                   </div>
                 </section>
-                
-                
-                
-                
-    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 
 </html>
