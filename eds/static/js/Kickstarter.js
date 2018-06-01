@@ -44,6 +44,9 @@ vm = new Vue({
     }
    },
     methods: {
+     search_word:function(){
+       window.location="/static/searchreasult2.html?keyword="+encodeURI(encodeURI(this.keyWord));
+     },
       search:function(){
         url='/search/index';
         self=this;
