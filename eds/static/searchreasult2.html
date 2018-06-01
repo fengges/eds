@@ -11,10 +11,10 @@
     <script src="./resources/layer/layer.js"></script>
     <script src="./js/search2.js"></script>
 
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./resources/element/index.css">
 
     <link rel="stylesheet" href="./resources/vue/index.css">
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="./resources/element/index.js"></script>
     <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
 
     <style>
@@ -241,16 +241,53 @@
 
     <main role="main">
       <div id="main_content" class="center">
-        <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">Find <b class="count ksr-green-500">{{num}} teachers</b></h3>
+        <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">Search <b class="count ksr-green-500">{{keyword}}</b> then Find <b class="count ksr-green-500">{{num}}</b> teachers</h3>
+        <template>
+          <div>
+            <el-button @click="show = !show" type="info" plain>More filters</el-button>
+            <div >
+              <el-collapse-transition>
+                <div v-show="show">
+                  <div class="transition-box">
+
+                    <el-form ref="form"  label-width="80px">
+                        <el-form-item label="专家姓名">
+                          <el-input v-model="name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="专家机构">
+                          <el-input v-model="institution"></el-input>
+                        </el-form-item>
+                        <el-form-item label="精确搜索">
+                          <el-switch v-model="accurate_search"></el-switch>
+                        </el-form-item>
+                        <el-form-item label="H_Index">
+                          <el-radio-group v-model="h_index">
+                            <el-radio label="全部"></el-radio>
+                            <el-radio v-for="h in hindexs" :label="h.value">{{h.value}}({{h.num}})</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                        <el-form-item style="height:50px">
+                          <el-button type="primary" @click="do_search">立即创建</el-button>
+                          <el-button>取消</el-button>
+                        </el-form-item>
+                      </el-form>
+                  </div>
+                </div>
+              </el-collapse-transition>
+            </div>
+          </div>
+        </template>
         <section class="section_project-collection-tabbed-block">
             <ul class="mb3 list">
               <li  v-for="item in results" class="flex items-start w100p py3 border-bottom border-grey-500">
                 <div class="flex items-center justify-between w100p">
-                  <a href="https://www.kickstarter.com/projects/2093776053/100000-foundersa-seattle-international-street-food?ref=home_new_and_noteworthy" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block">
+                  <a :href="item.link" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block">
                     <img class="w100p block" :src="'/main/propic/'+item.author_id" alt="Project"></a>
                   <div class="basis60p-md basis80p">
                     <a class="type-14 block link-soft-black" :href="item.link">{{item.name}}</a>
-                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">{{item.school}}</div></div>
+                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">{{item.school}}</div>
+                    <div><el-tag  v-on:click.native='click_word($event)' style="margin:5px" v-for="f in item.fields">{{f}}</el-tag></div>
+                  </div>
                 </div>
               </li>
             </ul>

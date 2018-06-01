@@ -52,9 +52,10 @@ vm = new Vue({
            citation:'',
            abstract:'',
            title:'',
-           field:[],
+           fields:[],
            light_abstract:'',
 	   }],
+	   show:false,
 	   page:1,
 	   pPageNum:5,
 	   num:0,
@@ -68,7 +69,29 @@ vm = new Vue({
        search_word:function(){
         window.location="/static/searchreasult2.html?keyword="+encodeURI(encodeURI(this.keyword));
      },
-
+    /*
+    *点击超链接搜索
+    */
+    click_word:function(event){
+        t=event.target.innerText;
+        this.keyword=t;
+        this.institution=''
+        this.name=''
+        this.go_search();
+     },
+     /*
+     *点击搜索
+     */
+    go_search:function(){
+        this.page=1;
+        this.field='';
+        this.h_index='';
+        this.reload();
+    },
+        do_search:function(){
+        this.page=1;
+        this.reload();
+    },
       handleSizeChange(val) {
         this.pPageNum=val;
         this.reload();
