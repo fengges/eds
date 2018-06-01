@@ -99,7 +99,7 @@ class PaperSearch:
         hindex=self.getIfHindex(params['h_index'])
         if hindex is not None:
             dic["query"]["bool"]["must"].append(hindex)
-        if params["field"] is None or len(params["field"]) == 0:
+        if params["field"] is None or len(params["field"]) == 0 or params["field"]=="全部":
             pass
         else :
             dic["query"]["bool"]["must"].append({
@@ -112,7 +112,7 @@ class PaperSearch:
         return dic
     # 设置h_index条件
     def getIfHindex(self, s):
-        if s is None or len(s) == 0:
+        if s is None or len(s) == 0 or s=="全部":
             return None;
         dic={}
         dic["range"]={}
