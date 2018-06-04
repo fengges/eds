@@ -1,4 +1,5 @@
 
+
 $(function() {
 	/**
  	*
@@ -22,7 +23,7 @@ $(function() {
             subtextStyle: {
                 fontSize: 16,
             },
-            padding:[5, 100]
+            padding:[5, 10]
         },
 
         tooltip: {
@@ -47,7 +48,7 @@ $(function() {
             // backgroundColor:'#000',
             padding: [
                 5, // 上
-                100, // 右
+                10, // 右
                 5, // 下
                 10, // 左
             ],

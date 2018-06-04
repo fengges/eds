@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}-双一流导师画像平台</title>
+    <title>{% block titlename %}{% endblock %}</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
+    <script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+    <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
@@ -13,56 +15,178 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-          <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">
-                  <img class="logo" src="{{ url_for('static',filename='images/logo.png')}}">
-              </a>
+
+    <!--导航条点击搜索后-->
+    <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
+        <!--输入框-->
+        <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+        <div class="row" style="margin: 0 5%;padding: 0px">
+            <div class="col-md-11"style="padding:25px 0px 0px 0px;margin:0">
+                <input id="search" type="text" onkeypress="return openSearchResult(event)" placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">发布问答</a></li>
-              </ul>
-              <form class="navbar-form navbar-left">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="请输入关键字">
-                </div>
-                <button type="submit" class="btn btn-default">查找</button>
-              </form>
-              <ul class="nav navbar-nav navbar-right">
-                  {% if user %}
-                    <li><a href="#">{{ user.username }}</a></li>
-                    <li><a href="#">{{ aaa }}</a></li>
-                    <li><a href="/login/logout">注销</a></li>
-                  {% else %}
-                    <li><a href="/login/login">登录</a></li>
-                    <li><a href="/login/register">注册</a></li>
-                  {% endif %}
-              </ul>
-            </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
-    <div class="main">
-        <div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn5555e</a></p>
-</div>
-        {% block main %}{% endblock %}
+            <div class="col-md-1" >
+                <button type="button" class="btn btn-default navbar-btn"  onclick="closeSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
+            </div>
+
+        </div>
+        </div>
+        <!--搜索结果-->
+        <div id="mySearchResult"class="container-fluid" style="padding: 0px;background-color: #ffffff;visibility:hidden;">
+            <div class="row" style="margin:0;padding:0;">
+
+                <ul class="my-ul">
+                    <li class="my-li">
+                        <a href="#">
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row" style="margin: 0px ;padding:15px 0;">
+                                <!-- 头像 -->
+                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                                <!-- 姓名+简介 -->
+                                <div class="col-md-8" style="padding: 0;">
+                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
+                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
+                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+
+                    <li class="my-li">
+                        <a href="#">
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row" style="margin: 0px ;padding:15px 0;">
+                                <!-- 头像 -->
+                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                                <!-- 姓名+简介 -->
+                                <div class="col-md-8" style="padding: 0;">
+                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
+                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
+                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                    <li class="my-li">
+                        <a href="#">
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row" style="margin: 0px ;padding:15px 0;">
+                                <!-- 头像 -->
+                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                                <!-- 姓名+简介 -->
+                                <div class="col-md-8" style="padding: 0;">
+                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
+                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
+                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                    <li class="my-li">
+                        <a href="#">
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row" style="margin: 0px ;padding:15px 0;">
+                                <!-- 头像 -->
+                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                                <!-- 姓名+简介 -->
+                                <div class="col-md-8" style="padding: 0;">
+                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
+                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
+                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+                    <li class="my-li">
+                        <a href="#">
+                        <div class="container-fluid" style="padding: 0px;">
+                            <div class="row" style="margin: 0px ;padding:15px 0;">
+                                <!-- 头像 -->
+                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                                <!-- 姓名+简介 -->
+                                <div class="col-md-8" style="padding: 0;">
+                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
+                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
+                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <a href="#"><div class="my-result-num">查看全部 500 结果</div></a>
+
+            </div>
+        </div>
     </div>
 
-{%block profile %}{% endblock %}
+
+    <!--导航条-->
+    <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+        <div class="row" style="margin: 0 5%;padding: 0px">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-default navbar-btn" style="padding:30px 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</button>
+            </div>
+            <div class="col-md-1" style="padding:27px 0px 0px 10px;margin:0;">
+                <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">反馈建议</a>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-6" style="text-align:center;padding-top:25px;">
+                <a href="#"><img style="height:30px;"  src="../../static/images/expertlogo.png"/></a>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-default navbar-btn" id="bt_display" onclick="openSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></button>
+
+            </div>
+            <div class="col-md-1" style="padding:27px 10px 0px 0px;margin:0;">
+                <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 录</a>
+            </div>
+
+        </div>
+    </div>
+
+    {% block main %}{% endblock %}
+
+
+
 
 </body>
 </html>
+<!--导航条js-->
+<script language="javascript"  type="text/javascript">
+function $(id)
+{
+    return document.getElementById(id);
+    }
+function openSearchDiv(){
+    $("mySearch").style.visibility="";
+
+}
+function openSearchResult(e){
+    var keyCode = null;
+
+    if(e.which)
+        keyCode = e.which;
+    else if(e.keyCode)
+        keyCode = e.keyCode;
+
+    if(keyCode == 13)
+    {
+        $("mySearchResult").style.visibility="";
+    }
+    return true;
+}
+function closeSearchDiv(){
+    $("mySearch").style.visibility="hidden";
+    $("mySearchResult").style.visibility="hidden";
+
+};
+</script>

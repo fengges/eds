@@ -14,3 +14,93 @@
     margin: 0;
     padding: 0;
 }
+
+
+
+
+/*
+ * Tab标签
+ */
+/*#myTab.nav li{
+  margin-top: 20px;
+}*/
+#myTab.nav > li > a:hover,
+#myTab.nav > li > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+}
+
+#myTab.nav-tabs {
+  border-bottom: 1px solid rgba(0,0,0,0.5);
+
+
+}
+
+#myTab.nav-tabs > li > a {
+  color: rgba(0,0,0,0.5);
+  padding: 25px 10px;
+  background: transparent;
+  border: hidden;
+}
+
+#myTab.nav-tabs > li > a:hover {
+  border-color: transparent;
+  color: #009E74;
+}
+
+#myTab.nav-tabs > li.active > a,
+#myTab.nav-tabs > li.active > a:hover,
+#myTab.nav-tabs > li.active > a:focus {
+  color: rgba(0,0,0,0.7);
+  cursor: default;
+  background: transparent;
+  background-color: transparent;
+  border: hidden;
+  border-bottom-color: transparent;
+}
+
+#myTab.nav-tabs > li.active > a:hover{
+  color: #009E74;
+}
+
+#myTab.nav-tabs.nav-justified {
+  width: 30%;
+  border-bottom-color: rgba(0,0,0,0.7);
+  border-bottom: 1px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#myTab.nav-tabs.nav-justified > li {
+  float: none;
+}
+#myTab.nav-tabs.nav-justified > li > a {
+  text-align: center;
+}
+
+#myTab > li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 0;
+  height: 100%;
+  border-bottom: 1px solid rgba(0,0,0,0.7);
+  transition: 0.2s all linear;
+}
+
+#myTab > li:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+#myTab > li:hover ~ li::before {
+    left: 0;
+}
+
+#myTabContent{
+  width: fit-content;
+  width: -webkit-fit-content;
+  margin-right: auto;
+  margin-right: auto;
+
+}

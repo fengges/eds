@@ -1,17 +1,42 @@
-
-.logo{
-    height : 25px;
+/*导航条样式*/
+.my-title2{
+	margin-bottom: 0.3rem;
+	font-weight:500;
+	color: #282828;
+	font-size: 1.8rem;
+	line-height: 2.4rem;
+	margin-top:0;
 }
-
-body{
-    background: #f3f3f3;
+.my-text2{
+    margin-bottom: 0.3rem;
+	color: #282828;;
+	font-size: 1.2rem;
+    line-height: 1.8rem;
+    border: 0;
+    padding: 0;
 }
+.my-ul{
+    list-style-type:none;
 
-
-.main{
-    background: #fff;
-    width: 730px;
-    margin: 0 auto;
-    overflow: hidden;
-    padding: 10px;
+    margin-bottom: 0px;
+    padding-left:0;
+}
+.my-li{
+    padding-left:5%;
+}
+.my-li:hover{
+    box-shadow:0px 2px 5px #D4D4D4;
+}
+.my-result-num{
+    border: 1px solid #D4D4D4;
+    margin:30px 5%;
+    text-align:center;
+    height:50px;
+    font-size: 1.4rem;
+    height: 4.2rem;
+    line-height: 4.2rem;
+    color: #282828;
+}
+.my-result-num:hover{
+    border: 1px solid #282828;
 }
