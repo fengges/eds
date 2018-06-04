@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>keke</title>
+    <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
+    <script src="./resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+    <script src="./resources/vue/vue.js"></script>
+    <script src="./resources/vue/commonTools.js"></script>
+    <script src="./resources/layer/layer.js"></script>
+    <script src="./js/Kickstarter.js"></script>
+  </head>
+  <body class="site maison-book not-mobile not-phone not-mobile-safari not-chrome-ios not-forces-video-controls not-tablet not-ipad not-iphone not-ios not-android not-touchable not-native-app-request not-apple-pay-capable not-android-pay-capable responsive " id="site_index_refresh">
+    <div class="NS_layouts__notifications"></div>
+    <div id="global_header" class="relative">
+      <section class="section_global-nav js-site-nav-container bg-white flex flex-wrap flex-nowrap-md border-bottom border-dark-grey-500 justify-between w100p">
+        <div class="animation-fade-in animation-300 animation-easeOutQuart w100p t0 l0 absolute z-guided-search-3 display-none">
+          <div class="relative m-auto bg-white w100p">
+            <div class="relative">
+              <div class="p0 flex z-dropdown-3 relative shadow-2 items-center">
+                <input class="keyboard-focusable no-outline h13 h11-md medium z-dropdown-3 w100p relative no-radius pl4 pl7-md type-18 inline-block border-none shadow-none js-search-term-gs" type="text" tabindex="-1" placeholder="Search for projects or categories" v-model="keyWord" @keyup.enter='search'>
+                <div class="inline-block z-guided-search-3 relative">
+                  <button class="p0 flex justify-center items-center w7 w10-md h10 bg-white mr3-md keyboard-focusable" id="cancel">
+                    <img class="svg-icon__icon--cross icon-medium hover-fill-ksr-green-500 fill-soft-black" aria-hidden="true" /></button>
+                </div>
+              </div>
+              <div class="z-dropdown-3 scroll-y relative webkit-scrolling bg-white" style="height: 867.813px; opacity: 1; transition: 0.3s;">
+                <ul class="mt3 mr0 ml0 mb1 p0 w100p">
+                  <li>
+                    <h3 class="mt1 mb1 navy-600 type-14 normal ml4">Teachers</h3></li>
+                  <li class="" v-for="item in results">
+                    <a :href="item.link">
+                      <div role="link" tabindex="1" class="type-18 pointer pt2 pb2 pl4 pr4 flex">
+                        <img style='width:80px' class="mr2 self-start w20 flex-noshrink rounded" :src="'/main/propic/'+item.author_id" role="presentation">
+                        <div class="flex flex-column">
+                          <div class="type-16 soft-black medium mb1_2">{{item.name}}</div>
+                          <div class="type-12 soft-black mb1_2 hide block-sm block-md block-lg">{{item.school}}</div>
+                          <div class="type-12">
+                            <div class="soft-black inline-block mr1">{{item.institution}}</div></div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a @click="search_word" class="bttn bttn-medium bttn-white keyboard-focusable shadow-button block mt3 ml4 mr4">See all {{num}} results</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hide">
+          <div>
+            <div id="js-overlay-body" class="bg-grey100_0 block fixed t0 r0 b0 l0 scroll-y webkit-scrolling transition-all transition-400 z-discover-overlay-3 pt4 pb20">
+              <div id="js-overlay-fade" class="col-full transition-all transition-delay-400 relative pb6 o0p translate-y22">
+                <div tabindex="0" id="overlay-focus-guard"></div>
+                <div>
+                  <div class="absolute bg-grey-100 w100p z2 ">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full">
+                          <a role="heading" href="https://www.kickstarter.com/#collections" class="keyboard-focusable block">
+                            <h1 class="pt2 js-collection-header normal mb0 ksr-green-700 border-bottom border-grey-500 type-16 pb2">Collections</h1></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-container z1 relative pt8">
+                  <div class="grid-row">
+                    <div class="col-full mb4 pt3">
+                      <ul role="tablist">
+                        <li>
+                          <a href="https://www.kickstarter.com/discover/recommended?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-projects-we-love">Projects We Love</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/discover/popular?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-trending">Trending</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/discover/advanced?raised=1&amp;sort=end_date&amp;staff_picks=1&amp;ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-nearly-funded">Nearly Funded</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/discover/newest?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-just-launched">Just Launched</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/discover/advanced?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-everything">Everything</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="absolute bg-grey-100 w100p z2 fixed" style="top: 73px;">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full">
+                          <a role="heading" href="https://www.kickstarter.com/#sections" class="keyboard-focusable block">
+                            <h1 class="pt2 js-collection-header normal mb0 ksr-green-700 border-bottom border-grey-500 type-16 pb2">Sections</h1></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-container z1 relative pt8">
+                  <div class="grid-row">
+                    <div class="col-full mb4 pt3">
+                      <ul role="tablist">
+                        <li>
+                          <a href="https://www.kickstarter.com/arts?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-arts">Arts</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/comics-illustration?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-comics-illustration">Comics &amp; Illustration</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/design-tech?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-design-tech">Design &amp; Tech</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/film?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-film">Film</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/food-craft?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-food-craft">Food &amp; Craft</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/games?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-games">Games</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/music?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-music">Music</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                        <li>
+                          <a href="https://www.kickstarter.com/publishing?ref=discovery_overlay" class="inline-block type-34-md type-24 mb2 navy-700 hover-green-700 transition-all pointer" role="tab" aria-controls="aria-publishing">Publishing</a>
+                          <span class="pl1 green-700"></span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="absolute bg-grey-100 w100p z2 fixed" style="top: 122px;">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full">
+                          <a role="heading" href="https://www.kickstarter.com/#categories" class="keyboard-focusable block">
+                            <h1 class="pt2 js-collection-header normal mb0 ksr-green-700 border-bottom border-grey-500 type-16 pb2">Categories</h1></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-container z1 relative pt8">
+                  <div class="grid-row">
+                    <div class="col-full mb4 pt3">
+                      <svg class="svg-icon__icon--circle-loader icon-large" aria-hidden="true">
+                        <use xlink:href="#icon--circle-loader"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="absolute bg-grey-100 w100p z2 fixed" style="top: 171px;">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full">
+                          <a role="heading" href="https://www.kickstarter.com/#tags" class="keyboard-focusable block">
+                            <h1 class="pt2 js-collection-header normal mb0 ksr-green-700 border-bottom border-grey-500 type-16 pb2">On Our Radar</h1></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="grid-container z1 relative pt8">
+                  <div class="grid-row">
+                    <div class="col-full mb4 pt3">
+                      <svg class="svg-icon__icon--circle-loader icon-large" aria-hidden="true">
+                        <use xlink:href="#icon--circle-loader"></use>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="grid-container fixed t6 z-discover-overlay-3 l0 r0 w100p mx-auto text-right click-through">
+            <button class="transition-all p1 transition-delay-800 test-overlay-close-button click-on pointer" aria-label="Close">
+              <svg class="svg-icon__close icon-small h2 w2 fill-ksr-green-700" aria-hidden="true">
+                <use xlink:href="#close"></use>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <section class="section_global_nav_logo flex items-center justify-center order-2 py4 py2-md grow-5 grow-0-md w100p w-auto-md item-full-width h7-md h5 border-bottom border-none-md">
+          <a class="keyboard-focusable mb0 w30" href="https://www.kickstarter.com/?ref=nav">
+            <svg class="valign-middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 598 70" width="100%" height="100%">
+              <title>Kickstarter</title></svg>
+          </a>
+        </section>
+        <section class="section_global-nav-left order-2 order-1-md flex grow-1-md pl3 pl6-md py2 basis50p-md">
+          <button class="mr2 flex items-center type-14 keyboard-focusable soft-black hover-ksr-green-700">Explore</button>
+          <a href="" class="hide pr3 mr2 flex-sm items-center keyboard-focusable soft-black hover-ksr-green-700">Start a project</a>
+          <a href="" class="hide-sm mr2 flex items-center keyboard-focusable soft-black hover-ksr-green-700">Start</a></section>
+        <section class="section_global-nav-right justify-end order-3 flex grow-1-md pr3 pr4-sm items-center py2 basis50p-md">
+          <button class="p0 flex items-center type-14 keyboard-focusable hover-ksr-green-700 fill-soft-black hover-fill-ksr-green-700" id="search">
+            <span class="display-none block-sm">Search</span>
+            <svg class="svg-icon__icon--search icon-medium ml1" aria-hidden="true">
+              <use xlink:href="#icon--search"></use>
+            </svg>
+          </button>
+          <a href="" class="soft-black hover-ksr-green-700 ml3">Sign in</a></section>
+      </section>
+    </div>
+    <main role="main">
+      <div id="main_content">
+        <div id="content-wrap">
+          <div class="container" id="content">
+            <a rel="publisher" style="display:none" href="https://plus.google.com/118239121095465976293">Google+</a>
+            <div class="min-h100vh" id="index-container">
+              <div>
+                <section class="section_stats-block border-bottom border-dark-grey-500 block-md display-none mb6 mb10-md">
+                  <div class="grid-container">
+                    <div class="grid-row">
+                      <div class="col-full">
+                        <div class="flex">
+                          <div class="border-medium py4-md grow-1 pr2">
+                            <p class="dark-grey-500">专 家</p>
+                            <p class="bold">3,171</p></div>
+                          <div class="border-left border-medium py4-md grow-1 px6-md p2">
+                            <p class="dark-grey-500 text-uppercase">论 文</p>
+                            <p class="bold">4,695,100</p></div>
+                          <div class="border-left border-medium py4-md grow-1 px6-md p2">
+                            <p class="dark-grey-500 text-uppercase">领 域</p>
+                            <p class="bold">160</p></div>
+                          <div class="border-left border-medium py4-md grow-1 px6-md p2">
+                            <p class="dark-grey-500 text-uppercase">引 用</p>
+                            <p class="bold">3,836</p></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="section_homepage-categories-block">
+                  <div class="grid-container">
+                    <div class="grid-row">
+                      <div class="col-full">
+                        <nav class="relative mt6 mt0-md">
+                          <div class="block auto-scroll-x mb3 mb6-md webkit-scrolling">
+                            <ul class="border-bottom text-nowrap">
+                              <li class="inline-block mb-1_6 ct-li-1">
+                                <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 soft-black border-bottom border-soft-black">专 家</button></li>
+                              <li class="inline-block mb-1_6 ct-li-1">
+                                <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 dark-grey-400">学 校</button></li>
+                              <li class="inline-block mb-1_6 ct-li-1">
+                                <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 dark-grey-400">领 域</button></li>
+                            </ul>
+                          </div>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <script>$(function() {
+                      $(".item2:gt(0)").hide(); //选择item类0之后的元素隐藏,为0的这个元素显示
+                      //主要逻辑就在于找到选项卡和内容框相对应的下标
+                      $(".ct-li-1").unbind('click').click(function() {
+
+                        $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                        $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                        var _index = $(this).index(); //获取点击元素的下标
+                        $(".item2").eq(_index).show().siblings(".item2").hide(); //选择item元素中第_index个显示出来，相邻元素被隐藏
+                        //选择item元素中第_index个显示出来，相邻元素被隐藏
+                      })
+
+                    })</script>
+                  <div class="pb10-md pb8 border-bottom border-dark-grey-500 item2">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24" style="margin-bottom:2.4rem">
+                          <div class="type-28 mr2 inline-block">专 家</div>
+                          <a href="https://www.kickstarter.com/food-craft?ref=home" class="text-uppercase py1 type-12 inline-flex link-soft-black">View all
+                            <svg class="svg-icon__icon--arrow-right icon-medium ml1" aria-hidden="true">
+                              <use xlink:href="#icon--arrow-right"></use></svg>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24">
+                          <section class="section_potd-block">
+                            <header class="text-uppercase type-13 mb2 inline-block w100p">Featured Project</header>
+                            <a class="block relative keyboard-focusable link-soft-black" href="https://www.kickstarter.com/projects/400425204/jacqui-a-simple-handbag-company?ref=home_potd">
+                              <div>
+                                <button class="pill bg-soft-black_50 h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline absolute t2 r2" data-tooltip="Remind Me">
+                                  <svg class="svg-icon__icon--heart-outline icon-medium m-auto fill-white" aria-hidden="false" aria-label="Remind Me">
+                                    <use xlink:href="#icon--heart-outline"></use>
+                                  </svg>
+                                </button>
+                              </div>
+                              <img class="mb1 mb3-lg w100p block" src="./images/20150329211117872.jpg" alt="Project">
+                              <div class="absolute-lg b0 p3-lg mb6 mb0-md">
+                                <div>
+                                  <p>
+                                    <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
+                                    <br class="hide block-lg">
+                                    <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
+                                </div>
+                                <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
+                            </a>
+                          </section>
+                        </div>
+                        <div class="col-full col-md-12-24">
+                          <div class="auto-scroll-x webkit-scrolling">
+                            <ul class="border-bottom border-grey-500 text-nowrap" id="tab-ul">
+                              <script>$().ready(function() {
+                                  $(".text-nowrap > li").click(function() {
+
+                                    $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                    $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                  });
+
+                                });</script>
+                              <li class="inline-block mb-1_6 ct-li1">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">计算机</button></li>
+                              <li class="inline-block mb-1_6 ct-li1">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">经济</button></li>
+                              <li class="inline-block mb-1_6 ct-li1">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">生物</button></li>
+                            </ul>
+                          </div>
+                          <div class="item-1">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1-1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-1">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1-2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-1">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1-3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <script>$(function() {
+                              $(".item-1:gt(0)").hide(); //选择item类0之后的元素隐藏,为0的这个元素显示
+                              //主要逻辑就在于找到选项卡和内容框相对应的下标
+                              $(".ct-li1").unbind('click').click(function() {
+
+                                $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                var _index = $(this).index() - 1; //获取点击元素的下标
+                                $(".item-1").eq(_index).show().siblings(".item-1").hide(); //选择item元素中第_index个显示出来，相邻元素被隐藏
+                                //选择item元素中第_index个显示出来，相邻元素被隐藏
+                              })
+
+                            })</script>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pb10-md pb8 border-bottom border-dark-grey-500 item2">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24" style="margin-bottom:2.4rem">
+                          <div class="type-28 mr2 inline-block">高 校</div>
+                          <a href="https://www.kickstarter.com/food-craft?ref=home" class="text-uppercase py1 type-12 inline-flex link-soft-black">View all
+                            <svg class="svg-icon__icon--arrow-right icon-medium ml1" aria-hidden="true">
+                              <use xlink:href="#icon--arrow-right"></use></svg>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24">
+                          <section class="section_potd-block">
+                            <header class="text-uppercase type-13 mb2 inline-block w100p">Featured Project</header>
+                            <a class="block relative keyboard-focusable link-soft-black" href="https://www.kickstarter.com/projects/400425204/jacqui-a-simple-handbag-company?ref=home_potd">
+                              <div>
+                                <button class="pill bg-soft-black_50 h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline absolute t2 r2" data-tooltip="Remind Me">
+                                  <svg class="svg-icon__icon--heart-outline icon-medium m-auto fill-white" aria-hidden="false" aria-label="Remind Me">
+                                    <use xlink:href="#icon--heart-outline"></use>
+                                  </svg>
+                                </button>
+                              </div>
+                              <img class="mb1 mb3-lg w100p block" src="./images/u=3651840393,2664206242&fm=27&gp=0.jpg" alt="Project">
+                              <div class="absolute-lg b0 p3-lg mb6 mb0-md">
+                                <div>
+                                  <p>
+                                    <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
+                                    <br class="hide block-lg">
+                                    <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
+                                </div>
+                                <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
+                            </a>
+                          </section>
+                        </div>
+                        <div class="col-full col-md-12-24">
+                          <div class="auto-scroll-x webkit-scrolling">
+                            <ul class="border-bottom border-grey-500 text-nowrap" id="tab-ul">
+                              <script>$().ready(function() {
+                                  $(".text-nowrap > li").click(function() {
+
+                                    $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                    $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                  });
+
+                                });</script>
+                              <li class="inline-block mb-1_6 ct-li-2">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">计算机</button></li>
+                              <li class="inline-block mb-1_6 ct-li-2">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">经济</button></li>
+                              <li class="inline-block mb-1_6 ct-li-2">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">生物</button></li>
+                            </ul>
+                          </div>
+                          <div class="item-2">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2-1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-2">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2-2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-2">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2-3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <script>$(function() {
+                              $(".item-2:gt(0)").hide(); //选择item类0之后的元素隐藏,为0的这个元素显示
+                              //主要逻辑就在于找到选项卡和内容框相对应的下标
+                              $(".ct-li-2").unbind('click').click(function() {
+
+                                $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                var _index = $(this).index() - 1; //获取点击元素的下标
+                                $(".item-2").eq(_index).show().siblings(".item-2").hide(); //选择item元素中第_index个显示出来，相邻元素被隐藏
+                                //选择item元素中第_index个显示出来，相邻元素被隐藏
+                              })
+
+                            })</script>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pb10-md pb8 border-bottom border-dark-grey-500 item2">
+                    <div class="grid-container">
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24" style="margin-bottom:2.4rem">
+                          <div class="type-28 mr2 inline-block">领 域</div>
+                          <a href="https://www.kickstarter.com/food-craft?ref=home" class="text-uppercase py1 type-12 inline-flex link-soft-black">View all
+                            <svg class="svg-icon__icon--arrow-right icon-medium ml1" aria-hidden="true">
+                              <use xlink:href="#icon--arrow-right"></use></svg>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="grid-row">
+                        <div class="col-full col-md-12-24">
+                          <section class="section_potd-block">
+                            <header class="text-uppercase type-13 mb2 inline-block w100p">Featured Project</header>
+                            <a class="block relative keyboard-focusable link-soft-black" href="https://www.kickstarter.com/projects/400425204/jacqui-a-simple-handbag-company?ref=home_potd">
+                              <div>
+                                <button class="pill bg-soft-black_50 h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline absolute t2 r2" data-tooltip="Remind Me">
+                                  <svg class="svg-icon__icon--heart-outline icon-medium m-auto fill-white" aria-hidden="false" aria-label="Remind Me">
+                                    <use xlink:href="#icon--heart-outline"></use>
+                                  </svg>
+                                </button>
+                              </div>
+                              <img class="mb1 mb3-lg w100p block" src="./images/20150329211117872.jpg" alt="Project">
+                              <div class="absolute-lg b0 p3-lg mb6 mb0-md">
+                                <div>
+                                  <p>
+                                    <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
+                                    <br class="hide block-lg">
+                                    <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
+                                </div>
+                                <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
+                            </a>
+                          </section>
+                        </div>
+                        <div class="col-full col-md-12-24">
+                          <div class="auto-scroll-x webkit-scrolling">
+                            <ul class="border-bottom border-grey-500 text-nowrap" id="tab-ul">
+                              <script>$().ready(function() {
+                                  $(".text-nowrap > li").click(function() {
+
+                                    $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                    $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                  });
+
+                                });</script>
+                              <li class="inline-block mb-1_6 ct-li">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">计算机</button></li>
+                              <li class="inline-block mb-1_6 ct-li">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">经济</button></li>
+                              <li class="inline-block mb-1_6 ct-li">
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">生物</button></li>
+                            </ul>
+                          </div>
+                          <div class="item-3">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3-1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-3">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3-2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <div class="item-3">
+                            <ul class="mb3">
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3-3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="./images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
+                                <div class="flex items-center justify-between w100p">
+                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <div class="basis60p-md basis80p">
+                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                  <div class="pl6 display-none block-md">
+                                    <div>
+                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
+                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          <script>$(function() {
+                              $(".item-3:gt(0)").hide(); //选择item类0之后的元素隐藏,为0的这个元素显示
+                              //主要逻辑就在于找到选项卡和内容框相对应的下标
+                              $(".ct-li").unbind('click').click(function() {
+
+                                $(this).children("button").addClass("soft-black border-bottom border-soft-black").removeClass("dark-grey-400");
+                                $(this).siblings().children("button").addClass("dark-grey-400").removeClass("soft-black border-bottom border-soft-black");
+
+                                var _index = $(this).index() - 1; //获取点击元素的下标
+                                $(".item-3").eq(_index).show().siblings(".item-3").hide(); //选择item元素中第_index个显示出来，相邻元素被隐藏
+                                //选择item元素中第_index个显示出来，相邻元素被隐藏
+                              })
+
+                            })</script>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+
+</html>

@@ -15,6 +15,7 @@
 
     <!--<script src="./resources/element/index.js"></script>-->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="./resources/bootstrap3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
 
@@ -245,13 +246,16 @@
         <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">Search <b class="count ksr-green-500">{{keyword}}</b> then Find <b class="count ksr-green-500">{{num}}</b> teachers</h3>
         <template>
           <div>
-            <el-button @click="show = !show" type="info" size="mini" plain>More filters</el-button>
+            <button @click="show = !show" type="button" class="btn btn-default">更多搜索</button>
             <div >
               <el-collapse-transition>
-                <div v-show="show">
+                <div v-show="show" style="margin-top:20px">
                   <div class="transition-box">
 
                     <el-form ref="form"  label-width="80px">
+                        <el-form-item label="关键字">
+                          <el-input v-model="keyword"></el-input>
+                        </el-form-item>
                         <el-form-item label="专家姓名">
                           <el-input v-model="name"></el-input>
                         </el-form-item>
@@ -263,13 +267,26 @@
                         </el-form-item>
                         <el-form-item label="H_Index">
                           <el-radio-group v-model="h_index">
-                            <el-radio label="全部"></el-radio>
+                            <el-radio  label="">全部</el-radio>
                             <el-radio v-for="h in hindexs" :label="h.value">{{h.value}}({{h.num}})</el-radio>
                           </el-radio-group>
                         </el-form-item>
+                        <el-form-item label="研究领域">
+                          <el-radio-group v-model="field">
+                            <el-radio  label="">全部</el-radio>
+                            <el-radio v-for="item in fields" :label="item.value">{{item.value}}({{item.num}})</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="排序">
+                          <el-radio-group v-model="order">
+                            <el-radio  label="all">综合</el-radio>
+                            <el-radio  label="paper_num">Paper</el-radio>
+                            <el-radio  label="citation">Citation</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
                         <el-form-item >
-                          <el-button type="primary" size="mini" @click="do_search">立即创建</el-button>
-                          <el-button size="mini">取消</el-button>
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;background-color:#409EFF;margin-right:20px" @click="do_search" type="button" class="btn btn-success">搜索</button>
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;" @click="show = false" type="button" class="btn btn-default">取消</button>
                         </el-form-item>
                       </el-form>
                   </div>
