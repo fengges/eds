@@ -1,0 +1,16 @@
+.my-title1{
+	margin: 0;
+	font-weight:500;
+	color: #282828;
+	font-size: 3.8rem;
+	line-height: 4.2rem;
+}
+
+.my-text1{
+	color: #656969;
+	font-size: 1.8rem;
+    line-height: 2.4rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
