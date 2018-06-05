@@ -40,3 +40,7 @@
 .my-result-num:hover{
     border: 1px solid #282828;
 }
+
+.mybtn {
+    border:0 !important;
+}
