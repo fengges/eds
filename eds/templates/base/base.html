@@ -9,181 +9,91 @@
     <script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
     <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/static/resources/bootstrap3/3.3.7/js/bootstrap.min.js" ></script>
+    <script src="/static/resources/vue/vue.js"></script>
+    <script src="/static/resources/layer/layer.js"></script>
+    <script src="/static/js/base/base.js" ></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
+    <style>
+        .div_line{
+         width:auto;
+        display:inline-block;
+        }
+    </style>
     {% block head %}{% endblock %}
 
 </head>
 <body>
+    <div id="index_search">
+        <!--导航条点击搜索后-->
+        <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
+            <!--输入框-->
+            <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+            <div class="row" style="margin: 0 5%;padding: 0px">
+                <div class="col-md-11"style="padding:25px 0px 0px 0px;margin:0">
+                    <input id="search" type="text" v-model="keyWord" @keyup.enter='search' placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
+                </div>
 
-    <!--导航条点击搜索后-->
-    <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
-        <!--输入框-->
-        <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
-        <div class="row" style="margin: 0 5%;padding: 0px">
-            <div class="col-md-11"style="padding:25px 0px 0px 0px;margin:0">
-                <input id="search" type="text" onkeypress="return openSearchResult(event)" placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
+                <div class="col-md-1" >
+                    <button type="button" class="btn btn-default navbar-btn"  @click="closeSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
+                </div>
+
             </div>
-
-            <div class="col-md-1" >
-                <button type="button" class="btn btn-default navbar-btn"  onclick="closeSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
             </div>
+            <!--搜索结果-->
+            <div id="mySearchResult"class="container-fluid" style="padding: 0px;background-color: #ffffff;visibility:hidden;">
+                <div class="row" style="margin:0;padding:0;">
 
+                    <ul class="my-ul">
+                        <li class="my-li" v-for="item in results">
+                            <a :href="item.link" >
+                            <div class="container-fluid" style="padding: 0px;">
+                                <div class="row" style="margin: 0px ;padding:15px 0;">
+                                    <!-- 头像 -->
+                                    <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" :src="'/main/propic/'+item.author_id"/></div>
+                                    <!-- 姓名+简介 -->
+                                    <div class="col-md-8" style="padding: 0;">
+                                        <h2 class="my-title2" style="padding: 0">${item.name}</h2>
+                                        <p class="my-text2" style="padding: 0">${item.school} ${item.title}</p>
+                                        <p class="my-text2" style="padding: 0">研究领域：<span style="margin-left:10px" v-for="f in item.fields" >${f}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a @click="search_word" href="#"><div class="my-result-num">查看全部 ${num} 结果</div></a>
+                </div>
+            </div>
         </div>
-        </div>
-        <!--搜索结果-->
-        <div id="mySearchResult"class="container-fluid" style="padding: 0px;background-color: #ffffff;visibility:hidden;">
-            <div class="row" style="margin:0;padding:0;">
-
-                <ul class="my-ul">
-                    <li class="my-li">
-                        <a href="#">
-                        <div class="container-fluid" style="padding: 0px;">
-                            <div class="row" style="margin: 0px ;padding:15px 0;">
-                                <!-- 头像 -->
-                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
-                                <!-- 姓名+简介 -->
-                                <div class="col-md-8" style="padding: 0;">
-                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
-                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
-                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </li>
-
-                    <li class="my-li">
-                        <a href="#">
-                        <div class="container-fluid" style="padding: 0px;">
-                            <div class="row" style="margin: 0px ;padding:15px 0;">
-                                <!-- 头像 -->
-                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
-                                <!-- 姓名+简介 -->
-                                <div class="col-md-8" style="padding: 0;">
-                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
-                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
-                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </li>
-                    <li class="my-li">
-                        <a href="#">
-                        <div class="container-fluid" style="padding: 0px;">
-                            <div class="row" style="margin: 0px ;padding:15px 0;">
-                                <!-- 头像 -->
-                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
-                                <!-- 姓名+简介 -->
-                                <div class="col-md-8" style="padding: 0;">
-                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
-                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
-                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </li>
-                    <li class="my-li">
-                        <a href="#">
-                        <div class="container-fluid" style="padding: 0px;">
-                            <div class="row" style="margin: 0px ;padding:15px 0;">
-                                <!-- 头像 -->
-                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
-                                <!-- 姓名+简介 -->
-                                <div class="col-md-8" style="padding: 0;">
-                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
-                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
-                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </li>
-                    <li class="my-li">
-                        <a href="#">
-                        <div class="container-fluid" style="padding: 0px;">
-                            <div class="row" style="margin: 0px ;padding:15px 0;">
-                                <!-- 头像 -->
-                                <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
-                                <!-- 姓名+简介 -->
-                                <div class="col-md-8" style="padding: 0;">
-                                    <h2 class="my-title2" style="padding: 0">吴恩达</h2>
-                                    <p class="my-text2" style="padding: 0">东南大学计算机学院 教师</p>
-                                    <p class="my-text2" style="padding: 0">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </li>
-
-                </ul>
-
-                <a href="#"><div class="my-result-num">查看全部 500 结果</div></a>
+        <!--导航条-->
+        <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+            <div class="row" style="margin: 0 5%;padding: 0px">
+                <div class="col-md-1 div_line">
+                    <button type="button" class="btn btn-default navbar-btn" style="padding:30px 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</button>
+                </div>
+                <div class="col-md-1 div_line" style="padding:27px 0px 0px 10px;margin:0;">
+                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">反馈建议</a>
+                </div>
+                <div class="col-md-1 div_line"></div>
+                <div class="col-md-6 div_line" style="text-align:center;padding-top:25px;">
+                    <a href="#"><img style="height:30px;"  src="../../static/images/expertlogo.png"/></a>
+                </div>
+                <div class="col-md-1 div_line">
+                </div>
+                <div class="col-md-1 div_line">
+                    <button type="button" class="btn btn-default navbar-btn" id="bt_display" @click="openSearchDiv"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></button>
+                </div>
+                <div class="col-md-1 div_line" style="padding:27px 10px 0px 0px;margin:0;">
+                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 录</a>
+                </div>
 
             </div>
         </div>
     </div>
-
-
-    <!--导航条-->
-    <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
-        <div class="row" style="margin: 0 5%;padding: 0px">
-            <div class="col-md-1">
-                <button type="button" class="btn btn-default navbar-btn" style="padding:30px 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</button>
-            </div>
-            <div class="col-md-1" style="padding:27px 0px 0px 10px;margin:0;">
-                <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">反馈建议</a>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-6" style="text-align:center;padding-top:25px;">
-                <a href="#"><img style="height:30px;"  src="../../static/images/expertlogo.png"/></a>
-            </div>
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-1">
-                <button type="button" class="btn btn-default navbar-btn" id="bt_display" onclick="openSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></button>
-
-            </div>
-            <div class="col-md-1" style="padding:27px 10px 0px 0px;margin:0;">
-                <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 录</a>
-            </div>
-
-        </div>
-    </div>
-
     {% block main %}{% endblock %}
-
-
 
 
 </body>
 </html>
-<!--导航条js-->
-<script language="javascript"  type="text/javascript">
-
-function openSearchDiv(){
-    $("#mySearch").css("visibility","");
-
-}
-function openSearchResult(e){
-    var keyCode = null;
-
-    if(e.which)
-        keyCode = e.which;
-    else if(e.keyCode)
-        keyCode = e.keyCode;
-
-    if(keyCode == 13)
-    {
-        $("#mySearchResult").css("visibility","");
-    }
-    return true;
-}
-function closeSearchDiv(){
-    $("#mySearch").css("visibility","hidden");
-    $("#mySearchResult").css("visibility","hidden");
-
-};
-</script>

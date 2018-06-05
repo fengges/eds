@@ -4,8 +4,7 @@
 #  time     ：2018/2/28
 #  function : 返回搜索结果
 
-from flask import Blueprint, request
-from flask import json
+from flask import Blueprint, request,json,render_template
 from eds.service.search.searchservice import searchService
 
 main_main = Blueprint('search_search', __name__)
@@ -31,7 +30,9 @@ def index():
     ajax['obj'] = result
     s=json.jsonify(ajax)
     return s
-
+@main_main.route('/search/searchall')
+def index3():
+    return render_template('/search/searchreasult.html')
 
 @main_main.route('/search/index',methods=['GET','POST'])
 def index2():

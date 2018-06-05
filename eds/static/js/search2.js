@@ -22,6 +22,9 @@ $(function() {
 vm = new Vue({
   el : '#app',
   extends: CommonTools,
+    // 修改文本插值的定界符。
+  delimiters: ['${', '}'],
+  unsafeDelimiters :['{!!', '!!}'],
     /*
   * 声明需要的变量
   */
@@ -67,7 +70,7 @@ vm = new Vue({
    },
     methods: {
        search_word:function(){
-        window.location="/static/searchreasult2.html?keyword="+encodeURI(encodeURI(this.keyword));
+        window.location="/search/searchall?keyword="+encodeURI(encodeURI(this.keyWord));
      },
     /*
     *点击超链接搜索

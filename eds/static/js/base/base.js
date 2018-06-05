@@ -15,13 +15,13 @@ function ClearSubmit(e) {
 /*
     vue框架
 */
-var vm;
+var index;
 $(function() {
-
-
-vm = new Vue({
-  el : '#global_header',
-  extends: CommonTools,
+index= new Vue({
+  el : '#index_search',
+  // 修改文本插值的定界符。
+  delimiters: ['${', '}'],
+  unsafeDelimiters :['{!!', '!!}'],
     /*
   * 声明需要的变量
   */
@@ -44,8 +44,16 @@ vm = new Vue({
     }
    },
     methods: {
+    closeSearchDiv:function (){
+    $("#mySearch").css("visibility","hidden");
+    $("#mySearchResult").css("visibility","hidden");
+},
+    openSearchDiv:function(){
+
+    $("#mySearch").css("visibility","");
+},
      search_word:function(){
-       window.location="/static/searchreasult2.html?keyword="+encodeURI(encodeURI(this.keyWord));
+       window.location="/search/searchall?keyword="+encodeURI(encodeURI(this.keyWord));
      },
       search:function(){
         url='/search/index';
@@ -66,6 +74,7 @@ vm = new Vue({
                 self.results=re['result'];
                 self.num=re['num']
                 layer.closeAll('loading');
+                $("#mySearchResult").css("visibility","");
             },
             error:function (res) {
                 layer.closeAll('loading');
@@ -77,11 +86,5 @@ vm = new Vue({
      this.results=[];
      },
   });
-      $("#search").click(function(){
-      $(".animation-fade-in").toggleClass('display-none');
-    });
 
-    $("#cancel").click(function(){
-      $(".animation-fade-in").toggleClass('display-none');
-    });
 });
