@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block titlename %}{% endblock %}</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />-->
     <link rel="stylesheet" href="/static/resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
     <script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
     <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
@@ -162,12 +162,9 @@
 </html>
 <!--导航条js-->
 <script language="javascript"  type="text/javascript">
-function $(id)
-{
-    return document.getElementById(id);
-    }
+
 function openSearchDiv(){
-    $("mySearch").style.visibility="";
+    $("#mySearch").css("visibility","");
 
 }
 function openSearchResult(e){
@@ -180,13 +177,13 @@ function openSearchResult(e){
 
     if(keyCode == 13)
     {
-        $("mySearchResult").style.visibility="";
+        $("#mySearchResult").css("visibility","");
     }
     return true;
 }
 function closeSearchDiv(){
-    $("mySearch").style.visibility="hidden";
-    $("mySearchResult").style.visibility="hidden";
+    $("#mySearch").css("visibility","hidden");
+    $("#mySearchResult").css("visibility","hidden");
 
 };
 </script>
