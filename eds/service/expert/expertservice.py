@@ -125,8 +125,8 @@ class ExpertService:
         return result
     def get_pic(self,id):
         try:
-            image = open(pic_url+'ExpertImgs/'+str(id)+'.jpg','rb')
+            image = open(pic_url+'ProfileImgs/'+str(id)+'.jpg','rb')
         except:
-            image = open(pic_url + 'ExpertImgs/demo.jpg', 'rb')
+            image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
         return image
 expertService=ExpertService()

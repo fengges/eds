@@ -1,0 +1,111 @@
+{% extends 'base/base.html' %}
+
+
+{% block head %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>搜索结果</title>
+    <script src="/static/resources/vue/commonTools.js"></script>
+    <script src="/static/js/search2.js"></script>
+
+    <!--<link rel="stylesheet" href="./resources/element/index.css">
+
+    <!--<script src="./resources/element/index.js"></script>-->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
+
+    <style>
+      .center{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .list{
+        width: 60%;
+      }
+    </style>
+{% endblock %}
+
+{% block main %}
+
+  <body class="site maison-book not-mobile not-phone not-mobile-safari not-chrome-ios not-forces-video-controls not-tablet not-ipad not-iphone not-ios not-android not-touchable not-native-app-request not-apple-pay-capable not-android-pay-capable responsive " id="site_index_refresh">
+    <div id="app">
+
+    <main role="main">
+      <div id="main_content" class="center">
+        <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">Search <b class="count ksr-green-500">${keyword}</b> then Find <b class="count ksr-green-500">${num}</b> teachers</h3>
+        <template>
+          <div>
+            <button @click="show = !show" type="button" class="btn btn-default">更多搜索</button>
+            <div >
+              <el-collapse-transition>
+                <div v-show="show" style="margin-top:20px">
+                  <div class="transition-box">
+
+                    <el-form ref="form"  label-width="80px">
+                        <el-form-item label="关键字">
+                          <el-input v-model="keyword"></el-input>
+                        </el-form-item>
+                        <el-form-item label="专家姓名">
+                          <el-input v-model="name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="专家机构">
+                          <el-input v-model="institution"></el-input>
+                        </el-form-item>
+                        <el-form-item label="精确搜索">
+                          <el-switch v-model="accurate_search"></el-switch>
+                        </el-form-item>
+                        <el-form-item label="H_Index">
+                          <el-radio-group v-model="h_index">
+                            <el-radio  label="">全部</el-radio>
+                            <el-radio v-for="h in hindexs" :label="h.value">${h.value}(${h.num})</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="研究领域">
+                          <el-radio-group v-model="field">
+                            <el-radio  label="">全部</el-radio>
+                            <el-radio v-for="item in fields" :label="item.value">${item.value}(${item.num})</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="排序">
+                          <el-radio-group v-model="order">
+                            <el-radio  label="all">综合</el-radio>
+                            <el-radio  label="paper_num">Paper</el-radio>
+                            <el-radio  label="citation">Citation</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                        <el-form-item >
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;background-color:#409EFF;margin-right:20px" @click="do_search" type="button" class="btn btn-success">搜索</button>
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;" @click="show = false" type="button" class="btn btn-default">取消</button>
+                        </el-form-item>
+                      </el-form>
+                  </div>
+                </div>
+              </el-collapse-transition>
+            </div>
+          </div>
+        </template>
+        <section class="section_project-collection-tabbed-block">
+            <ul class="mb3 list">
+              <li  v-for="item in results" class="flex items-start w100p py3 border-bottom border-grey-500">
+                <div class="flex items-center justify-between w100p">
+                  <a :href="item.link" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block">
+                    <img class="w100p block" :src="'/main/propic/'+item.author_id" alt="Project"></a>
+                  <div class="basis60p-md basis80p">
+                    <a class="type-14 block link-soft-black" :href="item.link">${item.name}</a>
+                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">${item.school}</div>
+                    <div><el-tag  v-on:click.native='click_word($event)' style="margin:5px" v-for="f in item.fields">${f}</el-tag></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </section>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[5, 10, 20, 50]" :page-size="pPageNum" layout="total, sizes, prev, pager, next, jumper" :total="num">
+        </el-pagination>
+      </div>
+    </main>
+  </div>
+  </body>
+
+{% endblock %}
