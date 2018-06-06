@@ -14,6 +14,7 @@ ErrorCode={'0':{'method':error_0,"description":"发生了某些错误"},
            '603': {"description": "未设置密码"},
            '604': {"description": "该用户已经存在"},
            '605': {"description": "两次密码不一致"},
+           '606': {"description": "账号密码不一致"},
            }
 
 class MyError(Exception):

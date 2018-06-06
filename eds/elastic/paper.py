@@ -22,7 +22,7 @@ class PaperSearch:
 
         return result
     def setFilterSource(self,dic):
-        dic["_source"]["include"] = ["h_index", "fields"]
+        dic["_source"]["include"] = ["h_index", "fields","school"]
         return dic
     #  通用字段
     def getType(self):
@@ -49,22 +49,7 @@ class PaperSearch:
         for k in params:
             if params[k] is None:
                 params[k]=''
-        if len(params["institution"])>0 :
-            dic.append({
-                "bool": {
-                    "should": [{
-                        "match_phrase": {
-                            "school":params["institution"]
-                        }
-                    },
-                        {
-                            "match_phrase": {
-                                "institution": params["institution"]
-                            }
-                        }
-                    ]
-                }
-            })
+
         if  len(params["keyword"])>0 :
             if params["accurate_search"]==True:
                 print("精确搜索")
@@ -87,26 +72,44 @@ class PaperSearch:
                         "fields": ["abstract"]
                     }
                 })
-        if  len(params["name"])>0 :
-            dic.append({
-                "match": {
-                    "name": params["name"]
-                }
-			})
+
         return dic
     # 设置研究领域
     def setfilter(self,dic,params):
+        dic["query"]["bool"]["filter"]=[]
         hindex=self.getIfHindex(params['h_index'])
         if hindex is not None:
-            dic["query"]["bool"]["must"].append(hindex)
+            dic["query"]["bool"]["filter"].append(hindex)
         if params["field"] is None or len(params["field"]) == 0 or params["field"]=="全部":
             pass
         else :
-            dic["query"]["bool"]["must"].append({
+            dic["query"]["bool"]["filter"].append({
                 "match": {
                     "fields": {
                         "query":params["field"]
                     }
+                }
+            })
+        if len(params["name"]) > 0:
+            dic["query"]["bool"]["filter"].append({
+                "match": {
+                    "name": params["name"]
+                }
+            })
+        if len(params["institution"]) > 0:
+            dic["query"]["bool"]["filter"].append({
+                "bool": {
+                    "should": [{
+                        "match_phrase": {
+                            "school": params["institution"]
+                        }
+                    },
+                        {
+                            "match_phrase": {
+                                "institution": params["institution"]
+                            }
+                        }
+                    ]
                 }
             })
         return dic

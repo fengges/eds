@@ -3,9 +3,49 @@
 {% block titlename %}首页{% endblock %}
 
 {% block head %}
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>keke</title>
-    <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
+  <style>
+  .btn-hover:hover {
+    color: #5fb611;
+    border-color: #5fb611!important;
+  }
+
+    .btn-u.btn-brd.btn-interest {
+      font-size:12px;
+      border-color: #f5f5f5;
+      margin-right: 5px;
+      margin-bottom: 4px;
+      padding: 1px 5px!important;
+  }
+  .btn-u.btn-brd {
+      border-color: #428bca;
+  }
+  .btn-u.btn-brd {
+      color: #555;
+      font-weight: 200;
+      background: 0 0;
+      border: solid 1px transparent;
+      transition: all .1s ease-in-out;
+  }
+  .round {
+      border-radius: 4px!important;
+  }
+
+  .btn-u {
+      border: 0;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 400;
+      padding: 6px 13px;
+      position: relative;
+      background: #428bca;
+      display: inline-block;
+      text-decoration: none;
+  }
+  </style>
+  <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
 {% endblock %}
 
 {% block main %}
@@ -49,7 +89,7 @@
                               <li class="inline-block mb-1_6 ct-li-1">
                                 <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 soft-black border-bottom border-soft-black">专 家</button></li>
                               <li class="inline-block mb-1_6 ct-li-1">
-                                <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 dark-grey-400">学 校</button></li>
+                                <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 dark-grey-400">高 校</button></li>
                               <li class="inline-block mb-1_6 ct-li-1">
                                 <button type="button" class="inline-block p0 no-radius type-16 mr4 mb0 pb1 keyboard-focusable hover-dark-grey-500 dark-grey-400">领 域</button></li>
                             </ul>
@@ -100,7 +140,7 @@
                                 <div>
                                   <p>
                                     <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
-                                    <br class="hide block-lg">
+                                    <br class="">
                                     <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
                                 </div>
                                 <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
@@ -131,11 +171,22 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1-1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">周志华</a>
+                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
+                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
+                                        <span style="padding-left: 7px">教授</span>
+                                    </div>
+                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
+                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
+                                        <span style="padding-left: 10px"> 南京大学 人工智能学院</span>
+                                    </div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">人工智能</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">知识图谱</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">数据挖掘</a></div>
+                                  </div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -147,11 +198,21 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/u=677049276,4238309690&fm=58.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">漆桂林</a>
+                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
+                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
+                                        <span style="padding-left: 7px">教授</span>
+                                    </div>
+                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
+                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
+                                        <span style="padding-left: 10px"> 东南大学 计算机科学与工程学院</span>
+                                    </div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">人工智能</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">语义网络</a></div>
+                                  </div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -163,11 +224,21 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/20180416145116139768456.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">郑莉</a>
+                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
+                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
+                                        <span style="padding-left: 7px">教授</span>
+                                    </div>
+                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
+                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
+                                        <span style="padding-left: 10px"> 清华大学 计算机科学与技术系</span>
+                                    </div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">计算机应用</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">教育信息技术</a></div>
+                                  </div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -179,11 +250,22 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/0df431adcbef76093a4bafe62edda3cc7cd99e02.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">秦志光</a>
+                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
+                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
+                                        <span style="padding-left: 7px">教授</span>
+                                    </div>
+                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
+                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
+                                        <span style="padding-left: 10px"> 电子科技大学 信息与软件工程学院</span>
+                                    </div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">信息系统安全</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">电子商务</a></div>
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">计算机开放系统与网络安全性</a></div>
+                                  </div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -199,7 +281,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华1-2</a>
@@ -215,7 +297,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -231,7 +313,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -247,7 +329,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -267,7 +349,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华1-3</a>
@@ -283,7 +365,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -299,7 +381,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -315,7 +397,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -376,11 +458,11 @@
                               <div class="absolute-lg b0 p3-lg mb6 mb0-md">
                                 <div>
                                   <p>
-                                    <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
-                                    <br class="hide block-lg">
-                                    <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
+                                    <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">东北大学</span>
+                                    <br class="">
+                                    <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">国家“211工程”、“985工程”建设高校</span></p>
                                 </div>
-                                <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
+                                <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">中国 沈阳</div></div>
                             </a>
                           </section>
                         </div>
@@ -397,22 +479,22 @@
 
                                 });</script>
                               <li class="inline-block mb-1_6 ct-li-2">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">计算机</button></li>
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">985工程高校</button></li>
                               <li class="inline-block mb-1_6 ct-li-2">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">经济</button></li>
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">211工程高校</button></li>
                               <li class="inline-block mb-1_6 ct-li-2">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">生物</button></li>
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">海外高校</button></li>
                             </ul>
                           </div>
                           <div class="item-2">
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/u=2951361712,2965132577&fm=58&bpow=971&bpoh=974.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华2-1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#">同济大学</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">综合性全国重点大学</div></div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -424,11 +506,11 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/u=2031677745,545048845&fm=58&bpow=400&bpoh=400.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#">复旦大学</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">自主创办的第一所高校</div></div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -440,11 +522,11 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/u=813486924,4155436848&fm=58&bpow=1024&bpoh=1024.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#">北京大学</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">中国第一所国立大学</div></div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -456,11 +538,11 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/static/images/u=2433426127,2743121596&fm=58&bpow=718&bpoh=718.jpg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
+                                    <a class="type-14 block link-soft-black" href="#">东南大学</a>
+                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">中国著名的建筑老八校</div></div>
                                   <div class="pl6 display-none block-md">
                                     <div>
                                       <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
@@ -476,7 +558,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2-2</a>
@@ -492,7 +574,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -508,7 +590,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -524,7 +606,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -544,7 +626,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2-3</a>
@@ -560,7 +642,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -576,7 +658,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -592,7 +674,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -654,7 +736,7 @@
                                 <div>
                                   <p>
                                     <span class="type-28-lg type-21 block l2-lg l0 relative mb2-lg display-inline-lg bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px; line-height: 1.5;">Jacqui: A Simple Handbag Company</span>
-                                    <br class="hide block-lg">
+                                    <br class="">
                                     <span class="text-uppercase bold display-inline type-14 l2-lg l0 relative bg-white py1-lg" style="box-shadow: white 12px 0px 0px, white -12px 0px 0px;">By Matt Pierce</span></p>
                                 </div>
                                 <div class="bg-white px2 py1 mt2-lg mt3 ml-2 ml0-lg inline-block bold text-uppercase">84% funded</div></div>
@@ -685,7 +767,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3-1</a>
@@ -701,7 +783,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华1</a>
@@ -717,7 +799,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华1</a>
@@ -733,7 +815,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华1</a>
@@ -753,7 +835,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3-2</a>
@@ -769,7 +851,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -785,7 +867,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -801,7 +883,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华2</a>
@@ -821,7 +903,7 @@
                             <ul class="mb3">
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3-3</a>
@@ -837,7 +919,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -853,7 +935,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
@@ -869,7 +951,7 @@
                               </li>
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="#" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
                                     <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="#">周志华3</a>
