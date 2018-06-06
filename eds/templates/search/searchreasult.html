@@ -50,8 +50,11 @@
                         <el-form-item label="专家姓名">
                           <el-input v-model="name"></el-input>
                         </el-form-item>
-                        <el-form-item label="专家机构">
-                          <el-input v-model="institution"></el-input>
+                        <el-form-item label="学校">
+                            <el-radio-group v-model="institution">
+                            <el-radio  label="">全部</el-radio>
+                            <el-radio v-for="s in schools" :label="s.value">${s.value}(${s.num})</el-radio>
+                          </el-radio-group>
                         </el-form-item>
                         <el-form-item label="精确搜索">
                           <el-switch v-model="accurate_search"></el-switch>

@@ -43,6 +43,10 @@ vm = new Vue({
 	       value:'',
 	       num:0,
 	   }],
+	   schools:[{
+	       value:'',
+	       num:0,
+	   }],
 	   field:'',
 	   order:'all',
 	   results:[{
@@ -132,6 +136,7 @@ vm = new Vue({
                 }
                 self.hindexs=re['filter']['hindexs'];
                 self.fields=re['filter']['fields'];
+                self.schools=re['filter']['schools'];
                 self.num=re['num'];
                 layer.closeAll('loading');
             },
