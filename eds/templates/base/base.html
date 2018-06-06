@@ -15,6 +15,10 @@
     <script src="/static/js/base/base.js" ></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
     <style>
+         .container{width: 100%;
+  padding-right: 0px;
+    padding-left: 0px;
+  }
         .div_line{
          width:auto;
         display:inline-block;
@@ -25,11 +29,12 @@
 
 </head>
 <body>
-    <div id="index_search">
+    <div id="index_search" style="border-bottom: 1px solid;">
         <!--导航条点击搜索后-->
         <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
             <!--输入框-->
-            <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+            <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;position: relative;
+    top: 2px;">
             <div class="row" style="margin: 0 5%;padding: 0px">
                 <div class="col-md-11"style="padding:25px 0px 0px 0px;margin:0">
                     <input id="search" type="text" v-model="keyWord" @keyup.enter='search' placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
