@@ -80,8 +80,9 @@ class SearchService:
         f['hindexs']['10-19'] = 0
         f['hindexs']['<10'] = 0
         f['fields']=[]
-
+        f['schools'] = []
         field=[]
+        schools = []
         for r in result:
             if r['h_index']>=30 :
                 f['hindexs']['>30']+=1
@@ -92,6 +93,7 @@ class SearchService:
             else :
                 f['hindexs']['<10'] += 1
             field.extend(r['fields'])
+            schools.append(r['school'])
         temp=[]
         temp.append({'value':">30",'num':f['hindexs']['>30']})
         temp.append({'value': "20-29", 'num': f['hindexs']['20-29']})
@@ -106,6 +108,15 @@ class SearchService:
             n=len(c1)
         for i in range(n):
             f['fields'].append({'value':c1[i][0],'num':c1[i][1]})
+
+        c3 = Counter(schools).items()
+        c0=sorted(c3, key=lambda x: x[1], reverse=True)
+        if len(c0)-5>=0:
+            n=5
+        else:
+            n=len(c0)
+        for i in range(n):
+            f['schools'].append({'value':c0[i][0],'num':c0[i][1]})
         return f
         # 得到查询结果
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block titlename %}{% endblock %}</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <!--<link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/resources/flat-ui-2.2.2-dist/css/flat-ui.min.css"/>
     <script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
     <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
@@ -15,6 +15,10 @@
     <script src="/static/js/base/base.js" ></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
     <style>
+         .container{width: 100%;
+  padding-right: 0px;
+    padding-left: 0px;
+  }
         .div_line{
          width:auto;
         display:inline-block;
@@ -25,11 +29,12 @@
 
 </head>
 <body>
-    <div id="index_search">
+    <div id="index_search" style="border-bottom: 1px solid;">
         <!--导航条点击搜索后-->
         <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
             <!--输入框-->
-            <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+            <div class="container-fluid" style="padding:0;margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;position: relative;
+    top: 2px;">
             <div class="row" style="margin: 0 5%;padding: 0px">
                 <div class="col-md-11"style="padding:25px 0px 0px 0px;margin:0">
                     <input id="search" type="text" v-model="keyWord" @keyup.enter='search' placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
@@ -69,7 +74,7 @@
             </div>
         </div>
         <!--导航条-->
-       <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;border-bottom: 1px solid #282828;">
+       <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;">
             <div class="row" style="margin: 0;padding: 0px; ">
                 <div class=" div_line">
                     <button type="button" class="btn btn-default navbar-btn" style="padding:0 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</button>
@@ -79,13 +84,13 @@
                 </div>
                 <div class=" div_line"></div>
                 <div class=" div_line" style="text-align:center; ">
-                    <a href="#"><img style=" height:30px;    position: absolute; left: 39%; top: 22px;"  src="../../static/images/expertlogo.png"/></a>
+                    <a href="/index/index"><img style=" height:30px;    position: absolute;  left: 42%; top: 25px;"  src="../../static/images/expertlogo.png"/></a>
                 </div>
                 <div class=" div_line">
                 </div>
 
                 <div class=" div_line" style="padding:0px 40px 0px 0px;margin:0;float:right">
-                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 录</a>
+                    <a href="/login/gologin" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 录</a>
                 </div>
                 <div class=" div_line" style="float:right">
                     <button type="button" class="btn btn-default navbar-btn" id="bt_display" @click="openSearchDiv"  style="padding:0px 15px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></button>
