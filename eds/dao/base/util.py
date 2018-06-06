@@ -41,3 +41,14 @@ class dbutil:
         conn.commit()
         conn.close()
         return r
+
+    def exe_many(self, sql, li=None):
+        conn = POOL.connection()
+        cursor = conn.cursor()
+        if li is None:
+            r = cursor.execute(sql)
+        else:
+            r = cursor.executemany(sql, li)
+        conn.commit()
+        conn.close()
+        return r
