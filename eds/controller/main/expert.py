@@ -2,7 +2,6 @@
 import re,io
 from flask import Blueprint, render_template, request,json,Response,send_file
 from eds.service.expert.expertservice import expertService
-
 main_expert = Blueprint('main_expert', __name__)
 
 
@@ -18,7 +17,9 @@ def show_expert(id):
     if not infoEty[0]["homepage"] and not re.search(r'^http', infoEty[0]["homepage"]):
         infoEty[0]["homepage"] = "http://" + infoEty[0]["homepage"]
 
+    print(infoEty)
     return render_template('/main/expert.html', info_dict=infoEty[0])
+
 
 @main_expert.route('/main/propic/<id>')
 def show_pic(id):
