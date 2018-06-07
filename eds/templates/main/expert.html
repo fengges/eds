@@ -77,11 +77,13 @@
                     <span>{{ info_dict["name"] }}</span>
                     </li>
 
+                    {% if info_dict["position"] %}
                     <li class="my-tab-li">
                     <i class="glyphicon glyphicon-briefcase"></i>
                     <strong>职称</strong>
                     <span>{{ info_dict["position"] }}</span>
                     </li>
+                    {% endif %}
 
                     <!--<li class="my-tab-li">-->
                     <!--<i class="glyphicon glyphicon-earphone"></i>-->
@@ -89,23 +91,29 @@
                     <!--<span>13971392588</span>-->
                     <!--</li>-->
 
+                    {% if info_dict["email"] %}
                     <li class="my-tab-li">
                     <i class="glyphicon glyphicon-envelope"></i>
                     <strong>邮箱</strong>
                     <span>{{ info_dict["email"] }}</span>
                     </li>
+                    {% endif %}
 
+                    {% if info_dict["school"] %}
                     <li class="my-tab-li">
                     <i class="glyphicon glyphicon-home"></i>
                     <strong>高校</strong>
-                    <span>{{ info_dict["school"] }}{{ info_dict["institution"] }}</span>
+                    <span>{{ info_dict["school"] }} {{ info_dict["institution"] }}</span>
                     </li>
+                    {% endif %}
 
+                    {% if info_dict["homepage"] %}
                     <li class="my-tab-li">
                     <i class="glyphicon glyphicon-globe"></i>
                     <strong>主页</strong>
                     <span>{{ info_dict["homepage"] }}</span>
                     </li>
+                    {% endif %}
                 </ul>
                 <hr>
             </div>
@@ -140,6 +148,7 @@
         <div class="tab-pane fade container-fluid" id="page2" style="padding: 0px;">
 
             <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+
                 <!--选项卡2——按钮筛选-->
               <!--<div class="btn-group btn-group-lg" role="group" aria-label="...">-->
                   <!--<button type="button" class="btn btn-default">全部</button>-->
@@ -162,41 +171,22 @@
               <!--</div>-->
 
 
-
+                <h3>主要文献</h3>
                 <!--选项卡2——文章列表-->
                 <ul class="my-tab-ul">
-                    <li class="my-tab-li">
-                    <div class="row" style="margin:15px 0px;">
-                        <div class="col-md-1" style="padding:0px;width:5%;"><span class="badge" style="maring:0;font-size: 1.2rem;line-height: 1.2rem; margin-bottom: 0rem;">42</span></div>
-                        <div class="col-md-11" style="padding:0px;"><hr style="margin:10px 0;border-top:1px dashed #eee;"></div>
-                    </div>
-                    <strong>社会网络是否有助于提高农民工的工资水平?</strong>
-                    <p style="color:#3c763d;">章元, 陆铭</p>
-                    <p>管理世界 (2009)</p>
-                    <p style="color:#a94442;padding-top:10px;">被引：191</p>
-                    </li>
 
+                    {% for paper in paperlist %}
                     <li class="my-tab-li">
                     <div class="row" style="margin:15px 0px;">
-                        <div class="col-md-1" style="padding:0px;width:5%;"><span class="badge" style="maring:0;font-size: 1.2rem;line-height: 1.2rem; margin-bottom: 0rem;">42</span></div>
+                        <div class="col-md-1" style="padding:0px;width:5%;"><span class="badge" style="maring:0;font-size: 1.2rem;line-height: 1.2rem; margin-bottom: 0rem;">{{loop.index}}</span></div>
                         <div class="col-md-11" style="padding:0px;"><hr style="margin:10px 0;border-top:1px dashed #eee;"></div>
                     </div>
-                    <strong>社会网络是否有助于提高农民工的工资水平?</strong>
-                    <p style="color:#3c763d;">章元, 陆铭</p>
-                    <p>管理世界 (2009)</p>
-                    <p style="color:#a94442;padding-top:10px;">被引：191</p>
+                    <strong>{{paper.name}}</strong>
+                    <p style="color:#3c763d;">{{paper.author}}</p>
+                    <p>{{paper.org}} ({{paper.year}})</p>
+                    <p style="color:#a94442;padding-top:10px;">被引：{{paper.cited_num}}</p>
                     </li>
-
-                    <li class="my-tab-li">
-                    <div class="row" style="margin:15px 0px;">
-                        <div class="col-md-1" style="padding:0px;width:5%;"><span class="badge" style="maring:0;font-size: 1.2rem;line-height: 1.2rem; margin-bottom: 0rem;">42</span></div>
-                        <div class="col-md-11" style="padding:0px;"><hr style="margin:10px 0;border-top:1px dashed #eee;"></div>
-                    </div>
-                    <strong>社会网络是否有助于提高农民工的工资水平?</strong>
-                    <p style="color:#3c763d;">章元, 陆铭</p>
-                    <p>管理世界 (2009)</p>
-                    <p style="color:#a94442;padding-top:10px;">被引：191</p>
-                    </li>
+                    {% endfor %}
                 </ul>
                 <hr>
             </div>

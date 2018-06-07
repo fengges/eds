@@ -2,6 +2,7 @@
 import re,io
 from flask import Blueprint, render_template, request,json,Response,send_file
 from eds.service.expert.expertservice import expertService
+
 main_expert = Blueprint('main_expert', __name__)
 
 
@@ -17,8 +18,8 @@ def show_expert(id):
     if not infoEty[0]["homepage"] and not re.search(r'^http', infoEty[0]["homepage"]):
         infoEty[0]["homepage"] = "http://" + infoEty[0]["homepage"]
 
-    print(infoEty)
-    return render_template('/main/expert.html', info_dict=infoEty[0])
+    paperEty = expertService.get_paper(id)
+    return render_template('/main/expert.html', info_dict=infoEty[0] ,paperlist = paperEty)
 
 
 @main_expert.route('/main/propic/<id>')
@@ -31,16 +32,13 @@ def show_pic(id):
 @main_expert.route('/getdrawdata', methods=['POST'])
 def get_draw_data():
     id=request.form.get('id')
-    radarEty = expertService.get_radar(id)
     themeEty = expertService.get_theme(id)
-    egoEty = expertService.get_ego(id)
     ajax={}
     ajax['success']=True
     ajax['msg']=''
     ajax['obj'] ={}
-    ajax['obj']['radar']=radarEty
     ajax['obj']['theme'] = themeEty
-    ajax['obj']['ego'] = egoEty
+    print(themeEty)
     return json.jsonify(ajax)
 
 
