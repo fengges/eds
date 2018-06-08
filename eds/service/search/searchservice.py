@@ -57,7 +57,7 @@ class SearchService:
             re['allPage']+=1
         re['params']=params
         for r in temp['result']:
-            r["link"]="/main/profile/"+str(r["author_id"])
+            r["link"]="/main/expert/"+str(r["author_id"])
         # re['result']=temp['result']
         re['result']=self.setLight(temp['result'],params['keyword'])
         if len(re['result'])>0 and "light_abstract" not in re['result'][0].keys():
@@ -135,7 +135,7 @@ class SearchService:
         temp = paperSearch.IndexSearchdao(params)
 
         for r in temp['result']:
-            r["link"] = "/main/profile/" + str(r["author_id"])
+            r["link"] = "/main/expert/" + str(r["author_id"])
 
         return temp
 
