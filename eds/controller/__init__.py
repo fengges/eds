@@ -7,6 +7,7 @@ import os,sys
 from flask import Blueprint
 #------------扫描所有文件----------
 bp_file=[]
+
 def eachFile(filepath):
     try :
         pathDir =  os.listdir(filepath)

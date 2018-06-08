@@ -127,13 +127,7 @@ vm = new Vue({
             success:function(data){
                 re=data.obj;
                 self.results=re['result'];
-                if(navigator.userAgent.indexOf("Firefox")>0){
-                    self.results.forEach(function(value,index,array){
-                        if (value["light_abstract"].length>120){
-                            value["light_abstract"]=value["light_abstract"].substring(0,120);
-                        }
-                    });
-                }
+
                 self.hindexs=re['filter']['hindexs'];
                 self.fields=re['filter']['fields'];
                 self.schools=re['filter']['schools'];
