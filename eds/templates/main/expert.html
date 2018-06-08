@@ -103,7 +103,7 @@
                     <li class="my-tab-li">
                     <i class="glyphicon glyphicon-home"></i>
                     <strong>高校</strong>
-                    <span>{{ info_dict["school"] }} {{ info_dict["institution"] }}</span>
+                        <a href="/main/school/{{ info_dict['school'] }}"><span>{{ info_dict["school"] }} </span></a><span>{{ info_dict["institution"] }}</span>
                     </li>
                     {% endif %}
 
