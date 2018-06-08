@@ -43,7 +43,7 @@ def show_school(param):
         teacher = dict()
         teacher["name"] = t["name"]
         teacher["title"] = "" if t["title"] is None else t["title"]
-        teacher["pic"] = t["pic"]
+        teacher["pic"] = t["id"]
         teacher["institution"] = t["institution"]
         teacher["fields"] = "" if t["fields"] is None else t["fields"]
         teacher["url"] = "/main/expert/%s" % t["id"]
