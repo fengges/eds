@@ -16,7 +16,7 @@ def show_school(param):
     info_1["english_name"] = info_dict["english_name"]
     info_1["url"] = info_dict["url"]
     info_1["province"] = info_dict["province"]
-    info_1["logo"] = info_dict["logo"]
+    info_1["logo"] = schoolService.get_pic(info_dict["id"])
     info_1["abstract"] = info_dict["abstract"]
 
     info_2 = []
@@ -40,7 +40,7 @@ def show_school(param):
         teacher["pic"] = t["pic"]
         teacher["institution"] = t["institution"]
         teacher["fields"] = "" if t["fields"] is None else t["fields"]
-        teacher["url"] = "/main/profile/%s" % t["id"]
+        teacher["url"] = "/main/expert/%s" % t["id"]
         teachers.append(teacher)
 
     return render_template('/main/schoolpage.html', info_dict=info_1, info_list=info_2, teachers=teachers)
