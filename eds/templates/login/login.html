@@ -32,19 +32,19 @@
 						<div class="form-error" style="display: none;"><i></i><label class="text"></label></div>
 						<dl class="clearfix">
 							<dt>账户名：</dt>
-							<dd><input type="text" name="account" class="input-text" autocomplete="off" placeholder="用户名/邮箱/手机号"></dd>
+							<dd><input type="text" v-model="account" name="account" class="input-text" autocomplete="off" placeholder="用户名/邮箱/手机号"></dd>
 						</dl>
 						<dl class="clearfix">
 							<dt>昵<em></em>称：</dt>
-							<dd><input type="text" name="username" class="input-text" autocomplete="off" placeholder="输入昵称"></dd>
+							<dd><input type="text"  v-model="username" name="username" class="input-text" autocomplete="off" placeholder="输入昵称"></dd>
 						</dl>
 						<dl class="top1 clearfix">
 							<dt>密<em></em>码：</dt>
-							<dd><input type="password" name="password1" class="input-text" placeholder="请输入密码"></dd>
+							<dd><input type="password" v-model="password" name="password1" class="input-text" placeholder="请输入密码"></dd>
 						</dl>
 						<dl class="top1 clearfix">
 							<dt>确认密码：</dt>
-							<dd><input type="password" name="password2" class="input-text" placeholder="确认密码"></dd>
+							<dd><input type="password"   v-model="password2" name="password2" class="input-text" placeholder="确认密码"></dd>
 						</dl>
 						<div class="btn-box clearfix">
 							<input @click="register($event)" class="btn-settlement" type="submit" value="注    册" >
@@ -57,11 +57,11 @@
 						<div class="form-error" style="display: none;"><i></i><label class="text"></label></div>
 						<dl class="clearfix">
 							<dt>账户名：</dt>
-							<dd><input type="text" name="account" id="normalUser" class="input-text" autocomplete="off" placeholder="用户名/邮箱/手机号"></dd>
+							<dd><input type="text"  v-model="account" name="account" id="normalUser" class="input-text" autocomplete="off" placeholder="用户名/邮箱/手机号"></dd>
 						</dl>
 						<dl class="top1 clearfix">
 							<dt>密<em></em>码：</dt>
-							<dd><input type="password" name="password" id="normalPassword" class="input-text" placeholder="请输入密码" ></dd>
+							<dd><input type="password"   v-model="password" name="password" id="normalPassword" class="input-text" placeholder="请输入密码" ></dd>
 						</dl>
 						<div class="btn-box clearfix">
 							<input @click="login($event)" class="btn-settlement" type="submit" value="登    录" >
@@ -234,10 +234,6 @@ $('.backLogin').click(function(){
     $('.shortLogin').hide();
     $('.form-error').hide();
 });
-//开启错误提示
-function showError(error){
-	$(".form-error").find("label").html(error);
-	$(".form-error").show();
-}
+
 </script>
 {% endblock %}

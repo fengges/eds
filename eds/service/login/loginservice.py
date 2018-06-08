@@ -8,7 +8,6 @@ from eds.dao.login.userdao import userDao
 
 class UserService:
     def getUser(self,params):
-        print(len(params))
         if len(params)==1:
             if params[0]:
                 s=userDao.getUserByAccount(params)

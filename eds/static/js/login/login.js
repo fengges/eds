@@ -28,12 +28,46 @@ login= new Vue({
   data : function() {
     return {
         isLogin:true,
+        account:"",
+        username:"",
+        password:"",
+        password2:"",
     }
    },
     methods: {
+    //开启错误提示
+    showError:function(error){
+	$(".form-error").find("label").html(error);
+	$(".form-error").show();
+},
+     validate:function(type){
+           if (this.account==""){
+            this.showError("账号不能为空");
+            return false;
+           }
+           if (this.password==""){
+            this.showError("密码不能为空");
+            return false;
+           }
+           if(type==1){
+                if(this.username==""){
+                       this.showError("用户名不能为空");
+                       return false;
+                }
+                if(this.password!=this.password2){
+                       this.showError("密码不一致");
+                       return false;
+                }
+           }
+           return true;
+     },
      register:function(evt){
+       evt.preventDefault();
+        if (!this.validate(1)){
+            return ;
+        }
         url='/login/register';
-        evt.preventDefault();
+
         layer.load(2);
         $.ajax({
             url:url,
@@ -43,7 +77,7 @@ login= new Vue({
             success:function(data){
                 re=data.success;
                 if (re){
-                alert("注册成功");
+                layer.alert("注册成功");
 
                 }else{
                 alert(data.msg);
@@ -56,8 +90,12 @@ login= new Vue({
            })
          },
         login:function(evt){
+         evt.preventDefault();
+        if (!this.validate(0)){
+            return ;
+        }
         url='/login/login';
-        evt.preventDefault();
+
         layer.load(2);
         $.ajax({
             url:url,
@@ -67,7 +105,8 @@ login= new Vue({
             success:function(data){
                 re=data.success;
                 if (re){
-                alert("注册成功");
+                layer.alert("登陆成功");
+                window.location="/index/index"
                 }else{
                 alert(data.msg);
                 }
