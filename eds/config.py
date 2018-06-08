@@ -1,8 +1,8 @@
 
 
 #----老师头像-----
-pic_url="E://eds/"
+pic_url="C://data/fengge/"
 #----ueditor 文件地址----
-ueditor_url="E://eds"
+ueditor_url="F://eds"
 
 
