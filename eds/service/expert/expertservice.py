@@ -20,7 +20,6 @@ class ExpertService:
             for teacher in teacherjson:
                 teacherlist.append(teacher['name'])
             teacherstr = ', '.join(teacherlist)
-            print(teacherstr)
             data[i]['author'] = teacherstr
 
         return data
@@ -46,4 +45,3 @@ class ExpertService:
             image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
         return image
 expertService=ExpertService()
-expertService.get_paper(3)

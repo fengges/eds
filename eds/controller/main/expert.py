@@ -38,7 +38,6 @@ def get_draw_data():
     ajax['msg']=''
     ajax['obj'] ={}
     ajax['obj']['theme'] = themeEty
-    print(themeEty)
     return json.jsonify(ajax)
 
 
