@@ -97,7 +97,7 @@
                     <img class="w100p block" :src="'/main/propic/'+item.author_id" alt="Project"></a>
                   <div class="basis60p-md basis80p">
                     <a class="type-14 block link-soft-black" :href="item.link">${item.name}</a>
-                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">${item.school}</div>
+                      <div class="type-12 dark-grey-400 display-none block-md percent-funded"><a :href="'/main/school/'+item.school">${item.school}</a></div>
                     <div><el-tag  v-on:click.native='click_word($event)' style="margin:5px" v-for="f in item.fields">${f}</el-tag></div>
                   </div>
                 </div>

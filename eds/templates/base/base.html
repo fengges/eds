@@ -60,7 +60,7 @@
                                     <!-- 姓名+简介 -->
                                     <div class="col-md-8" style="padding: 0;">
                                         <h2 class="my-title2" style="padding: 0">${item.name}</h2>
-                                        <p class="my-text2" style="padding: 0">${item.school} ${item.title}</p>
+                                        <p class="my-text2" style="padding: 0"><a :href="'/main/school/'+item.school">${item.school} ${item.title}</a></p>
                                         <p class="my-text2" style="padding: 0">研究领域：<span style="margin-left:10px" v-for="f in item.fields" >${f}</span></p>
                                     </div>
                                 </div>
