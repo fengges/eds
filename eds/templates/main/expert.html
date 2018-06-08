@@ -2,7 +2,7 @@
 
 {% extends 'base/base.html' %}
 
-{% block titlename %}首页{% endblock %}
+{% block titlename %}{{ info_dict["name"] }}_专家详情{% endblock %}
 
 {% block head %}
 
@@ -32,11 +32,11 @@
             <div class="container-fluid" style="padding: 0px;">
                 <div class="row" style="margin: 0px 18px 40px 18px;padding: 60px 0px 0px 0px;">
                     <!-- 头像 -->
-                    <div class="col-md-3" style="text-align: center;"><img style="width:170px"  class="img-circle" src="../../static/images/experttest.jpg"/></div>
+                    <div class="col-md-3" style="text-align: center;"><img style="width:170px"  class="img-circle" src="/main/propic/{{ info_dict['id']}}"/></div>
                     <!-- 姓名+简介 -->
                     <div class="col-md-9" style="padding: 0px 0px 0px 60px;">
-                        <h2 class="my-title1" style="padding: 20px 0px">吴恩达<small class="my-text1" style="color:#95959E;padding-left:30px;">东南大学计算机学院 教授</small></h2>
-                        <p class="my-text1" style="padding: 25px 0px 0px 0px">研究领域：机器学习 人工智能 深度学习 社会网络 自然语言处理</p>
+                        <h2 class="my-title1" style="padding: 20px 0px">{{ info_dict["name"] }}<small class="my-text1" style="color:#95959E;padding-left:30px;">{{ info_dict["school"] }}{{ info_dict["institution"] }} {{ info_dict["title"] }}</small></h2>
+                        <p class="my-text1" style="padding: 25px 0px 0px 0px">研究领域：{{ info_dict["fields"] }}</p>
                     </div>
                 </div>
             </div>
@@ -46,8 +46,6 @@
                 <div class="row" style="margin: 0px 18px 40px 18px;">
                         <div id="direction" style="height: 400px;width:100%"></div>
                     </div>
-
-
                 </div>
             </div>
 
@@ -57,31 +55,162 @@
 
     <!-- 下半部分 -->
     <div class="row" style="text-align: center;">
-      <div style="border-top:1px solid rgba(0,0,0,0.3);border-bottom:1px solid rgba(0,0,0,0.3);height: 75px;">
+      <div style="border-top:1px solid rgba(0,0,0,0.3);border-bottom:1px solid rgba(0,0,0,0.3);">
         <ul id="myTab" class="nav nav-tabs nav-justified" >
           <li role="presentation" class="active"><a href="#page1" data-toggle="tab">基本信息</a></li>
           <li role="presentation" ><a href="#page2" data-toggle="pill">专家文献</a></li>
-          <li role="presentation" ><a href="#page1" data-toggle="tab">学术分析</a></li>
-          <li role="presentation" ><a href="#page2" data-toggle="tab">相似学者</a></li>
+          <li role="presentation" ><a href="#page3" data-toggle="tab">学术分析</a></li>
+          <li role="presentation" ><a href="#page4" data-toggle="tab">相似学者</a></li>
         </ul>
       </div>
       <!--选项卡内容Start-->
-      <div id="myTabContent" class="tab-content" style="margin:0;width:100%;text-align:left;">
-          <!--选项卡——基本信息-->
-        <div class="tab-pane fade in active container-fluid" id="page1" style="padding: 0px;background-color: #FBFBFA">
+      <div id="myTabContent" class="tab-content" style="margin:0;width:100%;text-align:left;padding:0 25%;">
+        <!--选项卡1——基本信息-->
+        <div class="tab-pane fade in active container-fluid" id="page1" style="padding: 0px;">
+            <!--选项卡1——基本信息——1简介-->
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+                <h3>简介</h3>
+                <ul class="my-tab-ul">
+                    <li class="my-tab-li">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <strong>姓名</strong>
+                    <span>{{ info_dict["name"] }}</span>
+                    </li>
 
-                <div class="row" style="margin: 0px 20%;padding: 20px 60px;">
-                    <ul >
-                        <li class="glyphicon glyphicon-user"></li>
-                        <strong>姓名</strong>
-                        <span>吴恩达</span>
-                    </ul>
-                </div>
+                    {% if info_dict["position"] %}
+                    <li class="my-tab-li">
+                    <i class="glyphicon glyphicon-briefcase"></i>
+                    <strong>职称</strong>
+                    <span>{{ info_dict["position"] }}</span>
+                    </li>
+                    {% endif %}
 
+                    <!--<li class="my-tab-li">-->
+                    <!--<i class="glyphicon glyphicon-earphone"></i>-->
+                    <!--<strong>电话</strong>-->
+                    <!--<span>13971392588</span>-->
+                    <!--</li>-->
+
+                    {% if info_dict["email"] %}
+                    <li class="my-tab-li">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    <strong>邮箱</strong>
+                    <span>{{ info_dict["email"] }}</span>
+                    </li>
+                    {% endif %}
+
+                    {% if info_dict["school"] %}
+                    <li class="my-tab-li">
+                    <i class="glyphicon glyphicon-home"></i>
+                    <strong>高校</strong>
+                        <a href="/main/school/{{ info_dict['school'] }}"><span>{{ info_dict["school"] }} </span></a><span>{{ info_dict["institution"] }}</span>
+                    </li>
+                    {% endif %}
+
+                    {% if info_dict["homepage"] %}
+                    <li class="my-tab-li">
+                    <i class="glyphicon glyphicon-globe"></i>
+                    <strong>主页</strong>
+                    <span>{{ info_dict["homepage"] }}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+                <hr>
+            </div>
+            <!--选项卡1——基本信息——2教育经历-->
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+                <h3>教育经历</h3>
+                <ul class="my-tab-ul">
+                    <li class="my-tab-li"><i class="glyphicon glyphicon-chevron-right"></i>
+                    <span>2012年3月至今 副教授 博士生导师/IEEE senior member 计算机科学与工程学院，东南大学，期间2014年9月到2015年9月在美国威斯康辛麦迪逊大学进行访问学者的工作;</span>
+                    </li>
+                    <li class="my-tab-li"><i class="glyphicon glyphicon-chevron-right"></i>
+                    <span>2011年3月-2013年3月 博士后 Institut National de la Santé et de la Recherche Médicale (INSERM, 法国国家健康研究院), 导师: Prof. Jean-Louis COATRIEUX and Christine TOUMOULIN;</span>
+                    </li>
+                    <li class="my-tab-li"><i class="glyphicon glyphicon-chevron-right"></i>
+                    <span>2008年3月至2010年3月 博士后 香港中文大学，电子工程系，导师： Prof. Emma MACPHERSON;</span>
+                    </li>
+                    <li class="my-tab-li"><i class="glyphicon glyphicon-chevron-right"></i>
+                    <span>2002年8月至2007年8月， 博士 第一军医大学，生物医学工程专业</span>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+            <!--选项卡1——基本信息——3工作经历-->
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+                <h3>工作简介</h3>
+                <p>主要研究方向包括，医学图像重建与分析三维可视化及病理；低剂量CT成像；太赫兹光信号的临床应用;基于特征学习的医学图像分析。作为项目负责人获国家自然科学基金面上项目、国家青年科学基金以及江苏省自然科学基金面上项目资助；作为首要合作者参与多项国家自然科学基金重点项目、国家973项目以及863项目的研究。目前承当东南大学计算机科学与工程学院大二学生的“运筹学”课程的教学；同时承当2016年度的东南大学计算机科学与工程学院和生物医学工程学院研究生课程“现代医学成像与处理方法”课程教学。累计指导毕业研究生10名。</p>
+                <hr>
+            </div>
         </div>
 
-        <div class="tab-pane fade col-lg-10" id="page2">
-            2
+        <!--选项卡2——专家文献-->
+        <div class="tab-pane fade container-fluid" id="page2" style="padding: 0px;">
+
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+
+                <!--选项卡2——按钮筛选-->
+              <!--<div class="btn-group btn-group-lg" role="group" aria-label="...">-->
+                  <!--<button type="button" class="btn btn-default">全部</button>-->
+                  <!--<button type="button" class="btn btn-default">近期文献</button>-->
+                  <!--<div class="btn-group btn-group-xs" role="group" aria-label="...">-->
+                      <!--<button type="button" class="btn btn-default">2017</button>-->
+                      <!--<button type="button" class="btn btn-default">2016</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                      <!--<button type="button" class="btn btn-default">2015</button>-->
+                  <!--</div>-->
+              <!--</div>-->
+
+
+                <h3>主要文献</h3>
+                <!--选项卡2——文章列表-->
+                <ul class="my-tab-ul">
+
+                    {% for paper in paperlist %}
+                    <li class="my-tab-li">
+                    <div class="row" style="margin:15px 0px;">
+                        <div class="col-md-1" style="padding:0px;width:5%;"><span class="badge" style="maring:0;font-size: 1.2rem;line-height: 1.2rem; margin-bottom: 0rem;">{{loop.index}}</span></div>
+                        <div class="col-md-11" style="padding:0px;"><hr style="margin:10px 0;border-top:1px dashed #eee;"></div>
+                    </div>
+                    <strong>{{paper.name}}</strong>
+                    <p style="color:#3c763d;">{{paper.author}}</p>
+                    <p>{{paper.org}} ({{paper.year}})</p>
+                    <p style="color:#a94442;padding-top:10px;">被引：{{paper.cited_num}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+            </div>
+        </div>
+
+          <!--选项卡2——专家文献-->
+        <div class="tab-pane fade container-fluid" id="page3" style="padding: 0px;">
+
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+                <img style="width:100%"   src="../../static/images/mytemp01.png"/>
+                <img style="width:100%"   src="../../static/images/mytemp02.png"/>
+                <img style="width:100%"  src="../../static/images/mytemp03.png"/>
+                <img style="width:100%"   src="../../static/images/mytemp04.png"/>
+                <img style="width:100%"   src="../../static/images/mytemp05.png"/>
+            </div>
+        </div>
+
+          <!--选项卡2——专家文献-->
+        <div class="tab-pane fade container-fluid" id="page4" style="padding: 0px;">
+
+            <div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+                <img style="width:100%"   src="../../static/images/mytemp06.png"/>
+
+            </div>
         </div>
       </div>
       <!--选项卡内容End-->

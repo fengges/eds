@@ -2,6 +2,7 @@
 #  author   ：feng
 #  time     ：2018/1/25
 #  function : 注册测试
+import hashlib
 from eds.error import MyError
 from eds.service.login.loginservice import userService
 from flask import Blueprint,request,render_template,redirect,json
@@ -24,6 +25,10 @@ def register():
             if password1 != password2:
                 raise MyError(605)
             else:
+
+                m = hashlib.md5()
+                m.update(bytes(password1, encoding = "utf8"))
+                password1 = m.hexdigest()
                 param = (account,username,password1)
                 userService.addUser(param)
                 ajax = {}
