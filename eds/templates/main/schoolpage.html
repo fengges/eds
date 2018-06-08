@@ -1,0 +1,118 @@
+{% extends 'base/base.html' %}
+
+{% block titlename %}学校主页{% endblock %}
+
+{% block head %}
+<meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/schoolpage.css" />
+  <script src="/static/resources/jquery/jquery.min.js"></script>
+  <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
+  <script src="/static/js/schoolpage.js"></script>
+{% endblock %}
+
+{% block main %}
+    <div class="intro-header">
+	        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                    	<img src="{{ info_dict['logo'] }}" class="img-circle" />
+                        <h1>{{ info_dict["name"] }}</h1>
+                        <h3>{{ info_dict["english_name"] }}</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-buttons">
+                            <li>
+                                <a href="{{ info_dict['url'] }}" class="btn btn-default btn-lg" style="border:1px solid rgba(0,0,0,0.3)"><i class="fa fa-link fa-fw"></i> <span class="network-name">官网</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="btn btn-default btn-lg"  style="border:1px solid rgba(0,0,0,0.3)"><i class="fa fa-map fa-fw"></i> <span class="network-name">{{ info_dict["province"] }}</span></a>
+                            </li>
+                        </ul>
+                		</div>
+	              </div>
+            </div>
+
+    			</div>
+	        <!-- /.container -->
+	    	</div>
+    		<!-- /.intro-header -->
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<div style="border-bottom:1px solid;border-bottom-color: rgba(0,0,0,0.3);height: 75px;">
+				<ul id="myTab" class="nav nav-tabs nav-justified" >
+					<li role="presentation" class="active"><a href="#page1" data-toggle="tab">基本信息</a></li>
+					<li role="presentation" ><a href="#page2" data-toggle="pill">校园名师</a></li>
+					<li role="presentation" ><a href="#page1" data-toggle="tab">院系设置</a></li>
+					<li role="presentation" ><a href="#page2" data-toggle="tab">知名校友</a></li>
+				</ul>
+			</div>
+				<!--选项卡内容Start-->
+				<div id="myTabContent" class="tab-content" style="width:100%;padding:0 25%;">
+					<div class="tab-pane fade in active  container-fluid" id="page1" style="padding: 0px;">
+							<div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+								<h3>信息概览</h3>
+								<ul class="my-tab-ul">
+									{% for item in info_list %}
+										<li>
+											<i class="fa fa-caret-right"></i>
+											<strong>{{item[0]}}</strong>
+											<span>{{item[1]}}</span>
+										</li>
+									{% endfor %}
+								</ul>
+								<hr>
+							</div>
+							<div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
+								<h3>学校描述</h3>
+									<p class="description">{{ info_dict["abstract"] }}</p>
+								<hr>
+							</div>
+						</div>
+
+					<div class="tab-pane fade" style="text-align:center" id="page2">
+						<!-- Team members structure start -->
+						<div class="team-members row">
+							<!-- effect-1 html -->
+							{% for i in teachers %}
+								<div class="col-lg-3">
+									<div class="single-member effect-1">
+										<div class="member-image">
+											<img src="/static/images/chenrui.jpg" alt="Member">
+										</div>
+										<div class="member-info">
+											<h3>{{ i["name"] }}</h3>
+											{% if i["title"] == "" %}
+												<br>
+											{% else %}
+												<h5>{{ i["title"] }}</h5>
+											{% endif %}
+											<p>学院:{{ i["institution"] }}<br>
+												{% if i["fields"] == "" %}
+													<br>
+												{% else %}
+													{{ i["fields"] }}
+												{% endif %}
+											</p>
+											<div class="social-touch">
+												<a href="{{ i['url'] }}"><span>更多信息&nbsp;</span><i class="fa fa-arrow-circle-o-right"></i></a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							{% endfor %}
+							<!-- effect-1 html end -->
+						</div>
+		        <!-- Team members structure start -->
+					</div>
+			</div>
+				<!--选项卡内容End-->
+			</div>
+
+	</div>
+{% endblock %}

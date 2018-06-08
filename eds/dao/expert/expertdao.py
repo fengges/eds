@@ -3,11 +3,6 @@ from eds.dao.base import dbs
 
 
 class ExpertDao:
-
-    def get_radar(self, params):
-        sql = "SELECT * FROM radar where author_id=%s"
-        radar_result = dbs.getDics(sql, params)
-        return radar_result[0]
     def get_info(self, params):
         sql = "SELECT * FROM teacher where id=%s"
         info_result = dbs.getDics(sql, params)
@@ -15,17 +10,16 @@ class ExpertDao:
 
     def get_theme(self, params):
         # 从计算后的theme_year_new表中获取数据
-        sql_0 = "select year, theme, paper_num from theme_year_new where author_id=%s"
-        sql_2 = "SELECT DISTINCT theme " \
-                "FROM theme_year " \
-                "WHERE author_id=%s"
+        sql_0 = "select * from theme_year_cr where author_id=%s"
+        sql_2 = "SELECT theme FROM `theme_year_cr` WHERE author_id=%s GROUP BY theme"
         data_result = dbs.getDics(sql_0, params)
-        theme_result = dbs.getDics(sql_2, params)
-        return theme_result, data_result
+        themelist = dbs.getDics(sql_2, params)
+        return data_result,themelist
 
-    def get_ego(self, params):
-        sql = "SELECT * FROM ego_network where author_id=%s order by w desc limit 0,50"
-        ego_result = dbs.getDics(sql, params)
-        return ego_result
+    def get_paper(self, params):
+        sql = "SELECT `name`,author,org,`year`,cited_num,abstract FROM `paper` WHERE author_id=%s ORDER BY cited_num DESC;"
+        info_result = dbs.getDics(sql, params)
+        return info_result
+
 
 expertDao=ExpertDao()
