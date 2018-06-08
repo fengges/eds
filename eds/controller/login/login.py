@@ -3,8 +3,9 @@
 #  author   ：feng
 #  time     ：2018/6/6
 #  function : 主页面
-
-from flask import Blueprint,render_template,request,session,json
+import os
+import hashlib
+from flask import Blueprint,render_template,request,session,json,current_app
 from eds.service.login.loginservice import userService
 from eds.error import *
 login_login = Blueprint('login_login', __name__)
@@ -18,6 +19,9 @@ def login():
 
         account = request.form.get('account')
         password = request.form.get('password')
+        m = hashlib.md5()
+        m.update(bytes(password, encoding="utf8"))
+        password = m.hexdigest()
         param=(account,)
         user = userService.getUser(param)
         if user and user['password']==password:

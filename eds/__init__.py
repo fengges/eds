@@ -5,6 +5,7 @@
 
 #       注册蓝图
 import jieba.posseg as pseg
+import  os
 from eds import config
 from flask import Flask,redirect,json,render_template
 from eds.controller import bp_list
@@ -15,7 +16,6 @@ app = Flask(__name__)
 app.config.from_object(config)
 for bp in bp_list:
     app.register_blueprint(bp)
-print(1)
 
 #      捕获全局异常
 @app.errorhandler(MyError)
@@ -38,6 +38,8 @@ def index():
 @app.context_processor
 def my_context_processor():
     return {}
+
+app.config['SECRET_KEY'] = os.urandom(24)
 
 
 
