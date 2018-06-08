@@ -29,7 +29,6 @@ def error(error):
     return json.jsonify(ajax)
 
 @app.route('/index.html')
-@app.route('/')
 def index():
     return redirect('/static/index.html')
 

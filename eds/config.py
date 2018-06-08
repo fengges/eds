@@ -1,8 +1,8 @@
 
 
 #----老师头像-----
-pic_url="e:\\"
+pic_url="E://eds/"
 #----ueditor 文件地址----
-ueditor_url="F://eds"
+ueditor_url="E://eds"
 
 

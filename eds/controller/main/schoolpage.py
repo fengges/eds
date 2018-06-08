@@ -1,8 +1,14 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template,send_file
+import io
 from eds.service.school.schoolservice import schoolService
 
 main_school = Blueprint('main_school', __name__)
-
+@main_school.route('/main/schpic/<id>')
+def show_pic(id):
+    img= schoolService.get_pic(id)
+    return send_file(io.BytesIO(img.read()),
+                     attachment_filename=str(id)+'.jpg',
+                     mimetype='image/jpg')
 
 @main_school.route('/main/school/<param>')
 def show_school(param):
@@ -16,7 +22,7 @@ def show_school(param):
     info_1["english_name"] = info_dict["english_name"]
     info_1["url"] = info_dict["url"]
     info_1["province"] = info_dict["province"]
-    info_1["logo"] = schoolService.get_pic(info_dict["id"])
+    info_1["logo"] = "/main/schpic/"+str(info_dict["id"])
     info_1["abstract"] = info_dict["abstract"]
 
     info_2 = []
