@@ -26,6 +26,7 @@ def login():
         user = userService.getUser(param)
         if user and user['password']==password:
             session['username'] = user['username']
+            session['account'] = user['account']
             #---cookie时间---
             session.permanent = True
             ajax = {}

@@ -7,10 +7,10 @@
 import jieba.posseg as pseg
 import  os
 from eds import config
-from flask import Flask,redirect,json,render_template
+from flask import Flask,redirect,json,render_template,request
 from eds.controller import bp_list
 from eds.error import *
-
+from eds.record import *
 app = Flask(__name__)
 
 app.config.from_object(config)
@@ -36,7 +36,32 @@ def index():
 #      设置上下文
 @app.context_processor
 def my_context_processor():
+
     return {}
+
+#      统计
+@app.after_request
+def record(response):
+    list=r.getCatalog()
+    if list[0] in r.map:
+        method=r.map[list[0]]
+        method(list,response)
+    return response
+
+
+
+@app.before_request
+def filter():
+    pass
+    # name=r.getName()
+    # if name in r.map:
+    #     method=r.map[name]
+    #     method()
+
+
+
+
+
 
 app.config['SECRET_KEY'] = os.urandom(24)
 

@@ -8,6 +8,19 @@ from eds.dao.base.config import POOL
 
 
 class dbutil:
+    def insertItem(self,item):
+        #insert into student_info(stuName,stuAge) values('liutao',13)
+        table=item["table"]+"("
+        temp=",".join(["%s" for i in item["params"]])
+        column=" values("+temp+")"
+        paramList=[]
+        columnList=[]
+        for k in item["params"]:
+            columnList.append(k)
+            paramList.append(item["params"][k])
+        params=tuple(paramList)
+        sql="insert into "+table+ ",".join(columnList)+")"+column
+        self.exe_sql(sql,params)
 
     def getDics(self,sql,params=None):
         conn = POOL.connection()
