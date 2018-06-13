@@ -1,8 +1,14 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template,send_file
+import io
 from eds.service.school.schoolservice import schoolService
 
 main_school = Blueprint('main_school', __name__)
-
+@main_school.route('/main/schpic/<id>')
+def show_pic(id):
+    img= schoolService.get_pic(id)
+    return send_file(io.BytesIO(img.read()),
+                     attachment_filename=str(id)+'.jpg',
+                     mimetype='image/jpg')
 
 @main_school.route('/main/school/<param>')
 def show_school(param):
@@ -16,7 +22,7 @@ def show_school(param):
     info_1["english_name"] = info_dict["english_name"]
     info_1["url"] = info_dict["url"]
     info_1["province"] = info_dict["province"]
-    info_1["logo"] = info_dict["logo"]
+    info_1["logo"] = "/main/schpic/"+str(info_dict["id"])
     info_1["abstract"] = info_dict["abstract"]
 
     info_2 = []
@@ -37,10 +43,10 @@ def show_school(param):
         teacher = dict()
         teacher["name"] = t["name"]
         teacher["title"] = "" if t["title"] is None else t["title"]
-        teacher["pic"] = t["pic"]
+        teacher["pic"] = t["id"]
         teacher["institution"] = t["institution"]
         teacher["fields"] = "" if t["fields"] is None else t["fields"]
-        teacher["url"] = "/main/profile/%s" % t["id"]
+        teacher["url"] = "/main/expert/%s" % t["id"]
         teachers.append(teacher)
 
     return render_template('/main/schoolpage.html', info_dict=info_1, info_list=info_2, teachers=teachers)
