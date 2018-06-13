@@ -8,7 +8,7 @@ import jieba.posseg as pseg
 import  os
 from eds import config
 from flask import Flask,redirect,json,render_template,request
-# from flask_apscheduler import APScheduler
+from flask_apscheduler import APScheduler
 from eds.controller import bp_list
 from eds.error import *
 from eds.record import *

@@ -16,20 +16,30 @@
     <script src="/static/js/base/log.js" ></script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
     <style>
-         .container{width: 100%;
-  padding-right: 0px;
-    padding-left: 0px;
-  }
-        .div_line{
-         width:auto;
+    .container{
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+    .div_line{
+        width:auto;
         display:inline-block;
-            line-height: 80px;
-        }
+        line-height: 80px;
+    }
+    .base_daohang .div_line button{
+        border:0!important;
+
+    }
+    .base_daohang .div_line a{
+        letter-spacing:1.12px!important;
+    }
+
+
     </style>
     {% block head %}{% endblock %}
 
 </head>
-<body>
+<body class="base_daohang">
     <div id="index_search" style="border-bottom: 1px solid;">
         <!--导航条点击搜索后-->
         <div id="mySearch" style="z-index:100;position: absolute;width:100%;visibility:hidden;">
@@ -41,7 +51,7 @@
                     <input id="search" type="text" v-model="keyWord" @keyup.enter='search' placeholder="发现专家..." style="outline:medium;width:100%;font-size: 1.45rem;border:none;"/>
                 </div>
 
-                <div class="col-md-1" >
+                <div class="col-md-1" style="width: 6.333%">
                     <button type="button" class="btn btn-default navbar-btn mybtn"  @click="closeSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
                 </div>
 

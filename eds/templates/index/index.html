@@ -491,8 +491,8 @@
                               {% for school in info_985_dict %}
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="/main/schpic/{{ school['name'] }}" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src=""/main/schpic/"{{ school['id'] }}" alt="Project" style="width:90px"></a>
+                                  <a href="/main/school/{{ school['name'] }}" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="main/schpic/{{ school['id'] }}" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="/main/school/{{ school['name'] }}">{{ school['name'] }}</a>
                                     <div class="type-12 dark-grey-400 display-none block-md percent-funded">{{ school['attribute'] }}</div></div>
@@ -513,8 +513,8 @@
                               {% for school in info_211_dict %}
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
-                                  <a href="/main/schpic/{{ school['name'] }}" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src=""/main/schpic/"{{ school['id'] }}" alt="Project" style="width:90px"></a>
+                                  <a href="/main/school/{{ school['name'] }}" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
+                                    <img class="w100p block" src="/main/schpic/{{ school['id'] }}" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
                                     <a class="type-14 block link-soft-black" href="/main/school/{{ school['name'] }}">{{ school['name'] }}</a>
                                     <div class="type-12 dark-grey-400 display-none block-md percent-funded">{{ school['attribute'] }}</div></div>
