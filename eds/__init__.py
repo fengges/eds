@@ -8,9 +8,11 @@ import jieba.posseg as pseg
 import  os
 from eds import config
 from flask import Flask,redirect,json,render_template,request
+from flask_apscheduler import APScheduler
 from eds.controller import bp_list
 from eds.error import *
 from eds.record import *
+from eds.task import *
 app = Flask(__name__)
 
 app.config.from_object(config)
@@ -48,7 +50,12 @@ def record(response):
         method(list,response)
     return response
 
-
+#定时任务
+if config.taskOpen:
+    scheduler = APScheduler()
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 14,minute =15 ,second = 00, replace_existing=True)
+    scheduler.init_app(app=app)
+    scheduler.start()
 
 @app.before_request
 def filter():
