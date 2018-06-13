@@ -51,11 +51,11 @@ def record(response):
     return response
 
 #定时任务
-# if config.taskOpen:
-#     scheduler = APScheduler()
-#     scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 1,minute =00 ,second = 00,replace_existing=True)
-#     scheduler.init_app(app=app)
-#     scheduler.start()
+if config.taskOpen:
+    scheduler = APScheduler()
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 1,minute =00 ,second = 00,replace_existing=True)
+    scheduler.init_app(app=app)
+    scheduler.start()
 
 @app.before_request
 def filter():
