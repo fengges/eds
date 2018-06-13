@@ -16,7 +16,10 @@ def index():
 
 @login_login.route('/login/login',methods=['GET','POST'])
 def login():
-
+        import time
+        for i in range(10):
+            time.sleep(1)
+            print(i)
         account = request.form.get('account')
         password = request.form.get('password')
         m = hashlib.md5()
