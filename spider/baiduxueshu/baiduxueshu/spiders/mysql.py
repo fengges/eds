@@ -69,41 +69,41 @@ class AliyunDB(object):
         self.cursor.execute(sql, params)
         self.connect.commit()
 
-class TestDB(object):
-    connect = pymysql.Connect(
-        host='localhost',
-        port=3306,
-        user='root',
-        password='Cr648546845',
-        db='edstest',
-        charset='utf8'
-)
-#获取游标
-    cursor = connect.cursor(cursor=pymysql.cursors.DictCursor)
-
-    #---从search表中获取一条教师信息---
-    def getAuthor(self):
-        randint = str(random.randint(1, 10))
-        sql = "SELECT * FROM paper_search_list WHERE search=0 AND searching=0 and id%3"+CRAWL_SETTING['total']+"="+CRAWL_SETTING['num']
-        self.cursor.execute(sql)
-        teacher = self.cursor.fetchall()
-        return teacher
-
-    # 插入论文
-    def InsertPaper(self, item):
-        sql = "INSERT INTO paper VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-
-        params = (str(uuid.uuid1()),
-                  item['name'], item['url'], item['abstract'], item['org'], item['year'], item['cited_num'],
-                  item['source'],
-                  item['source_url'], item['keyword'], item['author'], item['author_id'], item['cited_url'],
-                  item['reference_url'], item['paper_md5'])
-        self.cursor.execute(sql, params)
-        self.connect.commit()
-
-    # ---搜索后更新状态---
-    def UpdateAuthor(self, id):
-        sql = "UPDATE paper_search_list SET search=1 where id=%s"
-        params = (id)
-        self.cursor.execute(sql, params)
-        self.connect.commit()
+# class TestDB(object):
+#     connect = pymysql.Connect(
+#         host='localhost',
+#         port=3306,
+#         user='root',
+#         password='Cr648546845',
+#         db='edstest',
+#         charset='utf8'
+# )
+# #获取游标
+#     cursor = connect.cursor(cursor=pymysql.cursors.DictCursor)
+#
+#     #---从search表中获取一条教师信息---
+#     def getAuthor(self):
+#         randint = str(random.randint(1, 10))
+#         sql = "SELECT * FROM paper_search_list WHERE search=0 AND searching=0 and id%3"+CRAWL_SETTING['total']+"="+CRAWL_SETTING['num']
+#         self.cursor.execute(sql)
+#         teacher = self.cursor.fetchall()
+#         return teacher
+#
+#     # 插入论文
+#     def InsertPaper(self, item):
+#         sql = "INSERT INTO paper VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+#
+#         params = (str(uuid.uuid1()),
+#                   item['name'], item['url'], item['abstract'], item['org'], item['year'], item['cited_num'],
+#                   item['source'],
+#                   item['source_url'], item['keyword'], item['author'], item['author_id'], item['cited_url'],
+#                   item['reference_url'], item['paper_md5'])
+#         self.cursor.execute(sql, params)
+#         self.connect.commit()
+#
+#     # ---搜索后更新状态---
+#     def UpdateAuthor(self, id):
+#         sql = "UPDATE paper_search_list SET search=1 where id=%s"
+#         params = (id)
+#         self.cursor.execute(sql, params)
+#         self.connect.commit()

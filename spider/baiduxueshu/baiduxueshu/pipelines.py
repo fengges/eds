@@ -9,7 +9,7 @@ from spider.baiduxueshu.baiduxueshu.spiders import mysql
 
 class BaiduxueshuPipeline(object):
     db = mysql.LocalDB()
-    db_test = mysql.TestDB()
+    # db_test = mysql.TestDB()
 
     def process_item(self, item, spider):
         if type(item)==PaperItem:

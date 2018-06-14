@@ -14,7 +14,7 @@ class PaperSpider(scrapy.Spider):
     start_urls = ['http://www.baidu.com/']
     db_aliyun = mysql.AliyunDB()
     db_localhost = mysql.LocalDB()
-    db_test = mysql.TestDB()
+    # db_test = mysql.TestDB()
 
 	
     def parse(self, response):
