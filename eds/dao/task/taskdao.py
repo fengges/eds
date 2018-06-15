@@ -20,6 +20,11 @@ class TaskDao:
         params=(param["type"],param['startDate'],param['endDate'])
         r=dbs.getDics(sql,params)
         return r
+    def selectByTypeAndDateOrderByDate(self,param):
+        sql="select * from statistics where type=%s and date between %s and %s order BY date";
+        params=(param["type"],param['startDate'],param['endDate'])
+        r=dbs.getDics(sql,params)
+        return r
 
 taskDao=TaskDao()
 

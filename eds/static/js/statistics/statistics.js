@@ -98,7 +98,12 @@ vm = new Vue({
             success:function(data){
                 re=data.obj;
                 title=self.formatDate(self.startDate,"yyyy-MM-dd")+" 到 "+self.formatDate(self.endDate,"yyyy-MM-dd")+" "+self.type+"热点图";
-                option=self.ininZhu(title,re);
+                if (self.type=="登陆"||self.type=="注册"){
+                    option=self.ininLine(title,re);
+                }else{
+                    option=self.ininZhu(title,re);
+                }
+
                 chart = echarts.init(document.getElementById('chart'));
                 chart.setOption(option);
                 layer.closeAll('loading');
@@ -116,14 +121,6 @@ vm = new Vue({
             },
             tooltip: {
                 trigger: 'item'
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    dataView: {show: true, readOnly: false},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
             },
             calculable: true,
             grid: {
@@ -167,17 +164,38 @@ vm = new Vue({
                         }
                     },
                     data: data["data"],
-                    markPoint: {
-                        tooltip: {
-                            trigger: 'item',
-                            backgroundColor: 'rgba(0,0,0,0)',
-                        },
-                        data:data["markPoint"]
-                    }
                 }
             ]
         };
         return option;
+        },
+        ininLine:function(title,data){
+            option = {
+                title : {
+                    text:title,
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data:data["legend"]
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : data["xAxis"]
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series :data["series"]
+            };
+            return option;
         },
     },
 
