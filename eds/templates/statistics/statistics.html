@@ -53,6 +53,12 @@
           <el-radio label="最近一月"></el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item :label="'选择'+type" v-if="showList">
+        <el-radio-group v-model="value">
+          <el-radio label="--全部--">全部</el-radio>
+          <el-radio :label="v['value']" v-for="v in valueList">${v['label']}</el-radio>
+        </el-radio-group>
+      </el-form-item>
         <el-form-item>
     <el-button type="primary" @click="search">查询</el-button>
     <el-button>取消</el-button>

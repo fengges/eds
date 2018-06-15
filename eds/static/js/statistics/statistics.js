@@ -24,9 +24,23 @@ vm = new Vue({
         startDate:'',
         endDate:'',
         timeType:'',
+        value:'--全部--',
+        valueList:[{value:'',label:''}],
+        showList:false,
     }
    },
      watch: {
+      type:function (newQuestion, oldQuestion) {
+       if (this.type=="登陆"||this.type=="注册"){
+            this.showList=false;
+            this.value='--全部--';
+            this.valueList=[];
+       }else{
+            this.value='--全部--';
+            this.valueList=[];
+            this.showList=true;
+       }
+      },
       timeType: function (newQuestion, oldQuestion) {
             if (newQuestion=="最近一周"){
                this.startDate=this.add_date(-8);
@@ -83,7 +97,14 @@ vm = new Vue({
             layer.alert('结束时间应大于开始时间');
              return;
         }
+        var hasvalue=false
         data={type:this.type,startDate:this.formatDate(this.startDate,"yyyy-MM-dd"),endDate:this.formatDate(this.endDate,"yyyy-MM-dd")};
+        if (this.showList&&this.value!="--全部--"){
+            data['value']=this.value;
+            hasvalue=true
+        }else{
+            hasvalue=false
+        }
         data= {
             data: JSON.stringify(data),
         };
@@ -98,14 +119,17 @@ vm = new Vue({
             success:function(data){
                 re=data.obj;
                 title=self.formatDate(self.startDate,"yyyy-MM-dd")+" 到 "+self.formatDate(self.endDate,"yyyy-MM-dd")+" "+self.type+"热点图";
-                if (self.type=="登陆"||self.type=="注册"){
+                if (self.type=="登陆"||self.type=="注册"||hasvalue){
                     option=self.ininLine(title,re);
                 }else{
+                    self.valueList=re["xAxis"];
+                    self.valueList=re['value']
                     option=self.ininZhu(title,re);
                 }
-
+                //var ecConfig = echarts.config;
                 chart = echarts.init(document.getElementById('chart'));
                 chart.setOption(option);
+                //chart.on(ecConfig.EVENT.CLICK,self.clickBar);
                 layer.closeAll('loading');
             },
             error:function (res) {
@@ -197,11 +221,12 @@ vm = new Vue({
             };
             return option;
         },
+        clickBar:function (param){
+         },
     },
 
      created:function() {
         this.types=["搜索前5","搜索全部","专家","学校","登陆","注册"];
-
      },
   });
 });
