@@ -19,6 +19,10 @@ class UserService:
             return None
         else:
             return s[0]
+    def getUserByAccount(self,Account):
+        params=(Account,)
+        s=userDao.getUserByAccount(params)
+        return s
     def addUser(self,params):
         if len(params)==3:
             if params[0]:
