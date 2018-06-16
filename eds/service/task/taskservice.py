@@ -37,28 +37,42 @@ class TaskService:
             item["table"] = "statistics"
             item["params"] = valueTemp[v]
             taskDao.insertItem(item)
-
+    def getSearchByValue(self,params):
+        temp =taskDao.selectByTypeAndDateAndValue(params)
+        data = {}
+        data["legend"] = [params['value']]
+        data["xAxis"] = [t["date"].strftime("%Y-%m-%d") for t in temp]
+        data["series"] = [{'name': params["type"], 'type': 'line', 'smooth': True,
+                           'itemStyle': {'normal': {'areaStyle': {'type': 'default'}}},
+                           'data': [t["num"] for t in temp]}]
+        return data
     def getSearch(self,params):
+        if params['value'] is not None:
+            return self.getSearchByValue(params)
         if params["type"] in self.value:
             temp =taskDao.selectByTypeAndDateOrderByDate(params)
         else:
             temp = taskDao.selectByTypeAndDate(params)
         data={}
         if params["type"]=="专家":
-            data["xAxis"]=[self.getExperName(t["value"]) for t in temp]
-            data["data"] = [t["sum"] for t in temp]
+            ids=[t["value"] for t in temp]
+            expers=self.getExpers(ids)
+            data["xAxis"]=[expers[t['value']]['name'] for t in temp]
+            data["data"] = [int(t["sum"]) for t in temp]
+            data['value']=[{"value":t['value'],"label":expers[t['value']]['name']} for t in temp]
         elif params["type"]=="登陆" or params["type"]=="注册":
             data["legend"]=[params["type"]]
             data["xAxis"] = [t["date"].strftime("%Y-%m-%d") for t in temp]
             data["series"]=[{'name':params["type"],'type': 'line','smooth': True,'itemStyle': {'normal': {'areaStyle': {'type': 'default'}}},'data': [ t["num"]for t in temp ] }]
         else:
             data["xAxis"] = [t["value"] for t in temp]
-            data["data"]=[t["sum"] for t in temp]
+            data["data"]=[int(t["sum"]) for t in temp]
+            data['value'] = [{"value": t['value'], "label": t['value']} for t in temp]
 
         return data
 
 
-    def getExperName(self,id):
-        return expertService.get_info(id)[0]["name"]
+    def getExpers(self,ids):
+        return expertService.get_infosByIds(ids)
 
 taskService=TaskService()

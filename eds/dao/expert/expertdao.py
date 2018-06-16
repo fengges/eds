@@ -3,6 +3,10 @@ from eds.dao.base import dbs
 
 
 class ExpertDao:
+    def get_infosByIds(self, params):
+        sql = "SELECT * FROM teacher where id in "+params
+        info_result = dbs.getDics(sql)
+        return info_result
     def get_info(self, params):
         sql = "SELECT * FROM teacher where id=%s"
         info_result = dbs.getDics(sql, params)

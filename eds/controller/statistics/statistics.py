@@ -16,7 +16,7 @@ def index():
 
 @statistics_statistics.route('/statistics/search',methods=['GET','POST'])
 def index2():
-    params = ['type','startDate','endDate']
+    params = ['type','startDate','endDate','value']
     search_params = {}
     t = request.form.get('data')
     data = json.loads(t)
