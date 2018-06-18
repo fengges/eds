@@ -13,5 +13,4 @@ def index():
     infoEty985 = indexService.get_school_info(985)
     infoEty211 = indexService.get_school_info(-211)
 
-
     return render_template('/index/index.html', info_985_dict=infoEty985, info_211_dict=infoEty211)
