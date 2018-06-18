@@ -9,7 +9,11 @@ class ExpertService:
     def get_info(self,params):
         result=expertDao.get_info(params)
         return result
-
+    def get_infosByIds(self,ids):
+        params="("+(",".join(ids))+")"
+        result=expertDao.get_infosByIds(params)
+        r={str(t["id"]):t for t in result}
+        return r
     def get_paper(self,params):
         data=expertDao.get_paper(params)
         if len(data)>9:data = data[:10]
