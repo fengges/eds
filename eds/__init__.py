@@ -53,7 +53,7 @@ def record(response):
 #定时任务
 if config.taskOpen:
     scheduler = APScheduler()
-    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 15,minute =10 ,second = 00,replace_existing=True)
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 14,minute =27 ,second = 00,replace_existing=True)
     scheduler.init_app(app=app)
     scheduler.start()
 
