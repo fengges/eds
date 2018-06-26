@@ -39,6 +39,10 @@ class ExpertService:
         for node in themelistdata:
             themelist.append(node['theme'])
         result = {'theme_year':theme_year,'themelist':themelist}
+
+        print(theme_year)
+        print(themelist)
+
         return result
 
 
@@ -49,3 +53,4 @@ class ExpertService:
             image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
         return image
 expertService=ExpertService()
+expertService.get_theme(23458)
