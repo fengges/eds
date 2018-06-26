@@ -5,13 +5,28 @@
 操作：直接运行sql查询即可。
 INSERT INTO paper_all(name,url,abstract,org,`year`,cited_num,source,source_url,keyword,author,author_id,cited_url,reference_url,paper_md5)
 SELECT t2.name,t2.url,t2.abstract,t2.org,t2.`year`,t2.cited_num,t2.source,t2.source_url,t2.keyword,t2.author,t2.author_id,t2.cited_url,t2.reference_url,t2.paper_md5 FROM paper_feng t2;
-
+INSERT INTO paper_all(name,url,abstract,org,`year`,cited_num,source,source_url,keyword,author,author_id,cited_url,reference_url,paper_md5)
+SELECT t2.name,t2.url,t2.abstract,t2.org,t2.`year`,t2.cited_num,t2.source,t2.source_url,t2.keyword,t2.author,t2.author_id,t2.cited_url,t2.reference_url,t2.paper_md5 FROM paper_cr t2;
+INSERT INTO paper_all(name,url,abstract,org,`year`,cited_num,source,source_url,keyword,author,author_id,cited_url,reference_url,paper_md5)
+SELECT t2.name,t2.url,t2.abstract,t2.org,t2.`year`,t2.cited_num,t2.source,t2.source_url,t2.keyword,t2.author,t2.author_id,t2.cited_url,t2.reference_url,t2.paper_md5 FROM paper_wei t2;
 ###2、从paper_all中取数据做第一步清洗存入paper_clean1
 第一步清洗包括：
     a.删除姓名与作者不匹配的文章
     b.删除 摘要 or 题名 or 作者 or 机构 为空的文章
     c.删除作者组织与作者学校不匹配的文章
     d.删除不存在的author_id的文章
+
+###3、paper_clean1去重
+操作：直接运行sql查询即可。
+TRUNCATE TABLE temp_idtable2;
+INSERT INTO temp_idtable2
+SELECT t1.id FROM `paper_clean1` AS t1 GROUP BY t1.author_id,t1.paper_md5;
+TRUNCATE TABLE temp_idtable;
+INSERT INTO temp_idtable
+SELECT id FROM paper_clean1 WHERE id not in(
+SELECT id FROM temp_idtable2
+);
+DELETE a.* FROM paper_clean1 AS a,temp_idtable AS b WHERE a.id=b.id;
 """
 # 连接数据库
 import json

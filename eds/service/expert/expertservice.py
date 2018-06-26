@@ -53,4 +53,4 @@ class ExpertService:
             image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
         return image
 expertService=ExpertService()
-expertService.get_theme(23458)
+# expertService.get_theme(23458)
