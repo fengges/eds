@@ -20,6 +20,7 @@ vm = new Vue({
   data : function() {
     return {
         type:"",
+        line:[],
         types:[],
         startDate:'',
         endDate:'',
@@ -31,7 +32,7 @@ vm = new Vue({
    },
      watch: {
       type:function (newQuestion, oldQuestion) {
-       if (this.type=="登陆"||this.type=="注册"){
+       if (this.line.indexOf(this.type)>=0){
             this.showList=false;
             this.value='--全部--';
             this.valueList=[];
@@ -119,7 +120,7 @@ vm = new Vue({
             success:function(data){
                 re=data.obj;
                 title=self.formatDate(self.startDate,"yyyy-MM-dd")+" 到 "+self.formatDate(self.endDate,"yyyy-MM-dd")+" "+self.type+"热点图";
-                if (self.type=="登陆"||self.type=="注册"||hasvalue){
+                if (self.line.indexOf(self.type)>=0||hasvalue){
                     option=self.ininLine(title,re);
                 }else{
                     self.valueList=re["xAxis"];
@@ -226,7 +227,8 @@ vm = new Vue({
     },
 
      created:function() {
-        this.types=["搜索前5","搜索全部","专家","学校","登陆","注册"];
+        this.types=["搜索前5","搜索全部","专家","学校","登陆","注册","留言"];
+        this.line=["登陆","注册","留言"];
      },
   });
 });

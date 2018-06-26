@@ -1,7 +1,7 @@
 @charset "utf-8";
 html { color: #333;}
 body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td { margin: 0; padding: 0}
-body,input,select,textarea{ font: 12px/1.5 tahoma,arial,'微软雅黑'; color: #666 }
+input,select,textarea{ font: 12px/1.5 tahoma,arial,'微软雅黑'; color: #666 }
 h1,h2,h3,h4,h5,h6 { font-size: 100%; font-weight: 400 }
 address,cite,dfn,em,var,caption,strong,th,i,code,kbd,pre,samp { font-style: normal; font-weight: 400}
 ul,ol { list-style: none}

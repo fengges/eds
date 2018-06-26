@@ -9,4 +9,5 @@ class IndexDao:
         return info_result
 
 
+
 index_dao = IndexDao()
