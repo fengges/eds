@@ -169,8 +169,12 @@ def dataclean_step2():
         print(i)
         i += b
 
+
 import os
 def paper_journal():
+    """
+    给paper关联journalid
+    """
     db = Mysql()
     root = os.path.dirname(os.path.abspath(__file__))
     journal_dict = eval(open(root + "\\data\\journal_dict.txt", "r", encoding='utf8').read())
