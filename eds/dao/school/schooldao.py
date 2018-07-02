@@ -15,9 +15,9 @@ class SchoolDao:
 
         if params is list:
             params = str(params)
-            sql = "select id, name, fields, title, institution, pic from teacher where (name, school) in %s"
+            sql = "select id, name, theme, title, institution, pic from teacher where (name, school) in %s"
         else:
-            sql = "select id, name, fields, title, institution, pic from teacher where school = %s limit 6"
+            sql = "select id, name, theme, title, institution, pic from teacher where school = %s limit 6"
         data_result = dbs.getDics(sql, params)
         return data_result
 

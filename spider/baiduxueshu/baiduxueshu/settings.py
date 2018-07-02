@@ -4,14 +4,14 @@ DB_SETTING = {
    'host':'localhost',
    'port':3306,
    'user':'root',
-   'passwd':'Cr648546845',
-   'db':'eds',
+   'passwd':'1111',
+   'db':'baiduxueshu',
    'charset':'utf8'
 }
 
 #---爬取配置---
 CRAWL_SETTING = {
-   'num':'1',
+   'num':'0',
    'total':'3'
 }
 
@@ -38,7 +38,7 @@ VIP_HEADERS = {
    "Referer":"http://www.cqvip.com/main/search.aspx?k=%E4%BC%A0%E6%84%9F%E5%99%A8%E5%BC%B9%E6%80%A7%E5%85%83%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84%E4%BC%98%E5%8C%96%E8%AE%BE%E8%AE%A1"
 }
 
-RETRY_ENABLED=False
+RETRY_ENABLED = False
 
 
 # Scrapy settings for baiduxueshu project
