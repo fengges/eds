@@ -14,13 +14,15 @@ class SearchService:
         self.cache=SimpleCache()
     #  判断是否有筛选条件
     def findFilter(self,params):
+        if len(params["institution"])>0:
+            return True
         if len(params["field"]) >0:
             return True
         if len(params["h_index"]) > 0:
             return True
     #  找到搜索缓存的记录
     def getKey(self,params):
-        key = ['keyword', 'name', 'institution']
+        key = ['keyword', 'name']
         p={}
         for k in key:
             p[k]=params[k]
@@ -40,7 +42,6 @@ class SearchService:
             params['keyword'] = temp
         temp=paperSearch.searchdao(params)
         re['num'] = temp["num"]
-        value=self.cache.get('filter')
         key = self.getKey(params)
         if not self.findFilter(params):
             re['filter'] = self.getfilter(temp["filter"])

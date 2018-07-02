@@ -8,7 +8,7 @@ from eds.service.expert.expertservice import expertService
 from eds.service.login.loginservice import userService
 class TaskService:
     def __init__(self):
-        self.value=["登陆","注册"]
+        self.value=["登陆","注册","留言"]
     def statistics(self):
         taskDao.delRecord()
         today = datetime.date.today()
@@ -60,7 +60,7 @@ class TaskService:
             data["xAxis"]=[expers[t['value']]['name'] for t in temp]
             data["data"] = [int(t["sum"]) for t in temp]
             data['value']=[{"value":t['value'],"label":expers[t['value']]['name']} for t in temp]
-        elif params["type"]=="登陆" or params["type"]=="注册":
+        elif params["type"] in self.value:
             data["legend"]=[params["type"]]
             data["xAxis"] = [t["date"].strftime("%Y-%m-%d") for t in temp]
             data["series"]=[{'name':params["type"],'type': 'line','smooth': True,'itemStyle': {'normal': {'areaStyle': {'type': 'default'}}},'data': [ t["num"]for t in temp ] }]

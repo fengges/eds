@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="col-md-1" style="width: 6.333%">
-                    <button type="button" class="btn btn-default navbar-btn mybtn"  @click="closeSearchDiv()"  style="padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
+                    <button type="button" class="btn btn-default navbar-btn mybtn"  @click="closeSearchDiv()"  style="border-color:#fff;padding:30px 40px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;"><i class="glyphicon glyphicon-remove" style="padding-left:10px;"></i></button>
                 </div>
 
             </div>
@@ -71,7 +71,7 @@
                                     <!-- 姓名+简介 -->
                                     <div class="col-md-8" style="padding: 0;">
                                         <h2 class="my-title2" style="padding: 0">${item.name}</h2>
-                                        <p class="my-text2" style="padding: 0"><a :href="'/main/school/'+item.school">${item.school} ${item.title}</a></p>
+                                        <p class="my-text2" style="font-size:15px;padding: 0"><a :href="'/main/school/'+item.school">${item.school}</a> ${item.title}</p>
                                         <p class="my-text2" style="padding: 0">研究领域：<span style="margin-left:10px" v-for="f in item.fields" >${f}</span></p>
                                     </div>
                                 </div>
@@ -88,10 +88,15 @@
        <div id="myHeader" class="container-fluid" style="margin-bottom:0;min-height: 80px;background-color:#FFFFFF;">
             <div class="row" style="margin: 0;padding: 0px; ">
                 <div class=" div_line">
-                    <a type="button" class="btn btn-default navbar-btn" style="padding:0 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</a>
+                    <a type="button" class="btn btn-default navbar-btn" style="border-color:#fff;;padding:0 0px 0px 40px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">发 现</a>
                 </div>
                 <div class=" div_line" style="padding:0px 0px 0px 15px;margin:0;">
-                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;">反馈建议</a>
+                    {% if session['username']  %}
+                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;" @click="openMessage(true)">反馈建议</a>
+                    {% else %}
+                    <a href="#" style="line-height: 0;font-size: 1.45rem;color:#282828;" @click="openMessage(false)">反馈建议</a>
+                    {% endif %}
+
                 </div>
                 <div class=" div_line"></div>
                 <div class=" div_line" style="text-align:center; ">
@@ -107,11 +112,9 @@
                     <a href="/login/gologin" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 陆</a>
                     {% endif %}
 
-
-
                 </div>
                 <div class=" div_line" style="float:right">
-                    <a type="button" class="btn btn-default navbar-btn" id="bt_display" @click="openSearchDiv"  style="padding:0px 15px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></a>
+                    <a type="button" class="btn btn-default navbar-btn" id="bt_display" @click="openSearchDiv"  style="border-color:#fff;padding:0px 15px 0px 0px;margin:0;font-size: 1.45rem;color:#282828;background-color:#fff;">搜 索<i class="glyphicon glyphicon-search" style="padding-left:10px;"></i></a>
                 </div>
 
             </div>
@@ -119,6 +122,8 @@
     </div>
     {% block main %}{% endblock %}
 
-
+    <div style="border-top: 1px solid;height:80px;">
+        <p style="margin:30px 0;text-align:center;">copyright@ 2018 东南大学 刻刻团队</p>
+    </div>
 </body>
 </html>
