@@ -50,3 +50,18 @@
 #
 # teacherlist = db.getAuthor()
 # print(teacherlist)
+
+import time
+import requests
+# url = "http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson="
+# data = requests.get(url).text
+# iplist = data.split('\r\n')
+# print('iplist')
+# print(iplist)
+# print(iplist[0].find('当前用户可用的有效IP数量不够'))
+# if iplist[0].find('当前用户可用的有效IP数量不够'):
+#     time.sleep(2)
+#     print('时间ip不够用')
+
+# iplist = ['saf:当前用户可用的有效IP数量不够']
+# print(iplist[0].find('当前用户可用的有效IP数量不够'))

@@ -32,12 +32,22 @@ def show_pic(id):
 @main_expert.route('/getdrawdata', methods=['POST'])
 def get_draw_data():
     id=request.form.get('id')
-    themeEty = expertService.get_theme(id)
-    ajax={}
+
+    # #河流图数据获取
+    # themeEty = expertService.get_theme(id)
+    # ajax={}
+    # ajax['success']=True
+    # ajax['msg']=''
+    # ajax['obj'] ={}
+    # ajax['obj']['theme'] = themeEty
+
+    # 单轴图数据获取
+    themeSingleaxis = expertService.get_single_axis(id)
+    ajax = {}
     ajax['success']=True
     ajax['msg']=''
     ajax['obj'] ={}
-    ajax['obj']['theme'] = themeEty
+    ajax['obj']['theme'] = themeSingleaxis
     return json.jsonify(ajax)
 
 

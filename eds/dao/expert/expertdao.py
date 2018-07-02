@@ -25,5 +25,10 @@ class ExpertDao:
         info_result = dbs.getDics(sql, params)
         return info_result
 
+    def get_single_axis(self, params):
+        # 从计算后的theme_year_new表中获取数据
+        sql_0 = "select * from theme_single_axis where author_id=%s"
+        data_result = dbs.getDics(sql_0, params)
 
+        return data_result
 expertDao=ExpertDao()
