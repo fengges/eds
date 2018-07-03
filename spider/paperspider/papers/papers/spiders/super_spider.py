@@ -62,9 +62,9 @@ class SuperSpider(scrapy.Spider):
             paper["year"] = "" if len(span_list) == 0 else span_list[0]
 
         if paper["source_url"] != "":
-            # yield scrapy.Request(url=paper["source_url"],
-            #                      meta={"paper": paper},
-            #                      callback=self.paser_source)
+            yield scrapy.Request(url=paper["source_url"],
+                                 meta={"paper": paper},
+                                 callback=self.paser_source)
             pass
         else:
             # 拼接请求url
