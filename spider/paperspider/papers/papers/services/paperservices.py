@@ -1,9 +1,9 @@
-from papers.dbutils import dbs
+from spider.paperspider.papers.papers.dbutils import dbs
 
 
 class PaperService:
     def get_search_list(self):
-        sql = "select * from teacher_searchlist_copy where searching=0 and searched=0"
+        sql = "select * from teacher_searchlist_copy where searched=0 or searched=1"
         info_list = dbs.getDics(sql)
         return info_list
 
