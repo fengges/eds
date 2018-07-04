@@ -57,7 +57,7 @@ class BaiduxueshuSpider(SuperSpider):
                                      callback=self.parse_list, headers={"Referer": None})
                 pass
             except:
-                # print("出错")
+                print("出错")
                 paper_service.update_error(info["id"])
             pass
 

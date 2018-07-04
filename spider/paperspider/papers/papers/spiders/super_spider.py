@@ -60,15 +60,42 @@ class SuperSpider(scrapy.Spider):
             span_list = response.css(".publish_text span::text").extract()
             span_list = [i for i in span_list if re.search(r'20[0-9]{2}', i)]
             paper["year"] = "" if len(span_list) == 0 else span_list[0]
+
         if paper["source_url"] != "":
-            yield scrapy.Request(url=paper["source_url"], meta={"paper": paper}, callback=self.paser_source)
+            yield scrapy.Request(url=paper["source_url"],
+                                 meta={"paper": paper},
+                                 callback=self.paser_source)
             pass
-        elif paper_uri != "":
-            # print("百度学术")
-            if paper["author"] != "":
-                # print(paper)
-                yield paper
-            pass
+        else:
+            # 拼接请求url
+            data_sign = self.my_strip(response.css(".abstract ::text").extract_first(""))
+            sc_url_group = re.search(r'sc_vurl=(.*?)&', response.css(".source a::attr(href)").extract_first(""))
+            sc_url = sc_url_group.group(1) if sc_url_group is not None else ""
+            if data_sign != "" and sc_url != "":
+                t = int(time.time() * 1000)
+                request_url = "http://xueshu.baidu.com/usercenter/data/schinfo?url=%s&callback=jQuery1102016936626670962984_%s&sign=%s&_=%s" % (sc_url, t, data_sign, t + 1)
+                yield scrapy.Request(url=request_url,
+                                     meta={"paper": paper},
+                                     callback=self.parse_abstract)
+        pass
+
+    # 解析json文件
+    def parse_abstract(self, response):
+        paper = response.meta.get("paper")
+        info_text = response.text.strip(')')
+        di = eval(re.sub(r'jQuery.*?\(', '', info_text))
+        meta_di_info = di["meta_di_info"]
+        abstract = "".join(meta_di_info.get("sc_abstract", []))
+        title = "".join(meta_di_info.get("sc_title", []))
+        paper["keyword"] = ";".join(meta_di_info.get("sc_keyword", []))
+        paper["abstract"] = abstract
+        paper["name"] = title
+        if not abstract[-3:] == "...":
+            paper["source_url"] = ""
+            paper["source"] = ""
+            # print(paper)
+            print("百度学术")
+            yield paper
         pass
 
     def paser_source(self, response):
