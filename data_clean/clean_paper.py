@@ -33,12 +33,19 @@ import json
 import pymysql.cursors
 class Mysql(object):
     connect = pymysql.Connect(
-        host='localhost',
-        port=3306,
-        user='root',
-        passwd='Cr648546845',
-        db='eds',
-        charset='utf8'
+        # host='localhost',
+        # port=3306,
+        # user='root',
+        # passwd='Cr648546845',
+        # db='eds',
+        # charset='utf8'
+
+        host = '47.104.236.183',
+        port = 3306,
+        user = 'root',
+        passwd = 'SLX..eds123',
+        db = 'eds',
+        charset = 'utf8'
 )
 # 获取游标
     cursor = connect.cursor(cursor=pymysql.cursors.DictCursor)
@@ -53,6 +60,14 @@ class Mysql(object):
     # 从paper_all的数量
     def getPaperNum(self):
         sql = "SELECT count(*) FROM paper_all"
+
+        self.cursor.execute(sql)
+        data = self.cursor.fetchone()
+        return data
+
+    # 从paper_clean1的数量
+    def getPaperNum_clean(self):
+        sql = "SELECT count(*) FROM paper_clean1"
 
         self.cursor.execute(sql)
         data = self.cursor.fetchone()
@@ -83,6 +98,13 @@ class Mysql(object):
         r = self.cursor.executemany(sql, list)
         self.connect.commit()
         print('更改org条数：',r)
+
+    # 核心期刊鉴别
+    def UpdateCorej(self, list):
+        sql = "UPDATE paper_clean1 SET core_journal=%s WHERE id=%s"
+        r = self.cursor.executemany(sql, list)
+        self.connect.commit()
+        print('更改org条数：', r)
 def dataclean_step2():
     """
     数据清洗的第二步
@@ -181,7 +203,7 @@ def paper_journal():
 
     i = 0
     b = 100000
-    num = db.getPaperNum()['count(*)']
+    num = db.getPaperNum_clean()['count(*)']
     yu = num % b
     while i < num:
         if i == num - yu: b = yu
@@ -201,8 +223,6 @@ def paper_journal():
         db.UpdateOrg(update_list)
         i += b
 
-
-
 def my_strip(str=""):
     # 去除字符串中空格和其他字符
     import re
@@ -215,9 +235,42 @@ def my_strip(str=""):
     return text
     pass
 
+import re
+def get_core_journal():
+    f = open('data/core_journal.txt', 'r', encoding='utf-8')
+    data = f.read()
+    cjlist = data.split(',')
+    # print(cjlist)
+    return cjlist
 
+
+def paper_core_journal():
+    """
+    给paper判断是否是核心期刊
+    """
+    db = Mysql()
+    cjlist = get_core_journal()
+
+    i = 0
+    b = 100000
+    num = db.getPaperNum_clean()['count(*)']
+    yu = num % b
+    while i < num:
+        if i == num - yu: b = yu
+        paperlist = db.getPaperOrg(i,b)
+        update_list = []
+        for paper in paperlist:
+            org = paper['org']
+            words = re.findall('[\u4e00-\u9fa5]', org)
+            word = ''.join(words)
+            if word in cjlist:
+                update_list.append([1,paper['id']])
+            else:update_list.append([0,paper['id']])
+        db.UpdateCorej(update_list)
+        i += b
+        print(i,b)
 if __name__ == '__main__':
     # db = Mysql()
-    paper_journal()
-
+    paper_core_journal()
+    # get_core_journal()
     pass
