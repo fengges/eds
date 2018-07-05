@@ -28,7 +28,31 @@ class JournalsPipeline(object):
             params = (item["ISSN"], item["IF"], item["ave_if"], item["cn_name"], item["en_name"], item["former_name"],
                       item["countryOrRegion"], item["discipline_subject"], item["self_cited_rate"],
                       item["url"], item["cited_num"])
+            print(params)
+            r = dbs.exe_sql(sql, params=params)
+            if r > 0:
+                paper_service.update_paper_search_list(item["_id"])
+
+        return item
+
+
+class AuthorPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == UpdateInstitutionItem:
+            sql = "UPDATE paper_new SET author=%s WHERE _id=%s"
+            params = (item["author"], item["_id"])
+            print("=========")
             dbs.exe_sql(sql, params=params)
+        return item
+
+
+class AbstractPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == UpdateInstitutionItem:
+            sql = "UPDATE paper_new SET author=%s WHERE _id=%s"
+            params = (item["author"], item["_id"])
+            print(params)
+            # dbs.exe_sql(sql, params=params)
         return item
 
 

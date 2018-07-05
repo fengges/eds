@@ -20,7 +20,6 @@ reCOMM = r'<!--.*?-->'
 class SuperSpider(scrapy.Spider):
 
     allowed_domains = []
-    source_list = ["Springer"]
 
     # 解析百度学术论文详情页
     def paser_detail(self, response):
@@ -115,7 +114,7 @@ class SuperSpider(scrapy.Spider):
                     paper["author"] = self.set_author_org(author_list, [])
             # 知网空间-2,可以解析author,author_org,abstract,title,
             if re.search(r'cpfd\.cnki\.com\.cn', paper["source_url"]) is not None:
-                # ==========================
+
                 t_list = response.css("div.xx_font::text").extract()
                 t_list = [self.my_strip(i) for i in t_list]
                 t_list = [i for i in t_list if len(i) > 0]
@@ -399,18 +398,16 @@ class SuperSpider(scrapy.Spider):
         name_list = paper_author_list.xpath("./text()").extract()
         url_list = paper_author_list.xpath("./@href").extract()
         if len(name_list) == len(url_list) and len(name_list) < 6:
-            paper_author_out = "["
+            paper_author_out = '{"author":['
             for i in range(0, len(url_list)):
-                t = re.findall(r'[\u4E00-\u9FA5]+', pa.unquote(url_list[i]))
-                if len(t) == 2:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (t[0], t[1])
-                elif len(t) == 1:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (t[0], "")
-                elif len(t) == 0:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (name_list[i].replace("\r\n        ", ""), "")
+                t = re.findall(r'wd=author:\((.*?)\)(.*?)&', pa.unquote(url_list[i]))
+                if len(t) == 0:
+                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (self.my_strip(name_list[i]), "")
                 else:
-                    return ""
-            return paper_author_out.rstrip(',') + ']'
+                    n = t[0][0]
+                    o = self.my_strip(t[0][1])
+                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (n, o)
+            return paper_author_out.rstrip(',') + ']}'
         else:
             return ""
 

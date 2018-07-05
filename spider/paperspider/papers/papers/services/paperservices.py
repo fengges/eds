@@ -7,6 +7,21 @@ class PaperService:
         info_list = dbs.getDics(sql)
         return info_list
 
+    def abstract_search_list_from_paper(self, s, e):
+        sql = "select _id, name, abstract, keyword, author, url from paper_new where _id>=%d and _id<%d"
+        info_list = dbs.getDics(sql % (s, e))
+        return info_list
+
+    def institution_search_list_from_paper(self, s, e):
+        sql = "select _id, author, url from paper_search_list where _id>=%d and _id<%d and searched=0"
+        info_list = dbs.getDics(sql % (s, e))
+        return info_list
+
+    def update_paper_search_list(self, params):
+        sql = "update paper_search_list set searched=1 where _id=%s"
+        r = dbs.exe_sql(sql % params)
+        return r
+
     def update_searched(self, params):
         sql = "update teacher_searchlist_copy set searched=%s where id=%s"
         dbs.exe_sql(sql, params)

@@ -24,7 +24,7 @@ ROBOTSTXT_OBEY = False
 DOWNLOAD_FAIL_ON_DATALOSS = False
 RETRY_ENABLED = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-# CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -71,6 +71,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    'papers.pipelines.JournalsPipeline': 1,
    'papers.pipelines.PapersPipeline': 2,
+   'papers.pipelines.AuthorPipeline': 3,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
