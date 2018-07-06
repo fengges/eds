@@ -13,9 +13,9 @@ class PaperService:
         return info_list
 
     # 需要重新获取机构的链接
-    def institution_search_list_from_paper(self, s, e):
-        sql = "select _id, author, url from paper_search_list_copy where _id>=%d and _id<%d and searched=0"
-        info_list = dbs.getDics(sql % (s, e))
+    def institution_search_list_from_paper(self):
+        sql = "select _id, author, url from paper_search_list_copy where searched=0"
+        info_list = dbs.getDics(sql)
         return info_list
 
     # 需要重新获取机构的链接

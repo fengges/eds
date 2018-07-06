@@ -14,14 +14,7 @@ class InstitutionSpider(SuperSpider):
     allowed_domains = []
     start_urls = ['http://xueshu.baidu.com/']
 
-    begin = 100
-    end = 500000
-    step = 20
-    count = 0
-    num = 0
-
     def parse(self, response):
-        print(self.begin, self.begin + self.step)
         search_list = self.get_search_list()
         for s in search_list:
             paper = UpdateInstitutionItem()
@@ -48,25 +41,8 @@ class InstitutionSpider(SuperSpider):
         except Exception as e:
             print(e)
             print("更新searched错误……")
-        self.count += 1
-        if self.count == self.num:
-            print(self.begin, self.begin + self.step)
-            search_list = self.get_search_list()
-
-            for s in search_list:
-                paper = UpdateInstitutionItem()
-                paper["_id"] = s["_id"]
-                paper["author"] = s["author"]
-                request_url = s["url"]
-                yield scrapy.Request(url=request_url,
-                                     meta={"paper": paper},
-                                     callback=self.parse_institution)
 
     def get_search_list(self):
-        search_list = []
-        while len(search_list) == 0 and self.begin + self.step <= 500000:
-            search_list = paper_service.institution_search_list_from_paper(self.begin, self.begin + self.step)
-            self.begin += self.step
-        self.num = len(search_list)
-        self.count = 0
+        search_list = paper_service.institution_search_list_from_paper()
+
         return search_list
