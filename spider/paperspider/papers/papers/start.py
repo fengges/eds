@@ -14,3 +14,4 @@ execute(["scrapy", "crawl", "institutionspider"])
 # execute(["scrapy", "crawl", "zazhi"])
 # execute(["scrapy", "crawl", "school"])
 # execute(["scrapy", "crawl", "acadcnki"])
+
