@@ -23,7 +23,7 @@ def keywords_save():
     print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     for i in range(0, 90000000, 1000000):
         print(i)
-        sql = 'select keyword from paper_citeorref limit ' + str(i) + ',1000000'
+        sql = 'select keyword from paper_clean1 limit ' + str(i) + ',1000000'
         paper_list = dbs.getDics(sql)
         if len(paper_list) == 0:
             break
@@ -41,7 +41,7 @@ def userdict_extract():
     """
     # print('查询数据')
     #
-    # keywords_save()
+    keywords_save()
     print('生成词典')
 
     # 把keyword读出来, 并且统计词频写入userdict.txt里面
@@ -70,41 +70,44 @@ fill = [ 'vn', 'n', 'nr', 'nr1', 'nr2', 'nrj', 'nrf', 'ns', 'nsf',
                 'nt', 'nz', 'nl', 'ng']
 print('词典更新')
 jieba.load_userdict('userdict.txt')
+f = open('data/paperfenci.txt', 'w',encoding='utf8')
 for i in range(0,10000000,500000):
-    sql = 'select id,name,abstract,keyword from paper_citeorref limit '+str(i)+',500000'
+
+    sql = 'select id,name,abstract,keyword from paper_clean1 limit '+str(i)+',500000'
     paper_list = dbs.getDics(sql)
     if len(paper_list)==0:
         break
-    print('分词')
+    print('分词:'+str(i))
     print(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
     DocWord = []
     for paper in paper_list:
         line = paper['name'].strip('\n').strip('\t') + ' ' + paper['abstract'].strip('\n').strip('\t') + ' ' + paper["keyword"].strip('\n').strip(
             '\t')
-        if judge_pure_english(line):
-            continue
         seg_list = pseg.cut(line)
         words = []
         for word, flag in seg_list:
             if flag in fill and word not in stopwords:
                 words.append(word)
         DocWord.append(words)
-    print('保存分词')
-    pickle.dump(DocWord, open('data/fenci'+str(i)+'.txt', 'wb'))
+        item={paper["id"]:" ".join(words)}
+        f.write(str(item))
+        f.write("\n")
+    # print('保存分词')
+    # pickle.dump(DocWord, open('data/fenci'+str(i)+'.txt', 'wb'))
+f.close()
+class MySentences(object):
+    def __init__(self, path):
+        self.time=0
+        self.path= path
 
-# class MySentences(object):
-#     def __init__(self, path):
-#         self.time=0
-#         self.path= path
-#
-#     def __iter__(self):
-#         self.time+=1
-#         pathDir = os.listdir(self.path)
-#         for file in  pathDir:
-#             print("open "+file+" "+str(self.time)+'time')
-#             sentence = pickle.load(open("data/"+file, 'rb'))
-#             for line in sentence:
-#                 yield  line
+    def __iter__(self):
+        self.time+=1
+        pathDir = os.listdir(self.path)
+        for file in  pathDir:
+            print("open "+file+" "+str(self.time)+'time')
+            sentence = pickle.load(open("data/"+file, 'rb'))
+            for line in sentence:
+                yield  line
 # print('开始训练')
 # print(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
 # sen = MySentences('data')

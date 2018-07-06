@@ -15,7 +15,7 @@ class SchoolService:
 
     def get_pic(self, params):
         try:
-            image = open(pic_url+'SchoolImgs/'+str(params)+'.jpg','rb')
+            image = open(pic_url+'SchoolImgs/'+str(params)+'.jpg', 'rb')
         except:
             image = open(pic_url + 'SchoolImgs/demo.jpg', 'rb')
         return image

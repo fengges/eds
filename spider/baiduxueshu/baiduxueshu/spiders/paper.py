@@ -231,10 +231,10 @@ class PaperSpider(scrapy.Spider):
 
     def getAbstractAuthor(self, author_list):
         if len(author_list) > 0:
-            paper_author_out = "{"
+            paper_author_out = "["
             for a in author_list:
                 if len(a.strip()) > 0:
                     paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (a, "")
-            return paper_author_out.rstrip(',') + '}'
+            return paper_author_out.rstrip(',') + ']'
         else:
             return ""

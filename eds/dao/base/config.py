@@ -20,7 +20,7 @@ POOL = PooledDB(
     host='47.104.236.183',
     port=3306,
     user='root',
-    password='SLX..eds123',
-    database='eds_web',
+    password='zdf.0126',
+    database='eds',
     charset='utf8'
 )

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 #---本地存放paper数据的表---
 DB_SETTING = {
-   'host':'10.6.11.166',
+   'host':'localhost',
    'port':3306,
    'user':'root',
-   'passwd':'123456',
-   'db':'schoollink',
+   'passwd':'Cr648546845',
+   'db':'eds',
    'charset':'utf8'
 }
 name="zhang"
 #---爬取配置---
 CRAWL_SETTING = {
-   'num':'2',
+   'num':'1',
    'total':'3'
 }
 ENGLISH_PAPER = {
