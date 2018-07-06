@@ -50,7 +50,7 @@ environments={
 }
 
 
-environment_name="aliyun"
+environment_name="local"
 
 environment=environments[environment_name]
 
