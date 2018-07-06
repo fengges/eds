@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 #---本地存放paper数据的表---
 DB_SETTING = {
-   'host':'localhost',
+   'host':'10.6.11.166',
    'port':3306,
    'user':'root',
-   'passwd':'Cr648546845',
-   'db':'eds',
+   'passwd':'123456',
+   'db':'schoollink',
    'charset':'utf8'
 }
-
+name="zhang"
 #---爬取配置---
 CRAWL_SETTING = {
-   'num':'1',
+   'num':'2',
    'total':'3'
+}
+ENGLISH_PAPER = {
+   'zhang':0,
+   'li':1,
+   'chen':2
 }
 
 
@@ -109,7 +114,7 @@ DOWNLOADER_MIDDLEWARES = {
 ITEM_PIPELINES = {
    'baiduxueshu.pipelines.BaiduxueshuPipeline': 300,
 }
-
+URLLENGTH_LIMIT = 20000
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

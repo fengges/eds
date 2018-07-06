@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+
+
+    <script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+
+    <script src="/static/resources/vue/vue.js"></script>
+    <script src="/static/resources/layer/layer.js"></script>
+    <link rel="stylesheet" href="/static/resources/element/index.css">
+    <script src="/static/resources/element/index.js"></script>
+    <script src="/static/js/admin/admin.js"></script>
+    <style>
+        body {margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;overflow: hidden;}
+      .el-header {
+        background-color: #B3C0D1;
+        color: #333;
+        line-height: 60px;
+      }
+
+      .el-aside {
+        color: #333;
+      }
+      .iframe{
+        width:99%;
+        height:auto;
+        min-height:600px;
+      }
+    </style>
+
+</head>
+<body>
+    <div id="admin">
+        <el-container style=" border: 1px solid #eee">
+            <el-header style="text-align: right; font-size: 12px">
+              <el-dropdown>
+                <i class="el-icon-setting" style="margin-right: 15px"></i>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>查看</el-dropdown-item>
+                  <el-dropdown-item>新增</el-dropdown-item>
+                  <el-dropdown-item>删除</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <span>王小虎</span>
+            </el-header>
+            <el-container>
+              <el-aside width="200px"  style="background-color: rgb(238, 241, 246)">
+                <el-menu >
+                  <el-submenu v-for="(item,index) in menu" :index="index+''" @click="menuClick(index)" >
+                    <template slot="title"  ><i :class="item['class']"></i>${item['name']}</template>
+                    <el-menu-item @click="menuClick(index,num)" v-for="(sub,num) in item['subMenu']" :index="index+'-'+num">${sub['name']}</el-menu-item>
+                  </el-submenu>
+                </el-menu>
+              </el-aside>
+             <el-main>
+                 <iframe class="iframe" :src="url" scrolling="no"></iframe>
+            </el-main>
+          </el-container>
+        </el-container>
+    </div>
+</body>
+</html>

@@ -15,6 +15,9 @@ ErrorCode={'0':{'method':error_0,"description":"发生了某些错误"},
            '604': {"description": "该用户已经存在"},
            '605': {"description": "两次密码不一致"},
            '606': {"description": "账号密码不一致"},
+
+           '701': {"description": "领域个数应大于等于3"},
+           '702': {"description": "领域个数应小于等于3"},
            }
 
 class MyError(Exception):

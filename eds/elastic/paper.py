@@ -8,7 +8,7 @@ from elasticsearch import Elasticsearch
 class PaperSearch:
     # 初始化
     def __init__(self):
-        self.es = Elasticsearch([{"host": "120.78.201.159", "port": 9200}])
+        self.es = Elasticsearch([{"host": "47.104.236.183", "port": 9200}])
         # self.es = Elasticsearch()
     # 生成过滤条件的返回字段
     def IndexSearchdao(self,params):

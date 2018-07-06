@@ -2,11 +2,19 @@
 #  author   ：feng
 #  time     ：2018/1/25
 #  function : 用户服务
-
+import time
 from eds.error import *
 from eds.dao.login.userdao import userDao
 
 class UserService:
+    def getUsers(self,params):
+        result=userDao.getUsers(params)
+        for r in result["result"]:
+            if r["register"]:
+                r["register"]=r["register"].strftime("%Y-%m-%d %H:%M:%S")
+            if r["lastlogin"]:
+                r["lastlogin"]=r["lastlogin"].strftime("%Y-%m-%d %H:%M:%S")
+        return result
     def getUser(self,params):
         if len(params)==1:
             if params[0]:

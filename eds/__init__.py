@@ -57,6 +57,7 @@ if config.taskOpen:
     scheduler.init_app(app=app)
     scheduler.start()
 
+# 权限
 @app.before_request
 def filter():
     pass
@@ -65,7 +66,12 @@ def filter():
     #     method=r.map[name]
     #     method()
 
-
+@app.template_filter('none_filter')
+def none_filter(s):
+    if s is None:
+        return ""
+    else:
+        return s
 
 
 

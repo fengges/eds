@@ -8,7 +8,7 @@ from spider.baiduxueshu.baiduxueshu.items import *
 from spider.baiduxueshu.baiduxueshu.spiders import mysql
 
 class BaiduxueshuPipeline(object):
-    db = mysql.LocalDB()
+    # db = mysql.LocalDB()
     # db_test = mysql.TestDB()
 
     def process_item(self, item, spider):

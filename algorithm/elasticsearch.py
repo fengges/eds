@@ -28,7 +28,7 @@ for l in list:
     params = ("%" + l["school"] + "%",)
     school=dbs.getDics(sql,params)
     if len(school)==0:
-        l["score"]=30
+        l["score"]=50
     else:
         l["score"]=school[0]["scope"]
 
@@ -37,7 +37,7 @@ save_path = 'E:temp\\' + str(0) + '.json'
 f = open(save_path, 'w+',encoding='utf-8')
 i=1
 bat=open('E:upload.bat', 'w+',encoding='utf-8')
-bat.write('curl -H "Content-Type: application/json" 127.0.0.1:9200/_bulk?pretty --data-binary @'+save_path)
+bat.write('curl -H "Content-Type: application/json" 47.104.236.183:9200/_bulk?pretty --data-binary @'+save_path)
 bat.write('\n')
 
 for l in list:
@@ -59,7 +59,7 @@ for l in list:
         print(i/10000)
         f.close()
         save_path = 'E:temp\\' + str(i/10000) + '.json'
-        bat.write('curl -H "Content-Type: application/json" 127.0.0.1:9200/_bulk?pretty --data-binary @' + save_path)
+        bat.write('curl -H "Content-Type: application/json" 47.104.236.183:9200/_bulk?pretty --data-binary @' + save_path)
         bat.write('\n')
         f = open(save_path, 'w+', encoding='utf-8')
     i+=1
