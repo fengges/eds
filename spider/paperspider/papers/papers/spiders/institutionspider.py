@@ -14,11 +14,10 @@ class InstitutionSpider(SuperSpider):
     name = 'institutionspider'
     allowed_domains = []
     start_urls = ['http://xueshu.baidu.com/']
-    source_list = ["维普", "知网", "万方", "Elsevier"]
 
     def parse(self, response):
-        begin = 100
-        step = 20
+        begin = 0
+        step = 10000
         end = 500000
         while begin + step <= end:
 
