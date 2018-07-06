@@ -6,7 +6,7 @@
 #       注册蓝图
 import jieba.posseg as pseg
 import  os
-from eds import config
+from eds.config import environment
 from flask import Flask,redirect,json,render_template,request
 from flask_apscheduler import APScheduler
 from eds.controller import bp_list
@@ -51,9 +51,10 @@ def record(response):
     return response
 
 #定时任务
-if config.taskOpen:
+task=environment["task"]["record"]
+if task["taskOpen"]:
     scheduler = APScheduler()
-    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 1,minute =00 ,second = 00,replace_existing=True)
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = task["hour"],minute =task["minute"] ,second = task["second"],replace_existing=True)
     scheduler.init_app(app=app)
     scheduler.start()
 

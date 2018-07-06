@@ -1,6 +1,6 @@
 
 import math
-from eds.config import pic_url
+from eds.config import environment
 from eds.dao.profile.profiledao import  profileDao
 
 class ProfileService:
@@ -125,8 +125,8 @@ class ProfileService:
         return result
     def get_pic(self,id):
         try:
-            image = open(pic_url+'ProfileImgs/'+str(id)+'.jpg','rb')
+            image = open(environment['file']["pic_url"]+'ProfileImgs/'+str(id)+'.jpg','rb')
         except:
-            image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
+            image = open(environment['file']["pic_url"] + 'ProfileImgs/demo.jpg', 'rb')
         return image
 profileService=ProfileService()

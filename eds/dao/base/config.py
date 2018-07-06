@@ -5,7 +5,10 @@
 import time
 import pymysql
 import threading
+from eds.config import environment
 from DBUtils.PooledDB import PooledDB, SharedDBConnection
+
+db_config=environment["dbs"]
 POOL = PooledDB(
     creator=pymysql,  # 使用链接数据库的模块
     maxconnections=6,  # 连接池允许的最大连接数，0和None表示不限制连接数
@@ -17,10 +20,10 @@ POOL = PooledDB(
     setsession=[],  # 开始会话前执行的命令列表。如：["set datestyle to ...", "set time zone ..."]
     ping=0,
     # ping MySQL服务端，检查是否服务可用。# 如：0 = None = never, 1 = default = whenever it is requested, 2 = when a cursor is created, 4 = when a query is executed, 7 = always
-    host='47.104.236.183',
+    host=db_config["host"],
     port=3306,
     user='root',
-    password='zdf.0126',
-    database='eds',
+    password=db_config["password"],
+    database=db_config["database"],
     charset='utf8'
 )

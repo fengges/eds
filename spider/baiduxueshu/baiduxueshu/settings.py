@@ -4,8 +4,8 @@ DB_SETTING = {
    'host':'localhost',
    'port':3306,
    'user':'root',
-   'passwd':'Cr648546845',
-   'db':'eds',
+   'passwd':'123456',
+   'db':'schoollink',
    'charset':'utf8'
 }
 name="zhang"
