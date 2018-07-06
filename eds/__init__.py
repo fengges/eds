@@ -51,10 +51,10 @@ def record(response):
     return response
 
 #定时任务
-task=environment["task"]["record"]
-if task["taskOpen"]:
+task_config=environment["task"]["record"]
+if task_config["taskOpen"]:
     scheduler = APScheduler()
-    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = task["hour"],minute =task["minute"] ,second = task["second"],replace_existing=True)
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = task_config["hour"],minute =task_config["minute"] ,second = task_config["second"],replace_existing=True)
     scheduler.init_app(app=app)
     scheduler.start()
 

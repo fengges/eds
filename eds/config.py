@@ -3,7 +3,7 @@
 environments={
     "aliyun":{
           "task":{
-              "recode":{
+              "record":{
                   "taskOpen": True,
                   "hour":1,
                   "minute":00,
@@ -50,7 +50,7 @@ environments={
 }
 
 
-environment_name="local"
+environment_name="aliyun"
 
 environment=environments[environment_name]
 
