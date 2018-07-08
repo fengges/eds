@@ -123,7 +123,7 @@ class IPPOOLS(HttpProxyMiddleware):
         如果不是200，则failure+1，若failure>3，则删除这条ip
         如果是200，则success+1
         """
-        if response.status == 407:
+        if response.status == 407 :
             ip = request.meta["proxy"][7:]
             x = self.get_list_index(ip,self.iplist)
 
@@ -135,6 +135,9 @@ class IPPOOLS(HttpProxyMiddleware):
             ip = request.meta["proxy"][7:]
             x = self.get_list_index(ip, self.iplist)
             self.iplist[x]['success'] += 1
+
+            return response
+        elif response.status==403:
             return response
         else:
             return response

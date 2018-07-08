@@ -1,7 +1,7 @@
 
 import math
 import json
-from eds.config import pic_url
+from eds.config import environment
 from eds.dao.expert.expertdao import expertDao
 
 class ExpertService:
@@ -72,9 +72,9 @@ class ExpertService:
 
     def get_pic(self,id):
         try:
-            image = open(pic_url+'ProfileImgs/'+str(id)+'.jpg','rb')
+            image = open(environment['file']["pic_url"]+'ProfileImgs/'+str(id)+'.jpg','rb')
         except:
-            image = open(pic_url + 'ProfileImgs/demo.jpg', 'rb')
+            image = open(environment['file']["pic_url"]+ 'ProfileImgs/demo.jpg', 'rb')
         return image
 expertService=ExpertService()
 

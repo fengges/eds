@@ -6,7 +6,7 @@
 #       注册蓝图
 import jieba.posseg as pseg
 import  os
-from eds import config
+from eds.config import environment
 from flask import Flask,redirect,json,render_template,request
 from flask_apscheduler import APScheduler
 from eds.controller import bp_list
@@ -51,12 +51,14 @@ def record(response):
     return response
 
 #定时任务
-if config.taskOpen:
+task_config=environment["task"]["record"]
+if task_config["taskOpen"]:
     scheduler = APScheduler()
-    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = 1,minute =00 ,second = 00,replace_existing=True)
+    scheduler.add_job(func=task.statistics, id='1', trigger='cron',hour = task_config["hour"],minute =task_config["minute"] ,second = task_config["second"],replace_existing=True)
     scheduler.init_app(app=app)
     scheduler.start()
 
+# 权限
 @app.before_request
 def filter():
     pass
@@ -65,7 +67,12 @@ def filter():
     #     method=r.map[name]
     #     method()
 
-
+@app.template_filter('none_filter')
+def none_filter(s):
+    if s is None:
+        return ""
+    else:
+        return s
 
 
 
