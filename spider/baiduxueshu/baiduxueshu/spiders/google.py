@@ -60,12 +60,12 @@ class PaperSpider(scrapy.Spider):
             return a
         }
         """)
-        # print("update db")
-        # ids=self.db_slx.getEnglishPaperSerach()
+        print("update db")
+        # ids=self.db_li.getEnglishPaperSerach()
         # for i in ids:
         #     cn=self.db_localhost.getCnById(i["_id"])
         #     if len(cn)==0:
-        #         self.db_slx.updateEnglishPaper(i["_id"],0)
+        #         self.db_li.updateEnglishPaper(i["_id"],0)
         while True:
             print("select ")
             paper = self.db_li.getEnglishPaper()
