@@ -31,6 +31,14 @@ class DB(object):
             db='englishpaper',
             charset='utf8'
         ),
+        "feng3": pymysql.Connect(
+            host='10.6.11.40',
+            port=3306,
+            user='root',
+            password='zdf.0126',
+            db='eds',
+            charset='utf8'
+        ),
     }
     def __init__(self,name):
         self.connect=self.connectdic[name]
