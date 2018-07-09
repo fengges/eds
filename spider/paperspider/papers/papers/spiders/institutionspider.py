@@ -16,6 +16,7 @@ class InstitutionSpider(SuperSpider):
 
     def parse(self, response):
         search_list = self.get_search_list()
+        print(len(search_list))
         for s in search_list:
             paper = UpdateInstitutionItem()
             paper["_id"] = s["_id"]
