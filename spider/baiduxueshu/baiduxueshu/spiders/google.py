@@ -75,6 +75,7 @@ class PaperSpider(scrapy.Spider):
                     url = self.getUrl(key)
 
                     id = p["_id"]
+                    print(id)
                     if len(url) >= 16000:
                         self.db_li.updateEnglishPaper(id, 1)
                         continue

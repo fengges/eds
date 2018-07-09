@@ -48,6 +48,8 @@ environments={
             },
     }
 }
+ACCESS_KEY_ID = "LTAIDYm9acTLjJhR"
+ACCESS_KEY_SECRET = "dNhQWObandbPIVVeAGipZ83AP4U2JL"
 
 
 environment_name="local"

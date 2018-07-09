@@ -8,7 +8,7 @@ DB_SETTING = {
    'db':'schoollink',
    'charset':'utf8'
 }
-name="zhang"
+name="chen"
 #---爬取配置---
 CRAWL_SETTING = {
    'num':'1',

@@ -15,14 +15,6 @@ class DB(object):
                 db=DB_SETTING['db'],
                 charset=DB_SETTING['charset']
         ),
-        "SLX":  pymysql.Connect(
-                host='47.104.236.183',
-                port=3306,
-                user='root',
-                password='SLX..eds123',
-                db='eds',
-                charset='utf8'
-        ),
         "LiWei": pymysql.Connect(
             host='10.6.11.65',
             port=3306,
