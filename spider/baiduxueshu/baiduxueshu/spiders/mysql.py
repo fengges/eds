@@ -24,7 +24,7 @@ class DB(object):
                 charset='utf8'
         ),
         "LiWei": pymysql.Connect(
-            host='10.6.11.65',
+            host='10.6.11.44',
             port=3306,
             user='root',
             password='1111',
