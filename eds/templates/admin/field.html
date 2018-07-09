@@ -1,0 +1,165 @@
+{% block head %}
+
+<script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+
+<script src="/static/resources/vue/vue.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+<link rel="stylesheet" href="/static/resources/element/index.css">
+<script src="/static/resources/element/index.js"></script>
+<script src="/static/js/admin/field.js"></script>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/base.css') }}">
+<link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css"/>
+<title>专家发现系统</title>
+
+<style>
+    body {
+    font-family: 'Microsoft Yahei',"微软雅黑",arial,"宋体",sans-serif;
+    font-size: 18px;
+    line-height: 1.72222;
+    color: #777;
+    background-color: #fff;
+    line-height: 1.4em;
+    letter-spacing: 0.08em;}
+    .table{
+      margin-top:50px;
+    }
+      .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  .el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
+  }
+
+
+
+</style>
+
+{% endblock %}
+
+{% block main %}
+
+<body>
+<h2>领域管理</h2>
+<div id="field">
+    <div style="margin-left:50px">
+        <el-button type="text" @click="dialogVisible = true">添加领域</el-button>
+        <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="700">
+            <el-transfer
+                    filterable
+                    :filter-method="filterMethod"
+                    filter-placeholder="请输入领域"
+                    :titles="['选择领域', '已选择的领域']"
+                    :format="{
+        noChecked: '${total}',
+        hasChecked: '${checked}/${total}'
+      }"
+                    @change="handleChange"
+                    v-model="selectedField"
+                    :data="fieldData">
+                <span slot-scope="{ option }">${ option.key } - ${ option.label }</span>
+            </el-transfer>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="setField">确 定</el-button>
+            </span>
+        </el-dialog>
+        <h2 style="margin-left:100px;display:inline-block">选择在${fieldName}展示的老师</h2>
+    </div>
+    <div style="margin-top:20px;display:inline-block;width:200px;">
+        <el-tabs tab-position="left" v-model="field">
+            <el-tab-pane v-for="(item,index) in fields" :key="item.discipline_code" :label="item.name"></el-tab-pane>
+        </el-tabs>
+    </div>
+    <div style="display:inline-block;vertical-align: top; ">
+
+        <el-table
+                :data="teacherData"
+                height="520"
+                :row-class-name="tableRowClassName"
+                style="width: 100%;">
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item label="其他信息">
+                            <div class="container-fluid" style="padding: 0px;">
+                                <div class="row" style="margin: 0px ;padding:15px 0;">
+                                    <!-- 头像 -->
+                                    <div class="col-md-2" style="padding:0 15px 0 0;width:95px;"><img style="width:80px"
+                                                                                                      class="img-circle"
+                                                                                                      :src="'/main/propic/'+props.row.author_id"/>
+                                    </div>
+                                    <!-- 姓名+简介 -->
+                                    <div class="col-md-8" style="padding: 0;">
+                                        <h2 class="my-title2" style="padding: 0">姓名：${props.row.name}</h2>
+                                        <p class="my-text2" style="font-size:15px;padding: 0">年龄： ${props.row.age}</p>
+                                        <p class="my-text2" style="font-size:15px;padding: 0">
+                                            Email：${props.row.email}</p>
+                                        <p class="my-text2" style="padding: 0">研究领域：${props.row.theme}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-form-item>
+                    </el-form>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    label="姓名"
+                    prop="name">
+            </el-table-column>
+            <el-table-column
+                    label="学校"
+                    width="200"
+                    prop="school">
+            </el-table-column>
+            <el-table-column
+                    label="院系"
+                    width="250"
+                    prop="institution">
+            </el-table-column>
+            <el-table-column
+                    width="100"
+                    label="首页显示">
+                <template slot-scope="scope">
+                    ${ scope.row.selected==0?"不显示":"显示" }
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button v-if="!scope.row.selected" @click="handleAdd(scope.row)" type="text" size="small">添加
+                    </el-button>
+                    <el-button v-if="scope.row.selected" type="text" @click="handleDelete(scope.row)" size="small">移除
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page"
+                       :page-sizes="[5, 10, 20, 50]" :page-size="pPageNum"
+                       layout="total, sizes, prev, pager, next, jumper" :total="num">
+        </el-pagination>
+    </div>
+
+</div>
+
+</body>
+{% endblock %}

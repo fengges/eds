@@ -12,8 +12,8 @@ class PaperSpider(scrapy.Spider):
     name = 'paper'
     allowed_domains = []
     start_urls = ['http://www.baidu.com/']
-    db_aliyun = mysql.AliyunDB()
-    db_localhost = mysql.LocalDB()
+    # db_aliyun = mysql.AliyunDB()
+    # db_localhost = mysql.LocalDB()
     # db_test = mysql.TestDB()
 
 	

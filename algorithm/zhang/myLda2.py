@@ -1,4 +1,4 @@
-
+import pickle
 import jieba
 import jieba.posseg as pseg
 import gensim

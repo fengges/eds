@@ -1,0 +1,69 @@
+
+{% block head %}
+
+<script src="/static/resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
+
+<script src="/static/resources/vue/vue.js"></script>
+<script src="/static/resources/layer/layer.js"></script>
+
+<link rel="stylesheet" href="/static/resources/element/index.css">
+<script src="/static/resources/element/index.js"></script>
+<script src="/static/js/admin/message.js"></script>
+
+<title>专家发现系统</title>
+
+<style>
+    body {
+    font-family: 'Microsoft Yahei',"微软雅黑",arial,"宋体",sans-serif;
+    font-size: 18px;
+    line-height: 1.72222;
+    color: #777;
+    background-color: #fff;
+    line-height: 1.4em;
+    letter-spacing: 0.08em;}
+
+</style>
+
+{% endblock %}
+
+{% block main %}
+
+<body>
+<h2>留言查看</h2>
+<div id="message">
+  <template>
+    <el-table
+      :data="messageData"
+       height="500"
+      style="width: 100%">
+      <el-table-column
+        type="index">
+      </el-table-column>
+       <el-table-column
+        prop="username"
+        label="留言人员"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="title"
+        label="标题"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="message"
+        label="留言"
+        width="250">
+      </el-table-column>
+      <el-table-column
+        prop="time"
+        label="留言时间"
+        width="220">
+      </el-table-column>
+    </el-table>
+  </template>
+  <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[5, 10, 20, 50]" :page-size="pPageNum" layout="total, sizes, prev, pager, next, jumper" :total="num">
+  </el-pagination>
+</div>
+
+</body>
+{% endblock %}

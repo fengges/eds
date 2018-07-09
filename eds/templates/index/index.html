@@ -157,33 +157,38 @@
                                   });
 
                                 });</script>
+                              {% for field in fieldTeacher %}
                               <li class="inline-block mb-1_6 ct-li1">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">计算机</button></li>
-                              <li class="inline-block mb-1_6 ct-li1">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">经济</button></li>
-                              <li class="inline-block mb-1_6 ct-li1">
-                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">生物</button></li>
+                                 {% if fieldTeacher.index(field)==0 %}
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 border-bottom border-soft-black soft-black ">{{field["field"]}}</button>
+                                {% else %}
+                                <button class="keyboard-focusable maison-book bg-white hover-bg-white p0 type-13 text-uppercase pb2 mr3 mb0 no-radius hover-dark-grey-500 dark-grey-400 ">{{field["field"]}}</button>
+                                {% endif %}
+                              </li>
+                              {% endfor %}
                             </ul>
                           </div>
+                          {% for field in fieldTeacher %}
                           <div class="item-1">
                             <ul class="mb3">
+                              {% for teacher in field["teacher"] %}
                               <li class="flex items-start w100p py3 border-bottom border-grey-500">
                                 <div class="flex items-center justify-between w100p">
                                   <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/u=2354587806,4172330370&fm=27&gp=0.jpg" alt="Project" style="width:90px"></a>
+                                    <img class="w100p block" src="/main/propic/{{ teacher['id']}}" alt="Project" style="width:90px"></a>
                                   <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">周志华</a>
+                                    <a class="type-14 block link-soft-black" href="/main/expert/{{ teacher['id']}}" style="font-weight: 700;font-size: 15px;">{{teacher["name"]}}</a>
                                     <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
                                       <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
-                                        <span style="padding-left: 7px">教授</span>
+                                        <span style="padding-left: 7px">{{teacher["title"] | none_filter}}</span>
                                     </div>
                                     <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
                                       <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
-                                        <span style="padding-left: 10px"> 南京大学 人工智能学院</span>
+                                        <span style="padding-left: 10px"> {{teacher["school"] | none_filter}} {{teacher["institution"] | none_filter}}</span>
                                     </div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">人工智能</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">知识图谱</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">数据挖掘</a></div>
+                                    {% for t_field in teacher["theme"] %}
+                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">{{t_field}}</a></div>
+                                    {% endfor %}
                                   </div>
                                   <div class="pl6 display-none block-md">
                                     <div>
@@ -194,223 +199,10 @@
                                   </div>
                                 </div>
                               </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/u=677049276,4238309690&fm=58.jpg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">漆桂林</a>
-                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
-                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
-                                        <span style="padding-left: 7px">教授</span>
-                                    </div>
-                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
-                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
-                                        <span style="padding-left: 10px"> 东南大学 计算机科学与工程学院</span>
-                                    </div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">人工智能</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">语义网络</a></div>
-                                  </div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/20180416145116139768456.jpg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">郑莉</a>
-                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
-                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
-                                        <span style="padding-left: 7px">教授</span>
-                                    </div>
-                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
-                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
-                                        <span style="padding-left: 10px"> 清华大学 计算机科学与技术系</span>
-                                    </div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">计算机应用</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">教育信息技术</a></div>
-                                  </div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/0df431adcbef76093a4bafe62edda3cc7cd99e02.jpg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#" style="font-weight: 700;font-size: 15px;">秦志光</a>
-                                    <div class="type-12  display-none block-md percent-funded" style="margin-top:5px">
-                                      <i ><img style="width: 11px;" src="/static/images/QQ截图20180605220909.png"/></i>
-                                        <span style="padding-left: 7px">教授</span>
-                                    </div>
-                                    <div class="type-12 display-none block-md percent-funded" style="margin-bottom:5px">
-                                      <i ><img style="width: 7px;" src="/static/images/QQ截图20180605220840.png"/></i>
-                                        <span style="padding-left: 10px"> 电子科技大学 信息与软件工程学院</span>
-                                    </div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">信息系统安全</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">电子商务</a></div>
-                                    <div class="btn-u btn-brd round btn-u-xs btn-interest ng-scope btn-hover"><a href="" style="color: gray;" class="font-xs ng-binding">计算机开放系统与网络安全性</a></div>
-                                  </div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
+                              {% endfor %}
                             </ul>
-                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
-                          <div class="item-1">
-                            <ul class="mb3">
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1-2</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华2</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
-                          <div class="item-1">
-                            <ul class="mb3">
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华1-3</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                              <li class="flex items-start w100p py3 border-bottom border-grey-500">
-                                <div class="flex items-center justify-between w100p">
-                                  <a href="#" class=" link-soft-black basis20p basis40p-md basis20p-lg block" style="overflow: hidden;height:90px">
-                                    <img class="w100p block" src="/static/images/2f738bd4b31c870196365d5d257f9e2f0608ff8d.jpeg" alt="Project" style="width:90px"></a>
-                                  <div class="basis60p-md basis80p">
-                                    <a class="type-14 block link-soft-black" href="#">周志华3</a>
-                                    <div class="type-12 dark-grey-400 display-none block-md percent-funded">机器学习</div></div>
-                                  <div class="pl6 display-none block-md">
-                                    <div>
-                                      <button class="pill bg-white h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline" data-tooltip="Remind Me">
-                                        <svg class="svg-icon__icon--heart-outline icon-large m-auto hover-fill-soft-black fill-grey-500" aria-hidden="false" aria-label="Remind Me"></svg>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                            <a href="https://www.kickstarter.com/discover/advanced?section=food-craft&amp;sort=newest&amp;staff_picks=1&amp;state=live&amp;ref=home_new_and_noteworthy" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                            <a href="#" class="keyboard-focusable text-uppercase py1 px2 type-12 border border-grey-500 hover-border-soft-black inline-block soft-black">View all</a></div>
+                          {% endfor %}
                           <script>$(function() {
                               $(".item-1:gt(0)").hide(); //选择item类0之后的元素隐藏,为0的这个元素显示
                               //主要逻辑就在于找到选项卡和内容框相对应的下标
@@ -434,7 +226,7 @@
                       <div class="grid-row">
                         <div class="col-full col-md-12-24" style="margin-bottom:2.4rem">
                           <div class="type-28 mr2 inline-block">高 校</div>
-                          <a href="https://www.kickstarter.com/food-craft?ref=home" class="text-uppercase py1 type-12 inline-flex link-soft-black">View all
+                          <a href="#" class="text-uppercase py1 type-12 inline-flex link-soft-black">View all
                             <svg class="svg-icon__icon--arrow-right icon-medium ml1" aria-hidden="true">
                               <use xlink:href="#icon--arrow-right"></use></svg>
                           </a>
@@ -444,7 +236,7 @@
                         <div class="col-full col-md-12-24">
                           <section class="section_potd-block">
                             <header class="text-uppercase type-13 mb2 inline-block w100p">Featured Project</header>
-                            <a class="block relative keyboard-focusable link-soft-black" href="https://www.kickstarter.com/projects/400425204/jacqui-a-simple-handbag-company?ref=home_potd">
+                            <a class="block relative keyboard-focusable link-soft-black" href="#">
                               <div>
                                 <button class="pill bg-soft-black_50 h6 w6 ksr-tooltip-no-focus text-nowrap flex p0 keyboard-focusable-transparent z1 no-outline absolute t2 r2" data-tooltip="Remind Me">
                                   <svg class="svg-icon__icon--heart-outline icon-medium m-auto fill-white" aria-hidden="false" aria-label="Remind Me">

@@ -10,7 +10,7 @@ from flask import Blueprint,request,render_template,redirect,json,session
 message_message = Blueprint('message_message', __name__)
 
 @message_message.route('/message/save',methods=['GET','POST'])
-def register():
+def save():
         title = request.form.get('title')
         message = request.form.get('message')
         item={}

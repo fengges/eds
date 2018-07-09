@@ -1,5 +1,5 @@
 
-from eds.config import pic_url
+
 from eds.dao.index.indexdao import index_dao
 
 

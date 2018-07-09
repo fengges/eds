@@ -2,11 +2,11 @@
 import json,re,io,os
 
 from flask import Flask, request, render_template, url_for, make_response,send_file,Blueprint,current_app
-from eds.config import ueditor_url
+from eds.config import environment
 from eds.util.uploader import Uploader
 
 ueditor_ueditor = Blueprint('ueditor_ueditor', __name__)
-
+ueditor_url=environment["file"]["ueditor_url"]
 @ueditor_ueditor.route('/ueditor/<path:args>')
 def find(args):
     img  = open(ueditor_url+'/'+args,'rb')

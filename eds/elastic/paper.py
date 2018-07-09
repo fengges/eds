@@ -4,12 +4,15 @@
 #  function : 搜索dao
 from datetime import datetime
 from elasticsearch import Elasticsearch
-
+from eds.config import environment
+es_config=environment["es"]
 class PaperSearch:
     # 初始化
     def __init__(self):
-        # self.es = Elasticsearch([{"host": "120.78.201.159", "port": 9200}])
-        self.es = Elasticsearch()
+        if es_config["host"]=="127.0.0.1":
+            self.es = Elasticsearch([{"host": es_config["host"], "port":9200}])
+        else:
+            self.es = Elasticsearch()
     # 生成过滤条件的返回字段
     def IndexSearchdao(self,params):
         result = {}
