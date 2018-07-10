@@ -45,14 +45,14 @@ def send_sms(business_id, phone_numbers, sign_name, template_code, template_para
 
 def send(item):
     __business_id = uuid.uuid1()
-    # import random
-    # num=random.randint(1,100)
-    # if num<95:
-    #     return {"Code":"OK","Message":"成功"}
-    # else:
-    #     return {"Code": "Error", "Message": "失败"}
-    result=send_sms(__business_id,item["phone"],config.sms[item["code"]]["sign"],item["code"], item["params"])
-    return result
+    import random
+    num=random.randint(1,100)
+    if num<95:
+        return {"Code":"OK","Message":"成功"}
+    else:
+        return {"Code": "Error", "Message": "失败"}
+    # result=send_sms(__business_id,item["phone"],config.sms[item["code"]]["sign"],item["code"], item["params"])
+    # return result
 
    
     
