@@ -6,6 +6,7 @@ import json
 import time
 from spider.paperspider.papers.papers.items import *
 from urllib import parse as pa
+from spider.paperspider.papers.papers.services.paperservices import paper_service
 
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -83,19 +84,34 @@ class SuperSpider(scrapy.Spider):
         paper = response.meta.get("paper")
         info_text = response.text.strip(')')
         di = eval(re.sub(r'jQuery.*?\(', '', info_text))
-        meta_di_info = di["meta_di_info"]
-        abstract = "".join(meta_di_info.get("sc_abstract", []))
-        title = "".join(meta_di_info.get("sc_title", []))
-        paper["keyword"] = ";".join(meta_di_info.get("sc_keyword", []))
-        paper["abstract"] = abstract
-        paper["name"] = title
-        if not abstract[-3:] == "...":
-            paper["source_url"] = ""
-            paper["source"] = ""
-            # print(paper)
-            print("百度学术")
-            yield paper
-        pass
+        meta_di_info = di.get("meta_di_info")
+        if meta_di_info is not None:
+            name = "".join(meta_di_info.get("sc_title", []))
+            abstract = "".join(meta_di_info.get("sc_abstract", []))
+            keyword = ";".join(meta_di_info.get("sc_keyword", []))
+
+            if re.findall(r'\.\.\.$', paper["abstract"]):
+                paper["abstract"] = abstract
+            if re.findall(r'\.\.\.$', paper["name"]):
+                paper["name"] = name
+            if len(keyword) > len(paper["keyword"]):
+                paper["keyword"] = keyword
+
+            if re.findall(r'\.\.\.$', paper["org"]) or paper["org"] == "":
+                sc_publish = meta_di_info.get("sc_publish", [])
+                sc_publisher = {} if len(sc_publish) == 0 else sc_publish[0]
+                sc_publisher_list = sc_publisher.get("sc_publisher", [])
+                org_1 = self.my_strip("" if len(sc_publisher_list) == 0 else sc_publisher_list[0])
+                sc_publish = meta_di_info.get("sc_publish", [])
+                sc_publisher = {} if len(sc_publish) == 0 else sc_publish[0]
+                sc_publisher_list = sc_publisher.get("sc_journal", [])
+                org_2 = self.my_strip("" if len(sc_publisher_list) == 0 else sc_publisher_list[0])
+                if org_2 != "":
+                    paper["org"] = org_2
+                elif org_1 != "":
+                    paper["org"] = org_1
+        yield paper
+        # print(paper)
 
     def paser_source(self, response):
         paper = response.meta.get("paper")
@@ -433,7 +449,7 @@ class SuperSpider(scrapy.Spider):
     # 去除字符串中空格和其他字符
     def my_strip(self, text=""):
         text = re.sub(r'\u00a0', ' ', text)
-        re_list = ['\n', '\t', ' ', '\u3000', '\xa0', '\r']
+        re_list = ['\n', '\t', ' ', '\u3000', '\xa0', '\r', '《', '》', ',']
         while len(text) > 0 and text[0] in re_list:
             text = text.lstrip(text[0])
         while len(text) > 0 and text[-1] in re_list:
@@ -445,3 +461,7 @@ class SuperSpider(scrapy.Spider):
         t_list = [self.my_strip(i) for i in t_list]
         return [i for i in t_list if len(i) > 0]
 
+    def is_completed(self, text=""):
+        if re.findall(r'\.\.\.$', text) or text == "":
+            return False
+        return True

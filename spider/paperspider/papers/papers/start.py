@@ -10,6 +10,7 @@ from scrapy.cmdline import execute
 # execute(["scrapy", "crawl", "textspider"])
 # execute(["scrapy", "crawl", "baiduxueshu"])
 execute(["scrapy", "crawl", "institutionspider"])
+# execute(["scrapy", "crawl", "abstractspider"])
 # execute(["scrapy", "crawl", "letpub"])
 # execute(["scrapy", "crawl", "zazhi"])
 # execute(["scrapy", "crawl", "school"])

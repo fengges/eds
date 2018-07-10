@@ -1,7 +1,11 @@
 # 提取正文
-
+import sys
+import os
 import re
-from util import dbs
+from utils.util import dbs
+
+DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(DIR)
 
 reBody = r'<body.*?>[\s\S]*?<\/body>'
 reCOMM = r'<!--.*?-->'
@@ -13,7 +17,7 @@ reS = r'<.*?>'
 reSpace = r' '
 
 
-class ExtractorTest:
+class Extractor:
     def __init__(self, html_text="", block_size=10):
         self.htmlText = html_text
         self.blockSize = block_size
@@ -111,33 +115,13 @@ if __name__ == "__main__":
         # texts = ex.get_context()
         title = ""
         for text in texts:
-            if title_dict[0] in text:
-                title = title_dict[0]
-            elif title_dict[1] in text:
-                title = title_dict[1]
-            elif title_dict[2] in text:
-                title = title_dict[2]
-            elif title_dict[3] in text:
-                title = title_dict[3]
-            elif title_dict[4] in text:
-                title = title_dict[4]
-            elif title_dict[5] in text:
-                title = title_dict[5]
-            elif title_dict[6] in text:
-                title = title_dict[6]
-            elif title_dict[7] in text:
-                title = title_dict[7]
-            elif title_dict[8] in text:
-                title = title_dict[8]
-            elif title_dict[9] in text:
-                title = title_dict[9]
-            elif title_dict[10] in text:
-                title = title_dict[8]
-            elif title_dict[11] in text:
-                title = title_dict[11]
-            elif title_dict[12] in text:
-                title = title_dict[12]
-
+            index = 0
+            title = ""
+            while index < len(title_dict):
+                if title_dict[index] in text:
+                    title = title_dict[index]
+                    break
+                index += 1
             # if title:
             #     print(title)
             #     update_sql = "update eteacher set title='" + title + "' where _id = " + item["id"]

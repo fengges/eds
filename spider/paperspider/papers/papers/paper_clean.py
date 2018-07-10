@@ -68,18 +68,58 @@ def my_strip(str=""):
     pass
 
 
-def clean_by_author():
-    select_sql = "select * from paper_new"
-    pass
+def clean_by_author_org():
+    p_list = "select * from paper_new where _id>=%d and _id<%d"
+    begin = 0
+    step = 10000
 
-
-def clean_by_org():
-    select_sql = "select * from paper_new"
+    num = 0
+    s_num = 0
+    while begin + step <= 500000:
+        update_list = []
+        search_list = dbs.getDics(p_list % (begin, begin + step))
+        print(begin, begin + step)
+        num += len(search_list)
+        for s in search_list:
+            try:
+                author = eval(s["author"])
+            except:
+                li = s["author"].split(",")
+                c = 0
+                for i in li:
+                    if re.findall(r'org', i) and len(i) > 8:
+                        c += 1
+                if c == 0:
+                    print("删除", s["_id"])
+                    s_num += 1
+                    continue
+            if type(author) == dict:
+                author_list = author.get("author")
+            else:
+                author_list = author
+            c = 0
+            for a in author_list:
+                if a.get("org", "") != "":
+                    c += 1
+            if c == 0:
+                print("删除", s["_id"])
+                s_num += 1
+                continue
+            update_list.append((s["_id"], s["name"], s["url"], s["abstract"], s["org"], s["year"], s["cited_num"],
+                               s["source"], s["source_url"], s["keyword"], s["author"], s["author_id"], s["cited_url"],
+                               s["reference_url"], s["paper_md5"], "0"))
+        i_sql = "insert into paper_50_clean_1 values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,now(),%s)"
+        print(len(update_list))
+        print(dbs.exe_many(i_sql, update_list))
+        print("=" * 10)
+        begin += step
+    print(num)
+    print(s_num)
     pass
 
 
 if __name__ == "__main__":
     # strip_name()
     # clean_duplicate()
-
+    clean_by_author_org()
     pass

@@ -54,11 +54,11 @@ CONCURRENT_REQUESTS = 8
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   # 'papers.middlewares.PapersDownloaderMiddleware': 543,
-   # 'papers.middlewares.MyProxiesMiddlewares': 100,
-    'papers.middlewares.IPPOOLS': 125,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#    # 'papers.middlewares.PapersDownloaderMiddleware': 543,
+#    # 'papers.middlewares.MyProxiesMiddlewares': 100,
+#     'papers.middlewares.IPPOOLS': 125,
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -72,6 +72,7 @@ ITEM_PIPELINES = {
    'papers.pipelines.JournalsPipeline': 1,
    'papers.pipelines.PapersPipeline': 2,
    'papers.pipelines.AuthorPipeline': 3,
+   'papers.pipelines.AbstractPipeline': 4,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -96,3 +97,5 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 HTTPERROR_ALLOWED_CODES = [503]
 
+PC_NO = 1
+PC_COUNT = 2
