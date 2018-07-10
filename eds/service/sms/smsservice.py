@@ -19,7 +19,7 @@ class SmsService:
         item["phone"]=phone
         item["params"] = {"code":code}
         item["code"]="SMS_139227084"
-        r=json.loads(send(item).decode("utf8"))
+        r=send(item)
         if r["Code"]=="OK":
             return {"success":True,"msg":"","code":code,"phone":phone}
         else:

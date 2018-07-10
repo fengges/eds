@@ -4,6 +4,7 @@ from aliyunsdkdysmsapi.request.v20170525 import SendSmsRequest
 from aliyunsdkdysmsapi.request.v20170525 import QuerySendDetailsRequest
 from aliyunsdkcore.client import AcsClient
 import uuid
+from flask import  json
 from aliyunsdkcore.profile import region_provider
 from aliyunsdkcore.http import method_type as MT
 from aliyunsdkcore.http import format_type as FT
@@ -52,7 +53,7 @@ def send(item):
     else:
         return {"Code": "Error", "Message": "失败"}
     # result=send_sms(__business_id,item["phone"],config.sms[item["code"]]["sign"],item["code"], item["params"])
-    # return result
+    # return json.loads(result.decode("utf8"))
 
    
     
