@@ -13,7 +13,6 @@ reSPLIT = r"[。|\n]"
 reYEAR = r'[1-2][9,0][0-9]{2}'
 reS = r'\n|\r|\0xa0|\a|\t|\\xa0|\u3000|\xa0|◆'
 reEmail = r'([A-Za-z0-9_]+([-+.][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*(\.[A-Za-z0-9_])*([-.][A-Za-z0-9_]+)*\.(cn|co m|net|CN|COM|NET|TW|HK|tw|hk))'
-
 word_bag = ["留学", "毕业", "学位", "硕士", "博士", "学士", "研究生"]
 school_dict = {}.fromkeys(open(DIR + '\\dicts\\in.txt', 'r', encoding='utf-8').read().split('\n'))
 
@@ -457,7 +456,7 @@ def test():
 
 
 def get_title():
-    title_dict = ["副教授", "教授", "讲师", "助教", "助理教授", "副研究员", "助理研究员", "研究员", "高级工程师", "高级实验师", "高工", "工程师", "实验师"]
+    title_dict = ["副教授", "助理教授", "教授", "讲师", "助教", "副研究员", "助理研究员", "研究员", "高级工程师", "高级实验师", "高工", "工程师", "实验师"]
 
     extractor = Extractor()
     result_list = []
@@ -474,7 +473,7 @@ def get_title():
             try:
                 info = eval(teacher['info'])
                 person_info = "".join(list(info.values()))
-            except Exception as e:
+            except:
                 person_info = teacher['info']
             if person_info is None:
                 continue
@@ -485,12 +484,12 @@ def get_title():
         extractor.cut_blocks(re_list, size)
 
         index = 0
-        title = 0
+        title = ""
         while index < len(title_dict):
             if title_dict[index] in extractor.text:
                 title = title_dict[index]
-                index += 1
                 break
+            index += 1
 
         print((teacher["id"], title, extractor.text))
 

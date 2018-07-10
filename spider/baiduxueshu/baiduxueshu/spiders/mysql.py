@@ -15,20 +15,20 @@ class DB(object):
                 db=DB_SETTING['db'],
                 charset=DB_SETTING['charset']
         ),
-        "SLX":  pymysql.Connect(
-                host='47.104.236.183',
-                port=3306,
-                user='root',
-                password='SLX..eds123',
-                db='eds',
-                charset='utf8'
-        ),
         "LiWei": pymysql.Connect(
-            host='10.6.11.65',
+            host='10.6.11.44',
             port=3306,
             user='root',
             password='1111',
             db='englishpaper',
+            charset='utf8'
+        ),
+        "feng3": pymysql.Connect(
+            host='10.6.11.40',
+            port=3306,
+            user='root',
+            password='zdf.0126',
+            db='eds',
             charset='utf8'
         ),
     }
@@ -56,9 +56,9 @@ class DB(object):
         return self.cursor.fetchall()
 
     def getEnglishPaper(self):
-        # sql = "select _id,name,abstract from paper_new where search=0 and mod(_id,3)=" + str(
-        #     ENGLISH_PAPER[name]) + " limit 0,1000"\
-        sql = "select _id,name,abstract from paper_new where search=0  limit 0,1000"
+        sql = "select _id,name,abstract from paper_new where search=0 and mod(_id,3)=" + str(
+            ENGLISH_PAPER[name]) + " limit 0,1000"
+        # sql = "select _id,name,abstract from paper_new where search=0  limit 0,1000"
         self.cursor.execute(sql)
         return self.cursor.fetchall()
 

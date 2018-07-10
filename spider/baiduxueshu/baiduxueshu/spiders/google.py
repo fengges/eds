@@ -17,7 +17,7 @@ class PaperSpider(scrapy.Spider):
     allowed_domains = []
     start_urls = ['http://www.baidu.com/']
     db_li = mysql.DB("LiWei")
-    db_localhost = mysql.DB("local")
+    db_localhost = mysql.DB("feng3")
 
     def parse(self, response):
         self.ctx = execjs.compile("""
@@ -60,12 +60,12 @@ class PaperSpider(scrapy.Spider):
             return a
         }
         """)
-        # print("update db")
-        # ids=self.db_slx.getEnglishPaperSerach()
+        print("update db")
+        # ids=self.db_li.getEnglishPaperSerach()
         # for i in ids:
         #     cn=self.db_localhost.getCnById(i["_id"])
         #     if len(cn)==0:
-        #         self.db_slx.updateEnglishPaper(i["_id"],0)
+        #         self.db_li.updateEnglishPaper(i["_id"],0)
         while True:
             print("select ")
             paper = self.db_li.getEnglishPaper()
@@ -75,6 +75,7 @@ class PaperSpider(scrapy.Spider):
                     url = self.getUrl(key)
 
                     id = p["_id"]
+                    print(id)
                     if len(url) >= 16000:
                         self.db_li.updateEnglishPaper(id, 1)
                         continue

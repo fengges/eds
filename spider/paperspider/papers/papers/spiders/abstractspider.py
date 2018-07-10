@@ -23,35 +23,52 @@ class AbstractSpider(SuperSpider):
     start_urls = ['http://xueshu.baidu.com/']
 
     def parse(self, response):
-        search_list = paper_service.get_search_list_from_paper(0, 100)
+
+        search_list = self.get_search_list()
+        print(len(search_list))
+
         for s in search_list:
             paper = UpdateAbstractItem()
             paper["_id"] = s["_id"]
             paper["name"] = s["name"]
-            paper["abstract"] = ""
+            paper["url"] = s["url"]
+            paper["abstract"] = s["abstract"]
+            paper["org"] = s["org"]
+            paper["source_url"] = s["source_url"]
             paper["keyword"] = s["keyword"]
-            request_url = s["url"]
-            yield scrapy.Request(url=request_url,
-                                 meta={"paper": paper},
-                                 callback=self.paser_detail)
+            if paper["source_url"] == "":
+                yield scrapy.Request(url=paper["url"],
+                                     meta={"paper": paper},
+                                     callback=self.paser_detail)
+            else:
+                t = int(time.time() * 1000)
+                request_url = "http://xueshu.baidu.com/usercenter/data/schinfo?url=%s&callback=jQuery1102016936626670962984_%s&sign=lkji&_=%s" % (paper["source_url"], t, t + 1)
+                yield scrapy.Request(url=request_url,
+                                     meta={"paper": paper},
+                                     callback=super().parse_abstract)
             pass
         pass
 
     # 解析百度学术论文详情页
     def paser_detail(self, response):
-        paper = response.meta.get("paper")
-
-        # 详情页面可解析 出版源：org、作者：author、摘要：abstract
+        # 详情页面可解析 出版源：org、摘要：abstract
         # 摘要可能不全
         # 作者姓名可能是英文
 
-        data_sign = self.my_strip(response.css(".abstract ::text").extract_first(""))
+        paper = response.meta.get("paper")
+        paper["org"] = super().my_strip(response.css(".publish_text a::text").extract_first(""))
+
         sc_url_group = re.search(r'sc_vurl=(.*?)&', response.css(".source a::attr(href)").extract_first(""))
         sc_url = sc_url_group.group(1) if sc_url_group is not None else ""
-        if data_sign != "" and sc_url != "":
+        if sc_url != "":
             t = int(time.time() * 1000)
-            request_url = "http://xueshu.baidu.com/usercenter/data/schinfo?url=%s&callback=jQuery1102016936626670962984_%s&sign=%s&_=%s" % (sc_url, t, data_sign, t + 1)
+            request_url = "http://xueshu.baidu.com/usercenter/data/schinfo?url=%s&callback=jQuery1102016936626670962984_%s&sign=lkji&_=%s" % (sc_url, t, t + 1)
+            paper["source_url"] = sc_url
             yield scrapy.Request(url=request_url,
                                  meta={"paper": paper},
-                                 callback=self.parse_abstract)
+                                 callback=super().parse_abstract)
         pass
+
+    def get_search_list(self):
+        search_list = paper_service.abstract_search_list_select()
+        return search_list
