@@ -9,7 +9,7 @@ es_config=environment["es"]
 class PaperSearch:
     # 初始化
     def __init__(self):
-        if es_config["host"]!="127.0.0.1":
+        if es_config["host"]=="127.0.0.1":
             self.es = Elasticsearch([{"host": es_config["host"], "port":9200}])
         else:
             self.es = Elasticsearch()
