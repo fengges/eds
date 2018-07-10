@@ -14,13 +14,13 @@ class PaperService:
 
     # 需要重新获取机构的链接
     def institution_search_list_from_paper(self):
-        sql = "select _id, author, url from paper_search_list_copy_copy_copy where searched=0"
+        sql = "select _id, author, url from paper_search_list_copy where searched=0"
         info_list = dbs.getDics(sql)
         return info_list
 
     # 需要重新获取机构的链接
     def update_paper_search_list(self, params):
-        sql = "update paper_search_list_copy_copy_copy set searched=1 where _id=%s"
+        sql = "update paper_search_list_copy set searched=1 where _id=%s"
         r = dbs.exe_sql(sql % params)
         return r
 
