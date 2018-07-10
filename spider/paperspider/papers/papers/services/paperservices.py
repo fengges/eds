@@ -15,7 +15,7 @@ class PaperService:
 
     # 需要重新获取机构的链接
     def update_paper_search_list(self, params):
-        sql = "update paper_search_list_copy set searched=1 where _id=%s"
+        sql = "update paper_90_search_list set searched=1 where _id=%s"
         r = dbs.exe_sql(sql % params)
         return r
 
