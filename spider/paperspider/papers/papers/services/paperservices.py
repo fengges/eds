@@ -1,5 +1,5 @@
 from spider.paperspider.papers.papers.dbutils import dbs
-
+from spider.paperspider.papers.papers.settings import PC_NO, PC_COUNT
 
 class PaperService:
     def get_search_list(self):
@@ -9,7 +9,7 @@ class PaperService:
 
     # 需要重新获取机构的链接
     def institution_search_list_from_paper(self):
-        sql = "select _id, author, url from paper_search_list_copy where searched=0"
+        sql = "select _id, author, url from paper_90_search_list where searched=0 and MOD(_id, %s)=%s" % (PC_COUNT, PC_NO)
         info_list = dbs.getDics(sql)
         return info_list
 
