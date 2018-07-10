@@ -46,9 +46,11 @@ class PaperItem(scrapy.Item):
 class UpdateAbstractItem(scrapy.Item):
     _id = scrapy.Field()
     name = scrapy.Field()
+    url = scrapy.Field()
     abstract = scrapy.Field()
-    keyword = scrapy.Field()
-    author = scrapy.Field()
+    org = scrapy.Field()
+    source_url = scrapy.Field()
+    keyword = scrapy.Field("")
     pass
 
 
