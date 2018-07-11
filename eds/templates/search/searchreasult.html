@@ -23,6 +23,120 @@
       .list{
         width: 60%;
       }
+      a{
+       color:#555;
+       width: auto;
+      }
+      a:hover, a:focus {
+        color: #009E74;
+        text-decoration: none;
+      }
+      strong{
+        font-weight:700;
+      }
+      .btn, .btn:focus{
+            padding: 10px 15px;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.4;
+            border: solid 1px transparent;
+            border-radius: 5px;
+            border-color: #009E74;
+            color: #009E74;
+            -webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;
+            transition: border .25s linear,color .25s linear,background-color .25s linear;
+            -webkit-font-smoothing: subpixel-antialiased;
+      }
+      .btn:hover{
+            color: #fff;
+            background-color: #009E74;
+            border-color: #009E74;
+      }
+       li.search_li{transition: transform 0.25s ease;}
+       li.search_li:hover{
+            box-shadow: 0 0px 0px #D4D4D4, /*左边阴影*/
+                        0 0px 0px #D4D4D4, /*右边阴影*/
+                        0 -2px 5px #D4D4D4, /*顶部阴影*/
+                        0 2px 5px #D4D4D4; /*底边阴影*/
+            cursor: auto;
+        }
+       .btn-u.btn-brd.btn-interest {
+            border-color: #f5f5f5;
+            margin-right: 5px;
+            margin-bottom: 4px;
+            padding: 1px 5px!important;
+            height:auto;
+        }
+        .btn-u.btn-brd {
+            color: gray;
+            font-weight: 200;
+            background: 0 0;
+            border: solid 1px transparent;
+            transition: all .1s ease-in-out;
+        }
+        .rounded {
+            border-radius: 4px!important;
+        }
+        .btn-u-xs, a.btn-u-xs {
+            font-size: 12px;
+            padding: 2px 12px;
+            line-height: 18px;
+        }
+        .btn-u {
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+        }
+        el-form{
+            color:#009E74
+        }
+        .el-input__inner:hover, focus {
+            border-color: #009E74;
+        }
+        .el-radio__input.is-checked .el-radio__inner {
+            border-color: #009E74;
+            background: #009E74;
+        }
+        .el-radio__input.is-checked+.el-radio__label {
+            color: #009E74;
+        }
+        .el-switch.is-checked .el-switch__core {
+            border-color: #009E74;
+            background-color: #009E74;
+        }
+        .el-form-item {
+            margin-bottom: 3px;
+        }
+        .el-pager li.active {
+            color: #009E74;
+            cursor: default;
+        }
+        .el-pager li:hover {
+            color: #009E74;
+        }
+        .el-input.is-active .el-input__inner, .el-input__inner:focus {
+            border-color: #009E74;
+            outline: 0;
+        }
+        .el-select-dropdown__item.selected {
+            color: #009E74;
+            font-weight: 700;
+        }
+        .el-input__inner:hover, focus {
+            border: solid 1px transparent;
+            border-color: #009E74;
+        }
+        .el-select .el-input.is-focus .el-input__inner {
+            border-color: #009E74;
+        }
+        .el-pagination__sizes .el-input .el-input__inner:hover {
+            border-color: #009E74;
+        }
+        .el-select .el-input__inner:focus {
+            border-color: #009E74;
+        }
     </style>
 {% endblock %}
 
@@ -32,12 +146,16 @@
     <div id="app">
 
     <main role="main">
-      <div id="main_content" class="center">
-        <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">Search <b class="count ksr-green-500">${keyword}</b> then Find <b class="count ksr-green-500">${num}</b> teachers</h3>
-        <template>
-          <div>
-            <button @click="show = !show" type="button" class="btn btn-default">更多搜索</button>
-            <div >
+      <div id="main_content" class="center" style="padding-left:22%;">
+        <div class="container-fluid">
+            <div class="row">
+                <h3 style="font-size:22px;"class="normal mb3 mb5-sm title clearfix pt2">搜索关键词 <b class="count ksr-green-500">${keyword}</b> ，为您找到 <b class="count ksr-green-500">${num}</b> 名专家</h3>
+            <button @click="show = !show" type="button" class="btn">更多搜索</button>
+
+            </div>
+        </div>
+          <template>
+          <div >
               <el-collapse-transition>
                 <div v-show="show" style="margin-top:20px">
                   <div class="transition-box">
@@ -78,26 +196,25 @@
                           </el-radio-group>
                         </el-form-item>
                         <el-form-item >
-                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;background-color:#409EFF;margin-right:20px" @click="do_search" type="button" class="btn btn-success">搜索</button>
-                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;" @click="show = false" type="button" class="btn btn-default">取消</button>
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;margin-right:20px" @click="do_search" type="button" class="btn">搜索</button>
+                          <button style="height:40px;width:80px;padding:0px;vertical-align: middle;text-align: center;" @click="show = false" type="button" class="btn">取消</button>
                         </el-form-item>
                       </el-form>
                   </div>
                 </div>
               </el-collapse-transition>
             </div>
-          </div>
         </template>
-        <section class="section_project-collection-tabbed-block">
+        <section class="section_project-collection-tabbed-block" style="margin-right:auto;margin-left:auto;">
             <ul class="mb3 list">
-              <li  v-for="item in results" class="flex items-start w100p py3 border-bottom border-grey-500">
+              <li  v-for="item in results" class="flex items-start w100p py3 border-bottom border-grey-500 search_li">
                 <div class="flex items-center justify-between w100p">
-                  <a :href="item.link" class="mr4 link-soft-black basis20p basis40p-md basis20p-lg block">
-                    <img class="w100p block img-circle"style="width:150px"  :src="'/main/propic/'+item.author_id" alt="Project"></a>
-                  <div class="basis60p-md basis80p">
-                    <a class="type-14 block link-soft-black" :href="item.link">${item.name}</a>
-                      <div class="type-12 dark-grey-400 display-none block-md percent-funded"><a style="font-size:15px" :href="'/main/school/'+item.school">${item.school}</a></div>
-                    <div><el-tag  v-on:click.native='click_word($event)' style="margin:5px" v-for="f in item.fields">${f}</el-tag></div>
+                  <a :href="item.link" class="ml3 link-soft-black basis20p basis40p-md basis20p-lg block">
+                    <img class="w100p block img-circle"style="width:110px"  :src="'/main/propic/'+item.author_id" alt="Project"></a>
+                  <div class="basis60p-md basis80p basis80p-lg">
+                    <div class="type-16 dark-grey-400 display-none block-md percent-funded"><strong><a  :href="item.link">${item.name}</a></strong></div>
+                    <div class="type-16 dark-grey-400 display-none block-md percent-funded"><a :href="'/main/school/'+item.school">${item.school}</a></div>
+                    <div><el-tag  v-on:click.native='click_word($event)' v-for="f in item.fields" class=" btn-u btn-brd rounded btn-u-xs btn-interest ng-scope">${f}</el-tag></div>
                   </div>
                 </div>
               </li>
