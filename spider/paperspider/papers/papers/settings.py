@@ -97,3 +97,5 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 HTTPERROR_ALLOWED_CODES = [503]
 
+PC_NO = 1
+PC_COUNT = 2
