@@ -7,14 +7,14 @@
     <title>keke</title>
     <link rel="stylesheet" type="text/css" href="/static/css/login/style.css">
     <script src="/static/js/login/login.js" ></script>
-<style type="text/css">
-    .btn_tab_login{float: right; margin-top: 48px;}
-    .btn_tab_login li{display: inline-block; margin-left:30px; font-size: 14px;}
-    .btn_tab_login li.cur a{color:#d00;}
-    #weixin_login_container iframe{width:158px;height:158px;}
-    *{box-sizing: content-box;letter-spacing:0}
-	.register{font-size:12px}
-</style>
+    <style type="text/css">
+        .btn_tab_login{float: right; margin-top: 48px;}
+        .btn_tab_login li{display: inline-block; margin-left:30px; font-size: 14px;}
+        .btn_tab_login li.cur a{color:#d00;}
+        #weixin_login_container iframe{width:158px;height:158px;}
+        *{box-sizing: content-box;letter-spacing:0}
+        .register{font-size:12px}
+    </style>
 {% endblock %}
 {% block main %}
 
@@ -22,14 +22,14 @@
 <div class="login-wrap" id="login">
 	<div class="wrap clearfix">
 
-		<div id="common" class="form-box fr loginV2" style="display:block;">
+		<div class="form-box loginV2" style="display:block;">
 			<ul class="form-tab clearfix">
 				<li class="tab-li" :class="isLogin?'':'cur'"><a href="#" @click="isLogin=false">注册账号</a></li>
 				<li class="tab-li"  :class="isLogin?'cur':''"><a href="#" @click="isLogin=true">账号登录</a></li>
 			</ul>
 			<div class="form-con">
 				<div class="login-normal" v-if="!isLogin">
-					<form id="registerForm" method="post" autocomplete="off" onsubmit="return false">
+					<form id="registerForm" method="post" autocomplete="off" onsubmit="return Check();">
 						<div class="form-error" style="display: none;"><i></i><label class="text"></label></div>
 						<dl class="clearfix">
 							<dt>账户名：</dt>
@@ -54,7 +54,7 @@
 					</form>
 				</div>
 				<div class="login-normal" v-if="isLogin">
-					<form id="loginForm" method="post" autocomplete="off" onsubmit="return false" >
+					<form id="loginForm" method="post" autocomplete="off" >
 						<div class="form-error" style="display: none;"><i></i><label class="text"></label></div>
 						<dl class="clearfix">
 							<dt>账户名：</dt>
@@ -66,7 +66,7 @@
 						</dl>
 						<div class="btn-box clearfix">
 							<input @click="login($event)" class="btn-settlement" type="submit" value="登    录" >
-
+						
 						</div>
 						<div class="link-box clearfix">
                             <a href="javascript:;" class="register" >新用户注册</a>
@@ -85,31 +85,31 @@
 					   <div class="short-right">
                             <h3>您还可以选择：</h3>
                             <p class="phone-short clearfix">
-
-                                <a href="#" tjjj="" @click="moible(true)" class="txt phoneLogin"><i class="phone"></i>手机快捷登录</a>
+                                <i class="phone"></i>
+                                <a href="javascript:;" tjjj="" class="txt phoneLogin">手机快捷登录</a>
                             </p>
                        </div>
 					</div>
 				</div>
 			</div>
 		</div>
-			<!-- -快捷登录 -->
-			<div class="form-box fr shortLogin" id="mobile">
-				<h5 class="title">手机快捷登录</h5>
+			<!-- -快捷登录 -->	
+			<div class="form-box fr shortLogin" style="display:none;">
+				<h5 class="title">快捷登录</h5>
            		 <div class="form-con">
-					<form id="mobileLoginForm" method="post" onsubmit="return false">
+					<form id="mobileLoginForm" method="post" onsubmit="return mobileLoginCheck();">
 						<div class="form-error" style="display: none;"><i></i><label class="text"></label></div>
 						<dl class="clearfix">
 							<dt>手机号：</dt>
-							<dd><input name="mobile" type="text" id="partnerPhone" autocomplete="off" class="input-text mobile" maxlength="11"><span class="placeholder">请输入手机号</span></dd>
+							<dd><input name="mobile" type="text" id="partnerPhone" autocomplete="off" class="input-text mobile" maxlength="11" onblur="mobileCheck(this);"><span class="placeholder">请输入手机号</span></dd>
 						</dl>
 						<dl class="top1 clearfix">
 							<dt>验证码：</dt>
 							<dd>
-								<input name="smsCaptcha" type="text" id="partnerYzm" class="input-yzm"  maxlength="4" autocomplete="off">
+								<input name="smsCaptcha" type="text" id="partnerYzm" class="input-yzm" onblur="captchCheck(this);" maxlength="4" autocomplete="off">
 								<span class="span-yzm">
-									<img id="smsCaptchaImage" src="/code/getCode" title="点击图片刷新校验码" alt="点击图片刷新校验码" @click="changeCode">
-									<a href="#" @click="changeCode" class="forget-pass">换一张</a>
+									<img id="smsCaptchaImage" src="/static/images/login/code.jpg" title="点击图片刷新校验码" alt="点击图片刷新校验码" onclick="changeCode(&#39;smsCaptchaImage&#39;,&#39;partnerYzm&#39;);">
+									<a href="javascript:changeCode(&#39;smsCaptchaImage&#39;,&#39;partnerYzm&#39;);" class="forget-pass">换一张</a>
 								</span>
 							</dd>
 						</dl>
@@ -117,20 +117,20 @@
 							<dt>校验码：</dt>
 							<dd>
 								<input name="code" type="text" id="partnerJym" class="input-jym" maxlength="6" autocomplete="off">
-								<a id="smsSendButton" href="#" @click="checkSms" class="span-jym disabled" tjjj="passport.send.msg">${countLable}</a>
+								<a id="smsSendButton" href="javascript:sendSms(this);" class="span-jym disabled" tjjj="passport.send.msg">发送短信校验码</a>
 							</dd>
 						</dl>
 						<div class="btn-box clearfix">
-							<input id="partnerSubmit" class="btn-settlement" type="submit" value="登    录" @click="phonelogin">
-
+							<input id="partnerSubmit" class="btn-settlement" type="submit" value="登    录" tjjj="passport.quick.button.login">
+							
 						</div>
 						<div class="link-box clearfix">
-                   			 <a href="#" @click="moible(false)" class="backLogin">返回账号登录&gt;&gt;</a>
+                   			 <a href="javascript:;" class="backLogin">返回账号登录&gt;&gt;</a>
                 		</div>
 					</form>
 					</div>
 			</div>
-
+			
 	</div>
 </div>
 
@@ -142,4 +142,105 @@
 });
 </script>
 
+<script type="text/javascript">
+var _wx_server_qr_code_count = 0;
+var _wx_server_qr_code_loaded = false;
+var _qr_code_limited = '';
+var _qr_code_wait_time = 20;
+var flashQrCodeWaitingTimer = null;
+var getQrCodeStatusTimer = null;
+var getQrCodeTimer = null;
+function nameLoginCheck(){
+	var loginName = $("#nameLoginForm").find("#normalUser").eq(0).val();
+	var password = $("#nameLoginForm").find("#normalPassword").eq(0).val();
+	if($(".tips ").is(":visible")){
+		return false;
+	}
+	if(loginName == null  || loginName == ""){
+		showError("请输入用户名");
+		return false;
+	}
+	if(password == null  || password == ""){
+		showError("请输入密码");
+		return false;
+	}
+	if($("#normalYzm")  && $("#nameLoginForm").find("#normalYzm").length > 0 ){
+		if($("#normalYzm").val() == "" || $("#normalYzm").val() == null){
+			showError("请输入验证码");
+			return false;
+		}
+	}
+	return true;
+}
+
+//手机登陆验证
+function mobileLoginCheck(){
+	var mobile = $("#mobileLoginForm").find("#partnerPhone").eq(0).val();
+	var captch = $("#mobileLoginForm").find("#partnerYzm").eq(0).val();
+	var code = $("#mobileLoginForm").find("#partnerJym").eq(0).val();
+	if(mobile == null || mobile == '' || !(_mobile_reg).test(mobile)){
+		showError("请填写正确的手机号");
+		return false;
+	}
+	if(captch == null || captch == "" || captch == undefined){
+		showError("请填写验证码");
+		return false;
+	}
+	if(code == null || code == ""){
+		showError("请填写校验码");
+		return false;
+	}
+	return true;
+}
+
+function mobileCheck(obj){
+	if(!(_mobile_reg).test($("#partnerPhone").val())){
+		showError("请填写正确的手机号");
+		return;
+	}else{
+		closeError();
+	}
+}
+
+//发送短信
+function sendSms(obj){
+	alert("信息已发送  www.17sucai.com - ");
+}
+
+function captchCheck(obj){
+	if(!(_mobile_reg).test($("#partnerPhone").val())){
+		showError("请填写正确的手机号");
+		return;
+	}
+	var captch = $(obj).val();
+	if(captch == '' || captch == null){
+		showError("请填写验证码");
+	}else{
+		checkCaptch(captch,
+					function(){
+						if(!$("#smsSendButton").hasClass("sending")){
+						 	$("#smsSendButton").removeClass("disabled");
+						}
+						 closeError();
+					},function(){
+						showError("验证码错误");
+						 $("#smsSendButton").addClass("disabled");
+					}
+		);
+	}
+}
+
+$('.phoneLogin').click(function(){
+    $('.loginV2').hide();
+    $('.shortLogin').show();
+    $('.form-error').hide();
+});
+$('.backLogin').click(function(){
+	 $('.login-normal').show();
+    $('.loginV2').show();
+    $('.shortLogin').hide();
+    $('.form-error').hide();
+});
+
+</script>
 {% endblock %}

@@ -16,7 +16,7 @@ class UserDao:
         s=dbs.getDics(sql,params)
         return s
     def addUser(self,params):
-        sql = "INSERT INTO user VALUE(NULL,%s,%s,%s)"
+        sql = "INSERT INTO user VALUE(NULL,%s,%s,%s,%s,%s)"
         dbs.exe_sql(sql,params)
 
 userDao=UserDao()

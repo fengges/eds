@@ -31,11 +31,29 @@ def login():
             ajax = {}
             ajax['success'] = True
             ajax['msg'] = ''
+            ajax["obj"] = {"account": user['account']}
             s = json.jsonify(ajax)
             return s
         else:
             raise  MyError(606)
-
+@login_login.route('/login/phonelogin',methods=['GET','POST'])
+def phonelogin():
+        phone = request.form.get('mobile')
+        code = request.form.get("code")
+        ajax = {}
+        if "phone_code" not in session or  (session['phone_code']["code"].lower()!=code.lower() or session['phone_code']["phone"]!=phone):
+            ajax['success'] = False
+            ajax['msg'] ="手机验证码不正确"
+            ajax["obj"] = {"account": phone}
+        else:
+            ajax['success'] =True
+            user,msg=userService.loginByPhone(phone)
+            ajax['msg']=msg
+            session['username'] = user['username']
+            session['account'] = user['account']
+            ajax["obj"] = {"account":user['account']}
+        s = json.jsonify(ajax)
+        return s
 @login_login.route('/login/logout/')
 def logout():
     session.clear()
