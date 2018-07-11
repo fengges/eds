@@ -170,7 +170,7 @@ class IPPOOLS(HttpProxyMiddleware):
         如果不是200，则failure+1，若failure>3，则删除这条ip
         如果是200，则success+1
         """
-        if response.status == 407:
+        if response.status == 407 or response.status == 502 or response.status == 503:
             ip = request.meta["proxy"][7:]
             x = self.get_list_index(ip, self.iplist)
 

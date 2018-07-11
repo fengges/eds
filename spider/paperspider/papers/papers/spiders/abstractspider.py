@@ -13,10 +13,6 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 school_dict = eval(open(root + "\\dicts\\school2en_dict.txt", "r", encoding='utf8').read())
 ins_dict = eval(open(root + "\\dicts\\institution2en_dict.txt", "r", encoding='utf8').read())
 
-reREG = r'\r|\t|\v|\n|\\n|\\r'
-reSPACE = r' '
-reCOMM = r'<!--.*?-->'
-
 
 class AbstractSpider(SuperSpider):
     name = 'abstractspider'
