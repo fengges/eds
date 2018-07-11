@@ -54,11 +54,11 @@ CONCURRENT_REQUESTS = 8
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    # 'papers.middlewares.PapersDownloaderMiddleware': 543,
-#    # 'papers.middlewares.MyProxiesMiddlewares': 100,
-#     'papers.middlewares.IPPOOLS': 125,
-# }
+DOWNLOADER_MIDDLEWARES = {
+   # 'papers.middlewares.PapersDownloaderMiddleware': 543,
+   # 'papers.middlewares.MyProxiesMiddlewares': 100,
+    'papers.middlewares.IPPOOLS': 125,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

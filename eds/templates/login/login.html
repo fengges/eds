@@ -22,7 +22,7 @@
 <div class="login-wrap" id="login">
 	<div class="wrap clearfix">
 
-		<div id="common" class="form-box fr loginV2" style="display:block;">
+		<div id="common" class="form-box loginV2" style="display:block;">
 			<ul class="form-tab clearfix">
 				<li class="tab-li" :class="isLogin?'':'cur'"><a href="#" @click="isLogin=false">注册账号</a></li>
 				<li class="tab-li"  :class="isLogin?'cur':''"><a href="#" @click="isLogin=true">账号登录</a></li>
@@ -94,7 +94,7 @@
 			</div>
 		</div>
 			<!-- -快捷登录 -->
-			<div class="form-box fr shortLogin" id="mobile">
+			<div class="form-box shortLogin" id="mobile">
 				<h5 class="title">手机快捷登录</h5>
            		 <div class="form-con">
 					<form id="mobileLoginForm" method="post" onsubmit="return false">
