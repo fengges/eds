@@ -34,6 +34,14 @@
         letter-spacing:1.12px!important;
     }
 
+    a{
+       color:#555;
+       width: auto;
+      }
+      a:hover, a:focus {
+        color: #009E74;
+        text-decoration: none;
+      }
 
     </style>
     {% block head %}{% endblock %}
@@ -71,7 +79,7 @@
                                     <!-- 姓名+简介 -->
                                     <div class="col-md-8" style="padding: 0;">
                                         <h2 class="my-title2" style="padding: 0">${item.name}</h2>
-                                        <p class="my-text2" style="font-size:15px;padding: 0"><a :href="'/main/school/'+item.school">${item.school}</a> ${item.title}</p>
+                                        <p class="my-text2" style="font-size:15px;padding: 0;color:#999"><a :href="'/main/school/'+item.school">${item.school}</a> ${item.title}</p>
                                         <p class="my-text2" style="padding: 0">研究领域：<span style="margin-left:10px" v-for="f in item.fields" >${f}</span></p>
                                     </div>
                                 </div>
@@ -107,7 +115,7 @@
 
                 <div class=" div_line" style="padding:0px 40px 0px 0px;margin:0;float:right">
                     {% if session['username']  %}
-                    <a href="/index/index" style="line-height: 0;font-size: 1.45rem;color:#282828;">{{session['username']}}</a>
+                    <a href="/usercenter" style="line-height: 0;font-size: 1.45rem;color:#282828;">{{session['username']}}</a>
                     {% else %}
                     <a href="/login/gologin" style="line-height: 0;font-size: 1.45rem;color:#282828;">登 陆</a>
                     {% endif %}
