@@ -4,7 +4,7 @@
 #  function : 数据库抽象功能函数
 import pymysql
 
-from algorithm.base.config import POOL
+from algorithm.zhang.base.config import POOL
 
 
 class dbutil:
