@@ -46,7 +46,7 @@ class AuthorPipeline(object):
 class AbstractPipeline(object):
     def process_item(self, item, spider):
         if type(item) == UpdateAbstractItem:
-            sql = "UPDATE paper_50_clean_1 SET name=%s,abstract=%s,org=%s,keyword=%s WHERE _id=%s"
+            sql = "UPDATE paper_90_clean_1 SET name=%s,abstract=%s,org=%s,keyword=%s WHERE _id=%s"
             params = (item["name"], item["abstract"], item["org"], item["keyword"], item["_id"])
             dbs.exe_sql(sql, params=params)
             paper_service.abstract_search_list_update(item["_id"])

@@ -21,7 +21,7 @@ class PaperService:
 
     # 需要重新获取abstract、org、name的链接
     def abstract_search_list_select(self):
-        sql = "select * from paper_searchlist_1 where searched=0"
+        sql = "select * from paper_searchlist_1 where searched=0 and MOD(_id, %s)=%s" % (PC_COUNT, PC_NO)
         info_list = dbs.getDics(sql)
         return info_list
 

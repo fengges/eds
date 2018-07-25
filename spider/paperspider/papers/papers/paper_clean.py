@@ -70,12 +70,12 @@ def my_strip(str=""):
 
 def clean_by_author_org():
     p_list = "select * from paper_new where _id>=%d and _id<%d"
-    begin = 0
+    begin = 500000
     step = 10000
 
     num = 0
     s_num = 0
-    while begin + step <= 500000:
+    while begin + step <= 1400000:
         update_list = []
         search_list = dbs.getDics(p_list % (begin, begin + step))
         print(begin, begin + step)
@@ -93,6 +93,12 @@ def clean_by_author_org():
                     print("删除", s["_id"])
                     s_num += 1
                     continue
+                else:
+                    update_list.append(
+                        (s["_id"], s["name"], s["url"], s["abstract"], s["org"], s["year"], s["cited_num"],
+                         s["source"], s["source_url"], s["keyword"], s["author"], s["author_id"], s["cited_url"],
+                         s["reference_url"], s["paper_md5"], "0"))
+                    continue
             if type(author) == dict:
                 author_list = author.get("author")
             else:
@@ -108,7 +114,7 @@ def clean_by_author_org():
             update_list.append((s["_id"], s["name"], s["url"], s["abstract"], s["org"], s["year"], s["cited_num"],
                                s["source"], s["source_url"], s["keyword"], s["author"], s["author_id"], s["cited_url"],
                                s["reference_url"], s["paper_md5"], "0"))
-        i_sql = "insert into paper_50_clean_1 values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,now(),%s)"
+        i_sql = "insert into paper_90_clean_1 values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,now(),%s)"
         print(len(update_list))
         print(dbs.exe_many(i_sql, update_list))
         print("=" * 10)
