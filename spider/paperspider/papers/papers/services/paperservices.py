@@ -43,5 +43,13 @@ class PaperService:
         sql = "update teacher_searchlist_copy_copy set error=1 where id=%s"
         dbs.exe_sql(sql, params)
 
+    def get_engpaper(self):
+        sql = "select * from paper_ins where search > 0 and cn_org is null"
+        return dbs.getDics(sql)
+
+    def update_engpaper(self, params):
+        sql = "update paper_ins set cn_org=%s where _id=%s"
+        dbs.exe_sql(sql, params)
+
 
 paper_service = PaperService()

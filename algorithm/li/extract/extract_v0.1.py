@@ -127,7 +127,7 @@ class Extractor:
 
 
 def get_age():
-    select_sql = "SELECT * from teacherdata_info where id in (SELECT id FROM `teacher_age_overseas` WHERE age = '')"
+    select_sql = "SELECT * from teacherdata_info"
     teacherdata = dbs.getDics(select_sql)
     print(len(teacherdata))
 
@@ -190,7 +190,7 @@ def get_age():
         uplistNew.append(data)
 
     print(len(uplistNew))
-    update_sql = "update teacher_age_overseas set age_description=%s,age=%s where id=%s"
+    update_sql = "update teacher_age set age_description=%s,age=%s where id=%s"
     print(dbs.exe_many(update_sql, li=uplistNew))
 
 
@@ -424,10 +424,10 @@ def get_title():
 
 if __name__ == "__main__":
 
-    # get_age()
+    get_age()
     # get_overseas_exp()
     # institution_email()
     # get_email()
     # test()
-    get_title()
+    # get_title()
     pass
