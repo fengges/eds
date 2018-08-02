@@ -34,8 +34,6 @@ class SchoolService:
             import re
             if key_list[i] != "english_name":
                 content = re.sub(" ", "", content)
-            if key_list[i] == "english_name":
-                print(content)
             if content != "":
 
                 if key_list[i] in ["master_point", "national_disciplines", "doctoral_point"]:
@@ -151,10 +149,34 @@ class SchoolService:
             image = open(environment['file']["pic_url"] + 'SchoolImgs/demo.jpg', 'rb')
         return image
 
+    # 获取轮播图路径
+    def get_pic_list(self, params):
+        import os
+        infoEty = school_dao.get_info(params)
+        if not infoEty:
+            return None
+        info = infoEty[0]
+        path = environment['file']["pic_url"] + 'SchoolMoreImgs/' + str(info["id"]) + "," + info["name"]
+        path_list = os.listdir(path)
+        if len(path_list) > 10:
+            path_list = path_list[0:10]
+        path_list = ["/main/carouselpic/" + str(info["id"]) + "/" + info["name"] + '/' + i for i in path_list]
+
+        return path_list
+
+    # 获取轮播图片
+    def get_carousel_pic(self, params):
+        try:
+            image = open(environment['file']["pic_url"] + 'SchoolMoreImgs/' + str(params), 'rb')
+        except:
+            image = None
+        return image
+
 
 schoolService = SchoolService()
 
 if __name__ == "__main__":
     # print(schoolService.get_important_discipline("北京大学"))
-    print(schoolService.get_info("北京大学"))
+    # print(schoolService.get_info("北京大学"))
+    print(schoolService.get_pic_list("清华大学"))
     pass

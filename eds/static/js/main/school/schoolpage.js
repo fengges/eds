@@ -29,4 +29,17 @@ $(function() {
 	}
 
 	var accordion = new Accordion($('.accordion'), false);
+//	$("#bg_head").MyFloatingBg({direction:1, speed:2000000});
+
+    var setting = {
+        width:1000,
+        height:270,
+        postWidth:658,
+        postHeight:270,
+        scale:0.8,
+        speed:500,
+        verticalAlign:"center"
+    }
+    $(".carousel").attr("data-setting",'{ "width":900,"height":411,"postWidth":658}')
+    Carousel.init($(".carousel"))
 });

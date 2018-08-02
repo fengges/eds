@@ -5,18 +5,23 @@
 {% block head %}
 <meta charset="UTF-8">
   <!-- import CSS -->
-  <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/schoolpage.css" />
+    <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/main/school/schoolpage.css" />
+    <link rel="stylesheet" href="/static/css/main/school/myslidepics.css" />
 
-  <script src="/static/resources/jquery/jquery.min.js"></script>
-  <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
-  <script src="{{ url_for('static', filename='js/schoolpage.js') }}"></script>
+    <script src="/static/resources/jquery/jquery.min.js"></script>
+    <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <!--<script src="{{ url_for('static', filename='js/main/school/jquery.MyFloatingBg.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='js/main/school/jquery.MySlidePics.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main/school/schoolpage.js') }}"></script>
+
 
 {% endblock %}
 
 {% block main %}
-    <div class="intro-header">
+
+    <div class="intro-header" id="bg_head" bg="{{ url_for('static', filename='images/wenli.png') }}">
 	        <div class="container">
             <div class="row">
                 <div class="col-lg-4" style="padding-top: 5%;padding-bottom: 5%;">
@@ -54,6 +59,27 @@
 	        <!-- /.container -->
 	</div>
     <!-- /.intro-header -->
+
+    <div class="container" style="margin-top:21px">
+
+        <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">校园图集</p>
+                </div>
+                <div class="col-lg-12">
+                    <div class="carousel content-main" style="margin-top: 10px">
+                        <ul class="list">
+                            {% for item in carousel_list %}
+                                <li><img src="{{ item }}" style="width:658px;height:411px;"></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <hr style="border-bottom: 1px solid;">
+
     {% if imp_dis is not none %}
         <div class="container" style="margin-top:21px">
 
