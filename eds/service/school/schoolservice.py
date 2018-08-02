@@ -31,8 +31,11 @@ class SchoolService:
         info_list = []
         for i in range(0, len(key_list)):
             content = info_dict.get(key_list[i], "")
-            # import re
-            # content = re.sub(" ", "", content)
+            import re
+            if key_list[i] != "english_name":
+                content = re.sub(" ", "", content)
+            if key_list[i] == "english_name":
+                print(content)
             if content != "":
 
                 if key_list[i] in ["master_point", "national_disciplines", "doctoral_point"]:
@@ -109,6 +112,38 @@ class SchoolService:
                 dis_dict[word] = i_list
         return dis_dict
 
+    def get_important_discipline(self, params):
+        result = school_dao.get_important_discipline(params)
+        level_1_list = []
+        level_2_list = []
+        for r in result:
+            if len(r["code"]) == 4:
+                level_1_list.append(r["name"])
+            else:
+                level_2_list.append(r["name"])
+        if not len(level_1_list) % 4 == 0:
+            for i in range(0, (int(len(level_1_list)/4) + 1) * 4 - len(level_1_list)):
+                level_1_list.append('')
+        if not len(level_2_list) % 4 == 0:
+            for i in range(0, (int(len(level_2_list)/4) + 1) * 4 - len(level_2_list)):
+                level_2_list.append('')
+        imp_dic = []
+        if level_1_list:
+            item = dict()
+            item["level"] = "一级国家重点学科"
+            item["content"] = level_1_list
+            item["lines"] = int(len(level_1_list) / 4)
+            imp_dic.append(item)
+
+        if level_2_list:
+            item = dict()
+            item["level"] = "二级国家重点学科"
+            item["content"] = level_2_list
+            item["lines"] = int(len(level_2_list) / 4)
+            imp_dic.append(item)
+
+        return imp_dic
+
     def get_pic(self, params):
         try:
             image = open(environment['file']["pic_url"] + 'SchoolImgs/' + str(params) + '.jpg', 'rb')
@@ -120,5 +155,6 @@ class SchoolService:
 schoolService = SchoolService()
 
 if __name__ == "__main__":
-    schoolService.get_discipline("清华大学")
+    # print(schoolService.get_important_discipline("北京大学"))
+    print(schoolService.get_info("北京大学"))
     pass

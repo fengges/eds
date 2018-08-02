@@ -302,14 +302,56 @@ def re_include(a, b):
         return False
 
 
-# def
+def test():
+    # root = os.path.dirname(os.path.abspath(__file__))
+    # print(root)
+    # line_list = open(root + "\\dis_school.txt", 'r', encoding="utf8").readlines()
+    # line_list = [i.strip('\n') for i in line_list]
+    # insert_list = []
+    # code = ""
+    # name = ""
+    # num = 0
+    # for line in line_list:
+    #     if re.findall(r'[0-9]+', line):
+    #         code = re.findall(r'[0-9]+', line)[0]
+    #         name = re.sub(code, '', line)
+    #         num += 1
+    #     else:
+    #         insert_list.append((code, name, line))
+    #
+    # print(num)
+    # print(len(insert_list))
+    # insert_sql = "insert discipline_school(code, name, school) values(%s, %s, %s)"
+    # print(dbs.exe_many(insert_sql, insert_list))
+
+    s_school = "select id, name from school_info"
+    school_list = dbs.getDics(s_school)
+    print(len(school_list))
+    school_dict = dict()
+    for school in school_list:
+        school_dict[school["name"]] = school["id"]
+    print(len(school_dict))
+
+    s_dis = "select id, school from discipline_school"
+    dis_list = dbs.getDics(s_dis)
+    print(len(dis_list))
+    update_list = []
+    for dis in dis_list:
+        if school_dict.get(dis["school"], ""):
+            update_list.append((school_dict[dis["school"]], dis["id"]))
+        else:
+           print(dis["school"])
+    print(len(update_list))
+    u_sql = "update discipline_school set school_id=%s where id=%s"
+    print(dbs.exe_many(u_sql, update_list))
 
 
 if __name__ == "__main__":
     # strip_name()
     # clean_duplicate()
     # clean_by_author_org()
-    clean_select_name()
+    # clean_select_name()
     # clean_select_school()
     # clean_select_ins()
+    # test()
     pass

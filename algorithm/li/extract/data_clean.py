@@ -256,7 +256,7 @@ def clear_7():
     :return:
     """
     # s_sql = "select id, ne, exp_clear from teacher_eduexp where ne != '' and id < 1000"
-    s_sql = "select id, ne, exp_clear from teacher_eduexp where ne != '' and ok = 0"
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ne != '' and type=1 and ok = 0 limit 1000"
     teacher_list = dbs.getDics(s_sql)
     print(len(teacher_list))
     update_list = []
@@ -267,6 +267,8 @@ def clear_7():
         if not ne_list:
             continue
         flag = 1
+        print(teacher["id"])
+        print(teacher["exp_clear"])
         for i in range(0, len(ne_list)):
             if not ne_list[i]:
                 continue
@@ -276,46 +278,189 @@ def clear_7():
             degree_list = [i for i in degree_list if i != ""]
             org_list = [i for i in org_list if i != ""]
             date_list = [i for i in date_list if i != ""]
-            if re.findall('[0-9]{4,}', "".join(org_list)):
-                flag = 0
-            if len(degree_list) != 1:
-                flag = 0
-            if len(org_list) != 1:
-                flag = 0
-            if len(date_list) != 1:
-                flag = 0
 
-            # org = ne_list[i].get("org", "")
-            # d = re.findall('[0-9\-年\.月－～~—/]{4,}', org)
-            # if len(d) == 1:
-            #     exp = re.sub(r' ', '', exp_list[i])
-            #     da = re.findall(r'[0-9\-年\.月－～~\—―/]{4,}', exp)
-            #     if len(da) > 1:
-            #         # org = re.sub(r'[0-9\-年\.月－～~——/]{4,}', '', org)
-            #         # ne_list[i]["org"] = org
-            #         # ne_list[i]["date"] = da[0]
-            #         print(da)
-            #         print(exp)
-            #         flag = 1
+            org = ne_list[i].get("org", "")
+            d = re.findall('[0-9\-年\.月－～~—/]{4,}', org)
+            if len(d) == 1:
+                exp = re.sub(r' ', '', exp_list[i])
+                da = re.findall(r'[0-9\-年\.月－～~\—―/]{4,}', exp)
+                if len(da) > 1:
+                    # org = re.sub(r'[0-9\-年\.月－～~——/]{4,}', '', org)
+                    # ne_list[i]["org"] = org
+                    # ne_list[i]["date"] = da[0]
+                    print(da)
+                    print(exp)
+                    flag = 1
 
+        # if flag == 1:
+        #     print(teacher["id"])
+        #     # print(teacher["exp_clear"])
+        #     # print(eval(teacher["ne"]))
+        #     print(ne_list)
+        #     # update_list.append((str(ne_list), teacher["id"]))
+        #     update_list.append(teacher["id"])
+        #     print('-' * 10)
+        #     num += 1
+
+    # print(num)
+    # print(len(update_list))
+    # u_sql = "update teacher_eduexp set ne = %s, ok = 1 where id = %s"
+    # u_sql = "update teacher_eduexp set ne = %s where id = %s"
+    # u_sql = "update teacher_eduexp set ok = 1 where id = %s"
+    # print(dbs.exe_many(u_sql, update_list))
+
+
+def show_data():
+    """
+    :return:
+    """
+    # s_sql = "select id, ne, exp_clear from teacher_eduexp where ne != '' and id < 1000"
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ok = 1"
+    teacher_list = dbs.getDics(s_sql)
+    print(len(teacher_list))
+    update_list = []
+    num = 0
+    for teacher in teacher_list:
+        exp_list = teacher["exp_clear"].split('\n')
+        ne_list = eval(teacher["ne"])
+        if not ne_list:
+            continue
+        flag = 0
+        for i in range(0, len(ne_list)):
+            if not ne_list[i]:
+                continue
+            degree = ne_list[i].get("degree", "")
+            org = ne_list[i].get("org", "")
+            if degree == "毕业" and org == "":
+                flag = 1
+                print(ne_list[i])
         if flag == 1:
-            print(teacher["id"])
-            # print(teacher["exp_clear"])
-            # print(eval(teacher["ne"]))
-            print(ne_list)
-            # update_list.append((str(ne_list), teacher["id"]))
-            update_list.append(teacher["id"])
-            print('-' * 10)
             num += 1
 
     print(num)
+
+
+def date2date():
+    """
+    日期格式统一
+    2017年3月-2017年7月
+    [0-9\-年\.月－～~\—―/]{4,}
+    :return:
+    """
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ok = 1"
+    teacher_list = dbs.getDics(s_sql)
+    print(len(teacher_list))
+    update_list = []
+    num = 0
+    for teacher in teacher_list:
+        exp_list = teacher["exp_clear"].split('\n')
+        try:
+            ne_list = eval(teacher["ne"])
+        except:
+            print(teacher["id"])
+        if not ne_list:
+            continue
+        flag = 0
+        for i in range(0, len(ne_list)):
+            if not ne_list[i]:
+                continue
+            date = ne_list[i].get("date", "")
+            if re.findall(r'－|～|~|——|至', date):
+                date = re.sub(r'－|～|~|——|至', '-', date)
+
+                flag = 1
+
+            if re.findall(r'年', date):
+                date = re.sub(r'年', '.', date)
+                date = re.sub(r'月', '', date)
+                date = re.sub(r'\.;', ';', date)
+                date = date.strip('.')
+                flag = 1
+
+            if re.findall(r'\.-', date):
+                date = re.sub(r'\.-', '-', date)
+                flag = 1
+            ne_list[i]["date"] = date
+
+        if flag == 1:
+            num += 1
+            print(ne_list)
+            update_list.append((str(ne_list), teacher["id"]))
+
+    print("-" * 10)
+    print(num)
     print(len(update_list))
-    # u_sql = "update teacher_eduexp set ne = %s, ok = 1 where id = %s"
-    # u_sql = "update teacher_eduexp set ne = %s where id = %s"
-    u_sql = "update teacher_eduexp set ok = 1 where id = %s"
+    u_sql = "update teacher_eduexp set ne = %s where id = %s"
     print(dbs.exe_many(u_sql, update_list))
+    pass
+
+
+def ne2sentence():
+    from algorithm.li.extract.templates.ne2sentence_template import sentence_template
+    ne_name = ["org", "date", "degree", "country", "state_or_province", "major", "discipline_category", "graduate"]
+    s_t = sentence_template
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ok = 1"
+    teacher_list = dbs.getDics(s_sql)
+    print(len(teacher_list))
+    update_list = []
+    num = 0
+    d_list = []
+    for teacher in teacher_list:
+        try:
+            ne_list = eval(teacher["ne"])
+        except:
+            print(teacher["id"])
+            continue
+        if not ne_list:
+            continue
+        exp_list = teacher["exp_clear"].split('\n')
+        flag = 0
+        new_ne_list = []
+        for i in range(0, len(ne_list)):
+
+            new_ne = ne_list[i]
+
+            t_l = []
+            for nn in ne_name:
+                t = ne_list[i].get(nn, "")
+                if t != "":
+                    t_l.append(nn)
+            s = ",".join(t_l)
+            if s != "" and s not in s_t:
+                s_t.append(s)
+
+            degree_list = ne_list[i].get("degree", "").split(';')
+            org_list = ne_list[i].get("org", "").split(';')
+            date_list = ne_list[i].get("date", "").split(';')
+            # if len(degree_list) > 1:
+            #     print(teacher["id"])
+            #     print(degree_list)
+            #     print(ne_list[i])
+            #     print(exp_list[i])
+
+            if len(degree_list) > 1 and len(degree_list) == len(date_list) and (len(degree_list) == len(org_list) or len(org_list) == 1):
+                for j in range(0, len(degree_list)):
+                    if len(org_list) == 1:
+                        org = org_list[0]
+                    date = date_list[j]
+                    degree = degree_list[j]
+
+    #     if flag == 1:
+    #         update_list.append((str(ne_list), teacher["id"]))
+    #         num += 1
+    #
+    # print("-" * 10)
+    # print(num)
+    # print(len(update_list))
+    #
+    # u_sql = "update teacher_eduexp set ne = %s where id = %s"
+    # print(dbs.exe_many(u_sql, update_list))
+    # pass
 
 
 if __name__ == "__main__":
-    clear_7()
+    # clear_7()
+    # show_data()
+    # date2date()
+    ne2sentence()
     pass

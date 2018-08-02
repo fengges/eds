@@ -19,4 +19,9 @@ def show_school(param):
     if info is None:
         return render_template('/main/notfound.html')
     discipline = schoolService.get_discipline(param)
-    return render_template('/main/schoolpage.html', info=info, discipline=discipline)
+    if not discipline:
+        discipline = None
+    imp_dis = schoolService.get_important_discipline(param)
+    if not imp_dis:
+        imp_dis = None
+    return render_template('/main/schoolpage.html', info=info, discipline=discipline, imp_dis=imp_dis)

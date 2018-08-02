@@ -54,37 +54,73 @@
 	        <!-- /.container -->
 	</div>
     <!-- /.intro-header -->
+    {% if imp_dis is not none %}
+        <div class="container" style="margin-top:21px">
 
-	<div class="container" style="margin-top:21px">
-
-		<div class="row">
-			<div class="col-lg-12">
-                <p style="display:inline-block;font-size:3rem;">学科评估</p>
-                <P style="display:inline-block;color: rgba(0,0,0,0.5);">学科评估是对具有研究生培养和学位授予资格的一级学科进行的整体水平评估。</P>
-			</div>
-            <div class="col-lg-12">
-                <ul id="accordion" class="accordion">
-                    {% for k in discipline%}
-                    <li>
-                        <div class="link">{{ k }}<i class="fa fa-chevron-down"></i></div>
-                        <ul class="submenu">
-                            <table class="table-content">
-                                {% for item in discipline[k] %}
-                                <tr style="color: rgba(0,0,0,0.5);">
-                                    <th style="width:auto">{{ item["xueke2"] }}</th>
-                                    <td>{{ item["level"] }}</td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </ul>
-                    </li>
-                    {% endfor %}
-    		    </ul>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">国家重点学科</p>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="accordion">
+                        {% for item in imp_dis%}
+                        <li>
+                            <div class="link">{{ item["level"] }}<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <table class="table-content">
+                                    {% for i in range(item.lines) %}
+                                    <tr style="color: rgba(0,0,0,0.5);">
+                                        <td style="width:auto">{{ item["content"][i * 4] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 1] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 2] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 3] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-		</div>
 
-	</div>
-    <hr style="border-bottom: 1px solid;">
+        </div>
+
+        <hr style="border-bottom: 1px solid;">
+    {%endif %}
+
+    {% if discipline is not none %}
+        <div class="container" style="margin-top:21px">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">学科评估</p>
+                    <P style="display:inline-block;color: rgba(0,0,0,0.5);">学科评估是对具有研究生培养和学位授予资格的一级学科进行的整体水平评估。</P>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="accordion">
+                        {% for k in discipline%}
+                        <li>
+                            <div class="link">{{ k }}<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <table class="table-content">
+                                    {% for item in discipline[k] %}
+                                    <tr style="color: rgba(0,0,0,0.5);">
+                                        <th style="width:auto">{{ item["xueke2"] }}</th>
+                                        <td>{{ item["level"] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <hr style="border-bottom: 1px solid;">
+    {%endif %}
 
 	<div class="container">
 
