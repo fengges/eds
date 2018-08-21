@@ -21,7 +21,7 @@ class PaperService:
 
     # 需要重新获取abstract、org、name的链接
     def abstract_search_list_select(self):
-        sql = "select * from paper_searchlist_1 where searched=0"
+        sql = "select * from paper_searchlist_1 where searched=0 and MOD(_id, %s)=%s" % (PC_COUNT, PC_NO)
         info_list = dbs.getDics(sql)
         return info_list
 
@@ -41,6 +41,14 @@ class PaperService:
 
     def update_error(self, params):
         sql = "update teacher_searchlist_copy_copy set error=1 where id=%s"
+        dbs.exe_sql(sql, params)
+
+    def get_engpaper(self):
+        sql = "select * from paper_ins where search > 0 and cn_org is null"
+        return dbs.getDics(sql)
+
+    def update_engpaper(self, params):
+        sql = "update paper_ins set cn_org=%s where _id=%s"
         dbs.exe_sql(sql, params)
 
 

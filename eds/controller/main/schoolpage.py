@@ -13,43 +13,28 @@ def show_pic(param):
                      mimetype='image/jpg')
 
 
+@main_school.route('/main/carouselpic/<name>/<school>/<param>')
+def show_carousel_pic(name, school, param):
+    img = schoolService.get_carousel_pic(name + ',' + school + '/' + param)
+    return send_file(io.BytesIO(img.read()),
+                     attachment_filename=str(param),
+                     mimetype='image/jpg')
+
+
 @main_school.route('/main/school/<param>')
 def show_school(param):
-    infoEty = schoolService.get_info(param)
-    print(infoEty)
-    if not infoEty:
+    info = schoolService.get_info(param)
+
+    if info is None:
         return render_template('/main/notfound.html')
-    info_dict = infoEty[0]
-    info_1 = dict()
-    info_1["name"] = info_dict["name"]
-    info_1["english_name"] = info_dict["english_name"]
-    info_1["url"] = info_dict["url"]
-    info_1["province"] = info_dict["province"]
-    info_1["logo"] = "/main/schpic/"+str(info_dict["id"])
-    info_1["abstract"] = info_dict["abstract"]
-
-    info_2 = []
-    key_list = ["school_type", "level", "characteristic", "subjection", "school_motto", "attribute", "establish", "address"]
-    word_list = ["类型", "级别", "特质", "主管部门", "校训", "属性", "创办时间", "学校地址"]
-    for i in range(0, len(key_list)):
-        label = info_dict.get(key_list[i])
-        import re
-        label = re.sub(" ", "", label)
-        if label is not None and label != "":
-            info_2.append((word_list[i], label))
-    print(info_2)
-
-    teacher_list = schoolService.get_teacher(info_1["name"])
-    teachers = []
-    print(teacher_list)
-    for t in teacher_list:
-        teacher = dict()
-        teacher["name"] = t["name"]
-        teacher["title"] = "" if t["title"] is None else t["title"]
-        teacher["pic"] = t["id"]
-        teacher["institution"] = t["institution"]
-        teacher["theme"] = "" if t["theme"] is None else t["theme"]
-        teacher["url"] = "/main/expert/%s" % t["id"]
-        teachers.append(teacher)
-
-    return render_template('/main/schoolpage.html', info_dict=info_1, info_list=info_2, teachers=teachers)
+    discipline = schoolService.get_discipline(param)
+    if not discipline:
+        discipline = None
+    imp_dis = schoolService.get_important_discipline(param)
+    if not imp_dis:
+        imp_dis = None
+    carousel_list = schoolService.get_pic_list(param)
+    if not carousel_list:
+        carousel_list = None
+    return render_template('/main/schoolpage.html', info=info, discipline=discipline, imp_dis=imp_dis, carousel_list=carousel_list)
+    # return render_template('/main/ll.html', info=info)

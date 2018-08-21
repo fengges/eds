@@ -11,6 +11,28 @@ class SchoolDao:
         info_result = dbs.getDics(sql, params)
         return info_result
 
+    def get_discipline(self, id):
+        d_sql = "SELECT xueke1, xueke2, level FROM discipline where school=%s"
+        if not id.isdigit():
+            sql = "SELECT id FROM school_info where name=%s"
+            info_result = dbs.getDics(sql, id)
+            if not info_result:
+                return None
+            id = info_result[0]["id"]
+        result = dbs.getDics(d_sql, id)
+        return result
+
+    def get_important_discipline(self, id):
+        d_sql = "SELECT code, name FROM discipline_school where school_id=%s"
+        if not id.isdigit():
+            sql = "SELECT id FROM school_info where name=%s"
+            info_result = dbs.getDics(sql, id)
+            if not info_result:
+                return None
+            id = info_result[0]["id"]
+        result = dbs.getDics(d_sql, id)
+        return result
+
     def get_teacher(self, params):
 
         if params is list:
@@ -23,3 +45,6 @@ class SchoolDao:
 
 
 school_dao = SchoolDao()
+
+if __name__ == "__main__":
+    print(school_dao.get_important_discipline("北京大学"))
