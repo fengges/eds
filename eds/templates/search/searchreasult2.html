@@ -1,0 +1,73 @@
+{% extends 'base/base.html' %}
+
+
+{% block head %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>搜索结果</title>
+<script src="/static/resources/vue/commonTools.js"></script>
+<link rel="stylesheet" href="/static/resources/element/index.css">
+<link rel="stylesheet" href="/static/css/search/style.css">
+<link rel="stylesheet" href="/static/css/search/weui.min.css">
+<script src="/static/resources/element/index.js"></script>
+<script src="/static/js/search/search3.js"></script>
+<style>
+    .container{
+     margin-top:100px;
+    }
+    .row{
+     width:80%;
+     margin:0 auto;
+    }
+    .search_indexs{
+         width:80%;
+     margin-left:10%;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ma_center search_indexs">
+                <form>
+                    <div class="search_forms">
+                        <div class="row top_hd">
+                            <div class="col-md-12 ma_center">
+                                <div class="search_type cli_types">
+                                    <ul>
+                                        <li v-bind:class="{ active: isActive==1 }" @click="isActive=1">
+                                            <i class="glyphicon glyphicon-user"></i>专家搜索
+                                        </li>
+                                        <li v-bind:class="{ active: isActive==2 }" @click="isActive=2">
+                                            <i class="glyphicon glyphicon-screenshot"></i>平台搜索
+                                        </li>
+                                        <li v-bind:class="{ active: isActive==3 }" @click="isActive=3">
+                                            <i class="glyphicon glyphicon-tasks"></i>学校搜索
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forms_in" style="margin-top:0;">
+                            <input class="form-control key_name"  v-model="keyWord" @keyup.enter='search_word' type="text" id="keywordId" autocomplete="off" name="k"
+                                   :placeholder="'请输入关键词检索'+type">
+                            <input type="submit" class="btn btn-primary sub_btn" :value="type+'搜索'" @click="search_word">
+                        </div>
+                    </div>
+                    <input type="hidden" name="type" id="types" value="6">
+                </form>
+                <div class="hot_key">
+                    <span>热门${type}：</span>
+                    <a :href="f['url']" v-for="f in hotWord">${f['name']}</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+{% endblock %}

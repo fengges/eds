@@ -6,8 +6,8 @@ from collections import Counter
 from werkzeug.contrib.cache import SimpleCache
 from eds.service.search.jiebautil import jeibaUitl
 from eds.elastic import  paperSearch
-
-
+from eds.service.task.taskservice import taskService
+from eds.service.expert.expertservice import expertService
 class SearchService:
     #  初始化
     def __init__(self):
@@ -139,5 +139,18 @@ class SearchService:
             r["link"] = "/main/expert/" + str(r["author_id"])
 
         return temp
+    def getHotSearch(self,params):
+        if params["type"] is None:
+            return []
+        r=taskService.getHotSearch(params)
+        if params["type"]=="专家":
+            ids = [t["value"] for t in r]
+            expers=expertService.get_infosByIds(ids)
+            result=[{"name":expers[t['value']]["name"],"url":"/main/expert/"+t["value"]} for t in r]
+            return result
+        else:
+            result = [{"name":t["value"] , "url": "/main/school/" + t["value"]} for t in r]
+            return result
+
 
 searchService=SearchService()

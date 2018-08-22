@@ -38,5 +38,9 @@ class TaskDao:
         sql = "UPDATE records SET location = %s WHERE id = %s"
         dbs.exe_many(sql,uplist)
         print(uplist,'IPLocation更新成功')
+    def getHotSearch(self,param):
+        sql = "select value,sum(num) as sum from statistics where type=%s GROUP BY value order by sum desc limit %s,%s"
+        r=dbs.getDics(sql,(param["type"],param['pPageNum']*(param['page']-1),param["pPageNum"]))
+        return r
 taskDao=TaskDao()
 
