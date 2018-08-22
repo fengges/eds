@@ -5,114 +5,181 @@
 {% block head %}
 <meta charset="UTF-8">
   <!-- import CSS -->
-  <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/schoolpage.css" />
-  <script src="/static/resources/jquery/jquery.min.js"></script>
-  <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
-  <script src="/static/js/schoolpage.js"></script>
+    <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/main/school/schoolpage.css" />
+    <link rel="stylesheet" href="/static/css/main/school/myslidepics.css" />
+
+    <script src="/static/resources/jquery/jquery.min.js"></script>
+    <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <!--<script src="{{ url_for('static', filename='js/main/school/jquery.MyFloatingBg.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='js/main/school/jquery.MySlidePics.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main/school/schoolpage.js') }}"></script>
+
+
 {% endblock %}
 
 {% block main %}
-    <div class="intro-header">
+
+    <div class="intro-header" id="bg_head" bg="{{ url_for('static', filename='images/wenli.png') }}">
 	        <div class="container">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-4" style="padding-top: 5%;padding-bottom: 5%;">
                     <div class="intro-message">
-                    	<img src="{{ info_dict['logo'] }}" class="img-circle" />
-                        <h1>{{ info_dict["name"] }}</h1>
-                        <h3>{{ info_dict["english_name"] }}</h3>
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-buttons">
-                            <li>
-                                <a href="{{ info_dict['url'] }}" class="btn btn-default btn-lg" style="border:1px solid rgba(0,0,0,0.3)"><i class="fa fa-link fa-fw"></i> <span class="network-name">官网</span></a>
-                            </li>
-                            <li>
-                                <a href="#" class="btn btn-default btn-lg"  style="border:1px solid rgba(0,0,0,0.3)"><i class="fa fa-map fa-fw"></i> <span class="network-name">{{ info_dict["province"] }}</span></a>
-                            </li>
-                        </ul>
-                		</div>
-	              </div>
+                    	<img src="{{ info['logo'] }}" class="img-circle" />
+                        <h1>{{ info["name"] }}</h1>
+                        <h3>{{ info["english_name"] }}</h3>
+                	</div>
+
+	            </div>
+                <div class="col-lg-8" style="padding-top: 2%;padding-bottom: 2%;padding-right:5%;">
+                    <p>{{ info["abstract"] }}</p>
+                    <hr class="intro-divider">
+                    <table class="table-content" style="text-align: left">
+                            <tr>
+                                <th>创办时间</th>
+                                <td>{{ info["establish"] }}</td>
+
+                                <th>类别</th>
+                                <td>{{ info["school_type"] }}</td>
+                            </tr>
+                            <tr>
+                                <th>属性</th>
+                                <td>{{ info["characteristic"] }}</td>
+
+                                <th>主管部门</th>
+                                <td>{{ info["subjection"] }}</td>
+                            </tr>
+                     </table>
+
+	            </div>
             </div>
 
-    			</div>
+    		</div>
 	        <!-- /.container -->
-	    	</div>
-    		<!-- /.intro-header -->
+	</div>
+    <!-- /.intro-header -->
 
-	<div class="container-fluid">
+    <div class="container" style="margin-top:21px">
+
+        <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">校园图集</p>
+                </div>
+                <div class="col-lg-12">
+                    <div class="carousel content-main" style="margin-top: 10px">
+                        <ul class="list">
+                            {% for item in carousel_list %}
+                                <li><img src="{{ item }}" style="width:658px;height:411px;"></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <hr style="border-bottom: 1px solid;">
+
+    {% if imp_dis is not none %}
+        <div class="container" style="margin-top:21px">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">国家重点学科</p>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="accordion">
+                        {% for item in imp_dis%}
+                        <li>
+                            <div class="link">{{ item["level"] }}<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <table class="table-content">
+                                    {% for i in range(item.lines) %}
+                                    <tr style="color: rgba(0,0,0,0.5);">
+                                        <td style="width:auto">{{ item["content"][i * 4] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 1] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 2] }}</td>
+                                        <td style="width:auto">{{ item["content"][i * 4 + 3] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <hr style="border-bottom: 1px solid;">
+    {%endif %}
+
+    {% if discipline is not none %}
+        <div class="container" style="margin-top:21px">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <p style="display:inline-block;font-size:3rem;">学科评估</p>
+                    <P style="display:inline-block;color: rgba(0,0,0,0.5);">学科评估是对具有研究生培养和学位授予资格的一级学科进行的整体水平评估。</P>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="accordion">
+                        {% for k in discipline%}
+                        <li>
+                            <div class="link">{{ k }}<i class="fa fa-chevron-down"></i></div>
+                            <ul class="submenu">
+                                <table class="table-content">
+                                    {% for item in discipline[k] %}
+                                    <tr style="color: rgba(0,0,0,0.5);">
+                                        <th style="width:auto">{{ item["xueke2"] }}</th>
+                                        <td>{{ item["level"] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <hr style="border-bottom: 1px solid;">
+    {%endif %}
+
+	<div class="container">
 
 		<div class="row">
-			<div style="border-bottom:1px solid;border-bottom-color: rgba(0,0,0,0.3);height: 75px;">
-				<ul id="myTab" class="nav nav-tabs nav-justified" >
-					<li role="presentation" class="active"><a href="#page1" data-toggle="tab">基本信息</a></li>
-					<li role="presentation" ><a href="#page2" data-toggle="tab">校园名师</a></li>
-					<li role="presentation" ><a href="#page1" data-toggle="tab">院系设置</a></li>
-					<li role="presentation" ><a href="#page2" data-toggle="tab">知名校友</a></li>
-				</ul>
-			</div>
-				<!--选项卡内容Start-->
-				<div id="myTabContent" class="tab-content" style="width:100%;padding:0 25%;">
-					<div class="tab-pane fade in active  container-fluid" id="page1" style="padding: 0px;">
-							<div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
-								<h3>信息概览</h3>
-								<ul class="my-tab-ul">
-									{% for item in info_list %}
-										<li>
-											<i class="fa fa-caret-right"></i>
-											<strong>{{item[0]}}</strong>
-											<span>{{item[1]}}</span>
-										</li>
-									{% endfor %}
-								</ul>
-								<hr>
-							</div>
-							<div class="row" style="margin: 0px;padding: 20px 60px 0 60px;">
-								<h3>学校描述</h3>
-									<p class="description">{{ info_dict["abstract"] }}</p>
-								<hr>
-							</div>
-						</div>
+			<div class="col-lg-12">
+                <p style="display:inline-block;font-size:3rem;">基本信息</p>
+                <hr>
+                <div style="padding-left:3%;">
+                    <table class="table-content">
+                        {% for i in range(info.max_len) %}
+                        <tr>
+                            {% if i < info.l_len %}
+                                <th>{{ info["info_list_l"][i]["title"] }}</th>
+                                <td>{{ info["info_list_l"][i]["content"] }}</td>
+                            {% else %}
+                                <th></th>
+                                <td></td>
+                            {% endif %}
+                            {% if i < info.r_len %}
+                                <th>{{ info["info_list_r"][i]["title"] }}</th>
+                                <td>{{ info["info_list_r"][i]["content"] }}</td>
+                            {% else %}
+                                <th></th>
+                                <td></td>
+                            {% endif %}
 
-					<div class="tab-pane fade" style="text-align:center" id="page2">
-						<!-- Team members structure start -->
-						<div class="team-members row">
-							<!-- effect-1 html -->
-							{% for i in teachers %}
-								<div class="col-lg-3">
-									<div class="single-member effect-1">
-										<div class="member-image">
-											<img src="/main/propic/{{ i['pic'] }}" alt="Member">
-										</div>
-										<div class="member-info">
-											<h3>{{ i["name"] }}</h3>
-											{% if i["title"] == "" %}
-												<br>
-											{% else %}
-												<h5>{{ i["title"] }}</h5>
-											{% endif %}
-											<p>学院:{{ i["institution"] }}<br>
-												{% if i["theme"] == "" %}
-													<br>
-												{% else %}
-													{{ i["theme"] }}
-												{% endif %}
-											</p>
-											<div class="social-touch">
-												<a href="{{ i['url'] }}"><span>更多信息&nbsp;</span><i class="fa fa-arrow-circle-o-right"></i></a>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							{% endfor %}
-							<!-- effect-1 html end -->
-						</div>
-		        <!-- Team members structure start -->
-					</div>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
 			</div>
-				<!--选项卡内容End-->
-			</div>
+		</div>
 
 	</div>
+
 {% endblock %}

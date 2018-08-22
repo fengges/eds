@@ -1,0 +1,40 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block titlename %}学校主页{% endblock %}
+
+{% block head %}
+<meta charset="UTF-8">
+  <!-- import CSS -->
+    <link rel="stylesheet" href="/static/resources/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/resources/bootstrap3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/main/school/schoolpage.css" />
+    <link rel="stylesheet" href="/static/css/main/school/myslidepics.css" />
+
+    <script src="/static/resources/jquery/jquery.min.js"></script>
+    <script src="/static/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <!--<script src="{{ url_for('static', filename='js/main/school/jquery.MyFloatingBg.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='js/main/school/jquery.MySlidePics.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main/school/schoolpage.js') }}"></script>
+
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container" style="margin-top:21px">
+        <div class="carousel content-main">
+            <ul class="list">
+                <li><img src="{{ url_for('static', filename='images/img/photo_1.jpg') }}"></li>
+                <li><img src="{{ url_for('static', filename='images/img/photo_2.jpg') }}"></li>
+                <li><img src="{{ url_for('static', filename='images/img/photo_3.jpg') }}"></li>
+                <li><img src="{{ url_for('static', filename='images/img/photo_4.jpg') }}"></li>
+                <li><img src="{{ url_for('static', filename='images/img/photo_5.jpg') }}"></li>
+
+            </ul>
+        </div>
+    </div>
+<li>11111 </li>
+{% endblock %}
+
