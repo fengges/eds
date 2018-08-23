@@ -1,26 +1,42 @@
 #  author   ：feng
 #  time     ：2018/2/28
 #  function : 搜索服务
-
+import requests,json
 from collections import Counter
 from werkzeug.contrib.cache import SimpleCache
 from eds.service.search.jiebautil import jeibaUitl
 from eds.elastic import  paperSearch
 from eds.service.task.taskservice import taskService
 from eds.service.expert.expertservice import expertService
+from eds.config import environment
+from eds.service.school.schoolservice import schoolService
 class SearchService:
     #  初始化
     def __init__(self):
         self.cache=SimpleCache()
     #  判断是否有筛选条件
     def findFilter(self,params):
-        if len(params["institution"])>0:
+        if len(params["school"])>0:
             return True
         if len(params["field"]) >0:
             return True
         if len(params["h_index"]) > 0:
             return True
+    def findFilter2(self,params):
+        if "school"in params and len(params["school"])>0:
+            return True
+        if "code"in params and len(params["code"]) >0:
+            return True
+        if "name"in params and len(params["name"]) >0:
+            return True
+        return False
     #  找到搜索缓存的记录
+    def getKey2(self,params):
+        key = ['keyword']
+        p={}
+        for k in key:
+            p[k]=params[k]
+        return str(p)
     def getKey(self,params):
         key = ['keyword', 'name']
         p={}
@@ -64,6 +80,37 @@ class SearchService:
         if len(re['result'])>0 and "light_abstract" not in re['result'][0].keys():
             for r in re['result']:
                 r['light_abstract']=r['abstract']
+        return re
+    def getSearchResult2(self,params):
+        re={}
+        requrl ="http://"+ environment['se']["host"] + ":" + str(environment['se']["port"])+ environment['se']["url"]
+        s = json.dumps(params)
+        r = requests.post(requrl, data=s)
+        res =r.text
+        res=eval(res)
+        t_id=[str(r[0]) for code in res for r in res[code]]
+        if len(t_id)==0:
+            teacher={}
+        else:
+            teacher=expertService.get_infosByIds(t_id)
+        key = self.getKey2(params)
+        if not self.findFilter2(params['filer']):
+            re['filter'] = self.getfilter2(res,teacher)
+            self.cache.set(key, re['filter'], timeout=5 * 60*60)
+        else:
+            value=self.cache.get(key)
+            if value is None:
+                re['filter'] = self.getfilter2(res,teacher)
+                self.cache.set(key, re['filter'], timeout=5 * 60 * 60)
+            else:
+                re['filter']=value
+        re['params']=params
+        temp=[]
+        for code in res:
+            temp.extend(res[code])
+        sortrk = sorted(temp, key=lambda item: item[1], reverse=True)
+        re['result']=[teacher[str(t[0])]for t in sortrk]
+        re["num"]=len(re['result'])
         return re
     # 对查询的结果显示不同的样式
     def setLight(self,result,keys):
@@ -120,7 +167,52 @@ class SearchService:
             f['schools'].append({'value':c0[i][0],'num':c0[i][1]})
         return f
         # 得到查询结果
+    # 对查询的结构生成筛选条件和数量
+    def getfilter2(self, result,teacher):
+        f={}
+        f["codes"]=[]
+        f["schools"] = []
+        codes={}
+        schools={}
+        for code in result:
+            codes[code]=len(result[code])
+            for t in result[code]:
+                school_id=teacher[str(t[0])]["school_id"]
+                if  school_id in schools:
+                    schools[school_id]+=1
+                else:
+                    schools[school_id]= 1
+        if 0 in schools:
+            del schools[0]
+        school_id=[str(id) for id in schools]
+        if len(school_id)==0:
+            s={}
+        else:
+            s=schoolService.get_infosByIds(school_id)
+        code_id=[c for c in codes]
+        if len(code_id)==0:
+            c={}
+        else:
+            c = schoolService.get_infosByCodes(code_id)
 
+        c2 = Counter(codes).items()
+        c1=sorted(c2, key=lambda x: x[1], reverse=True)
+        if len(c1)-5>=0:
+            n=5
+        else:
+            n=len(c1)
+        for i in range(n):
+            f['codes'].append({'value':c1[i][0],'num':c1[i][1],"name":c[c1[i][0]]["name"]})
+        c2 = Counter(schools).items()
+        c1=sorted(c2, key=lambda x: x[1], reverse=True)
+        if len(c1)-5>=0:
+            n=5
+        else:
+            n=len(c1)
+        for i in range(n):
+            f['schools'].append({'value':c1[i][0],'num':c1[i][1],"name":s[str(c1[i][0])]["name"]})
+        return f
+        # 得到查询结果
     def getIndexSearchResult(self, params):
 
         key = params['keyword']

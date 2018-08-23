@@ -30,12 +30,27 @@ def index():
     ajax['obj'] = result
     s=json.jsonify(ajax)
     return s
+#      接收搜索参数
+@main_main.route('/search/search3',methods=['GET','POST'])
+def index8():
+    t=request.form.get('data')
+    data = json.loads(t)
+    result = searchService.getSearchResult2(data)
+    ajax={}
+    ajax['success']=True
+    ajax['msg']=''
+    ajax['obj'] = result
+    s=json.jsonify(ajax)
+    return s
 @main_main.route('/search/searchall')
 def index3():
     return render_template('/search/searchreasult.html')
 @main_main.route('/search/searchall2')
 def index4():
     return render_template('/search/searchreasult2.html')
+@main_main.route('/search/searchall3')
+def index5():
+    return render_template('/search/searchreasult3.html')
 @main_main.route('/search/index',methods=['GET','POST'])
 def index2():
     params = ['keyword', 'name', 'institution', 'h_index', 'field', 'order', 'page', 'pPageNum', 'accurate_search']

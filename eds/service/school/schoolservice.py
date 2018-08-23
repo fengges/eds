@@ -4,7 +4,16 @@ from eds.config import environment
 
 
 class SchoolService:
-
+    def get_infosByIds(self,ids):
+        params="("+(",".join(ids))+")"
+        result=school_dao.get_infosByIds(params)
+        r={str(t["id"]):t for t in result}
+        return r
+    def get_infosByCodes(self,codes):
+        params="("+(",".join(codes))+")"
+        result=school_dao.get_infosByCodes(params)
+        r={str(t["code"]):t for t in result}
+        return r
     def get_info(self, params):
         infoEty = school_dao.get_info(params)
         if not infoEty:

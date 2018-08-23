@@ -3,6 +3,14 @@ from eds.dao.base import dbs
 
 
 class SchoolDao:
+    def get_infosByIds(self, params):
+        sql = "SELECT * FROM school_info where id in "+params
+        info_result = dbs.getDics(sql)
+        return info_result
+    def get_infosByCodes(self, params):
+        sql = "SELECT * FROM discipline_new where code in "+params
+        info_result = dbs.getDics(sql)
+        return info_result
     def get_info(self, params):
         if params.isdigit():
             sql = "SELECT * FROM school_info where id=%s"

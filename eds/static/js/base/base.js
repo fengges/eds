@@ -79,12 +79,12 @@ index= new Vue({
     $("#mySearch").css("visibility","");
 },
      search_word:function(){
-       window.location="/search/searchall?keyword="+encodeURI(encodeURI(this.keyWord));
+       window.location="/search/searchall3?keyword="+encodeURI(encodeURI(this.keyWord));
      },
       search:function(){
-        url='/search/index';
+        url='/search/search3';
         self=this;
-        params={'keyword':this.keyWord};
+        params={'keyword':this.keyWord,'filer':{}};
 
         var data= {
             data: JSON.stringify(params),
@@ -97,7 +97,7 @@ index= new Vue({
             dataType: 'json',
             success:function(data){
                 re=data.obj;
-                self.results=re['result'];
+                self.results=re['result'].splice(0,5);
                 self.num=re['num']
                 layer.closeAll('loading');
                 $("#mySearchResult").css("visibility","");
