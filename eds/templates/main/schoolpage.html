@@ -130,11 +130,22 @@
                             <div class="link">{{ k }}<i class="fa fa-chevron-down"></i></div>
                             <ul class="submenu">
                                 <table class="table-content">
-                                    {% for item in discipline[k] %}
-                                    <tr style="color: rgba(0,0,0,0.5);">
-                                        <th style="width:auto">{{ item["xueke2"] }}</th>
-                                        <td>{{ item["level"] }}</td>
-                                    </tr>
+                                    <!--{% for item in discipline[k] %}-->
+                                    <!--<tr style="color: rgba(0,0,0,0.5);">-->
+                                        <!--<th style="width:auto">{{ item["xueke2"] }}</th>-->
+                                        <!--<td>{{ item["level"] }}</td>-->
+                                        <!--<th style="width:auto">{{ item["xueke2"] }}</th>-->
+                                        <!--<td>{{ item["level"] }}</td>-->
+                                        <!---->
+                                    <!--</tr>-->
+                                    <!--{% endfor %}-->
+                                    {% for i in range(discipline[k].lines) %}
+                                        <tr style="color: rgba(0,0,0,0.5);padding-left:20px">
+                                            <th style="width:auto">{{ discipline[k]['xueke'][i * 2]['xueke2'] }}</th>
+                                            <td >{{ discipline[k]['xueke'][i * 2]['level'] }}</td>
+                                            <th style="width:auto">{{ discipline[k]['xueke'][i * 2 + 1]['xueke2'] }}</th>
+                                            <td >{{ discipline[k]['xueke'][i * 2 + 1]['level'] }}</td>
+                                        </tr>
                                     {% endfor %}
                                 </table>
                             </ul>

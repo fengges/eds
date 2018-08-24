@@ -395,7 +395,7 @@ def date2date():
     pass
 
 
-def ne2sentence():
+def kk():
     from algorithm.li.extract.templates.ne2sentence_template import sentence_template
     ne_name = ["org", "date", "degree", "country", "state_or_province", "major", "discipline_category", "graduate"]
     s_t = sentence_template
@@ -414,7 +414,6 @@ def ne2sentence():
         if not ne_list:
             continue
         exp_list = teacher["exp_clear"].split('\n')
-        flag = 0
         new_ne_list = []
         for i in range(0, len(ne_list)):
 
@@ -430,32 +429,156 @@ def ne2sentence():
                 s_t.append(s)
 
             degree_list = ne_list[i].get("degree", "").split(';')
-            org_list = ne_list[i].get("org", "").split(';')
-            date_list = ne_list[i].get("date", "").split(';')
-            # if len(degree_list) > 1:
-            #     print(teacher["id"])
-            #     print(degree_list)
-            #     print(ne_list[i])
-            #     print(exp_list[i])
+            # org_list = ne_list[i].get("org", "").split(';')
+            # date_list = ne_list[i].get("date", "").split(';')
+            d_list.extend(degree_list)
 
-            if len(degree_list) > 1 and len(degree_list) == len(date_list) and (len(degree_list) == len(org_list) or len(org_list) == 1):
-                for j in range(0, len(degree_list)):
-                    if len(org_list) == 1:
-                        org = org_list[0]
-                    date = date_list[j]
-                    degree = degree_list[j]
 
-    #     if flag == 1:
-    #         update_list.append((str(ne_list), teacher["id"]))
-    #         num += 1
-    #
-    # print("-" * 10)
-    # print(num)
-    # print(len(update_list))
-    #
-    # u_sql = "update teacher_eduexp set ne = %s where id = %s"
-    # print(dbs.exe_many(u_sql, update_list))
-    # pass
+def nn(ne_str, ne_dict):
+    from algorithm.li.extract.templates.ne2sentence_template import sentence_format
+    try:
+        if ne_str == "org,date,degree":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,date,degree,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "org,degree":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,degree,state_or_province":
+            r = sentence_format[ne_str].format(ne_dict['state_or_province'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,date,degree,country":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,date,degree,state_or_province":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,date,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'])
+        elif ne_str == "org,date,degree,country,state_or_province":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,degree,country":
+            r = sentence_format[ne_str].format(ne_dict['country'], ne_dict['org'], ne_dict['degree'])
+        elif ne_str == "org,degree,major":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "org,date,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'])
+        elif ne_str == "org,date,state_or_province,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['state_or_province'], ne_dict['org'])
+        elif ne_str == "org,date,degree,country,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['country'], ne_dict['org'], ne_dict['major'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,major,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'])
+        elif ne_str == "org,date,degree,state_or_province,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['state_or_province'], ne_dict['org'],
+                                               ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "org,degree,country,state_or_province":
+            r = sentence_format[ne_str].format(ne_dict['country'], ne_dict['state_or_province'], ne_dict['org'],
+                                               ne_dict['degree'])
+        elif ne_str == "date,degree,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "org,degree,state_or_province,major":
+            r = sentence_format[ne_str].format(ne_dict['state_or_province'], ne_dict['org'], ne_dict['major'],
+                                               ne_dict['degree'])
+        elif ne_str == "date,major,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['major'])
+        elif ne_str == "org,degree,country,major":
+            r = sentence_format[ne_str].format(ne_dict['country'], ne_dict['org'], ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "org,date,state_or_province":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'])
+        elif ne_str == "org,date,degree,country,state_or_province,major":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'], ne_dict['degree'])
+        elif ne_str == "date,state_or_province,major,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['state_or_province'], ne_dict['major'])
+        elif ne_str == "org,date,country,state_or_province,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'])
+        elif ne_str == "org,date,degree,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,degree,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,degree,state_or_province,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,date,degree,state_or_province,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,degree,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'],
+                                               ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,date,degree,country,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,degree,country,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,degree,country,state_or_province,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,degree,state_or_province,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'],
+                                               ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,degree,country,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,degree,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['major'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,degree,country,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['major'], ne_dict['discipline_category'],
+                                               ne_dict['degree'])
+        elif ne_str == "org,date,degree,country,state_or_province,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'], ne_dict['major'],
+                                               ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,degree,state_or_province,major,discipline_category":
+            r = sentence_format[ne_str].format(ne_dict['org'], ne_dict['major'],
+                                               ne_dict['discipline_category'], ne_dict['degree'])
+        elif ne_str == "org,date,country,graduate":
+            r = sentence_format[ne_str].format(ne_dict['date'], ne_dict['org'])
+        else:
+            r = ""
+    except:
+        print("=====")
+        r = ""
+    return r
+
+
+def ne2sentence():
+    from algorithm.li.extract.templates.ne2sentence_template import sentence_template
+    ne_name = ["org", "date", "degree", "country", "state_or_province", "major", "discipline_category", "graduate"]
+    s_t = sentence_template
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ok = 1"
+    teacher_list = dbs.getDics(s_sql)
+    print(len(teacher_list))
+    update_list = []
+    num = 0
+    for teacher in teacher_list:
+        try:
+            ne_list = eval(teacher["ne"])
+        except:
+            print(teacher["id"])
+            continue
+        if not ne_list:
+            continue
+        str_list = []
+        for i in range(0, len(ne_list)):
+
+            ne = ne_list[i]
+
+            t_l = []
+            for n in ne_name:
+                t = ne_list[i].get(n, "")
+                if t != "":
+                    t_l.append(n)
+            s = ",".join(t_l)
+            if s != "" and s not in s_t:
+                s_t.append(s)
+
+            if ne.get("degree", "") == "" or ne.get("degree", "") in ["学士", "硕士", "博士"]:
+                r = nn(s, ne)
+                if r != "":
+                    str_list.append(r)
+
+        update_list.append(("\n".join(str_list), teacher["id"]))
+
+    print(len(update_list))
+    u_sql = "update teacher set eduexp = %s where id = %s"
+    print(dbs.exe_many(u_sql, update_list))
 
 
 if __name__ == "__main__":
