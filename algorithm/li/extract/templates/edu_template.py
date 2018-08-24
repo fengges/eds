@@ -88,3 +88,4 @@ sentence_template = {
 
 format_org = ['于', ',', '，', '在', '[0-9]', ' ', '获']
 re_org = r'{0}([\u4E00-\u9FA5]+?大学)'
+
