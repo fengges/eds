@@ -109,8 +109,8 @@ class SearchService:
         for code in res:
             temp.extend(res[code])
         sortrk = sorted(temp, key=lambda item: item[1], reverse=True)
-        re['result']=[teacher[str(t[0])]for t in sortrk]
-        re["num"]=len(re['result'])
+        re['result']=[teacher[str(t[0])]for t in sortrk][0:20]
+        re["num"]=len(sortrk)
         return re
     # 对查询的结果显示不同的样式
     def setLight(self,result,keys):
