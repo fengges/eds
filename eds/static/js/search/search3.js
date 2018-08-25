@@ -112,6 +112,7 @@ vm = new Vue({
             dataType: 'json',
             success:function(data){
                 re=data.obj;
+
                 self.results=re['result'];
                 self.schools=re['filter']['schools'];
                 self.subjects=re['filter']['codes'];

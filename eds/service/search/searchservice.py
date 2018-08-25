@@ -93,6 +93,13 @@ class SearchService:
             teacher={}
         else:
             teacher=expertService.get_infosByIds(t_id)
+        for id in teacher:
+            if teacher[id]["fields"] is None or len(teacher[id]["fields"])==0:
+                teacher[id]["fields"]=[]
+            else:
+                item=eval(teacher[id]["fields"])
+                te = sorted(item.items(), key=lambda item: item[1], reverse=True)
+                teacher[id]["fields"]=[t[0] for t in te[0:5]]
         key = self.getKey2(params)
         if not self.findFilter2(params['filer']):
             re['filter'] = self.getfilter2(res,teacher)
@@ -109,8 +116,8 @@ class SearchService:
         for code in res:
             temp.extend(res[code])
         sortrk = sorted(temp, key=lambda item: item[1], reverse=True)
-        re['result']=[teacher[str(t[0])]for t in sortrk]
-        re["num"]=len(re['result'])
+        re['result']=[teacher[str(t[0])]for t in sortrk][0:20]
+        re["num"]=len(sortrk)
         return re
     # 对查询的结果显示不同的样式
     def setLight(self,result,keys):

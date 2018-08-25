@@ -116,7 +116,10 @@ class SchoolService:
                 else:
                     i_list = [i for i in result if i["xueke1"] == word and i["level"] == level]
             if i_list:
-                dis_dict[word] = i_list
+                if not len(i_list) % 2 == 0:
+                    i_list.append({'xueke1': "", "xueke2": "", "level": ""})
+                dis_dict[word] = {'xueke': i_list, 'lines': int(len(i_list)/2)}
+
         return dis_dict
 
     def get_important_discipline(self, params):
