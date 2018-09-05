@@ -67,5 +67,12 @@ class Dbutil:
         conn.close()
         return r
 
+    def get_teacher_dataframe(self, sql):
+        import pandas as pd
+        conn = POOL.connection()
+        df = pd.read_sql(sql, con=conn)
+        conn.close()
+        return df
+
 
 dbs = Dbutil()

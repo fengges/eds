@@ -1,0 +1,70 @@
+
+
+.search-container {
+    width:970px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+}
+
+.search-li:hover{
+    box-shadow: 0 0px 0px #D4D4D4, /*左边阴影*/
+                0 0px 0px #D4D4D4, /*右边阴影*/
+                0 -2px 5px #D4D4D4, /*顶部阴影*/
+                0 2px 5px #D4D4D4; /*底边阴影*/
+    cursor: auto;
+}
+
+ul.search-pill{
+    padding-top:5px;
+}
+
+ul.search-pill li{
+    display:inline-block;
+    border:solid 1px transparent;
+    border-color: #d0d0d0;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 1px 5px!important;
+}
+
+ul.search-pill:nth-child(1){
+    padding-top: 25px;
+}
+
+ul.search-pill::last-child{
+    padding-bottom: 25px;
+}
+
+ul.search-perpendicular{
+    padding-top:5px;
+}
+
+ul.search-perpendicular li{
+    display:inline-block;
+    border-right:solid 1px transparent;
+    border-color: #d0d0d0;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 1px 10px 1px 5px!important;
+}
+
+ul.search-perpendicular:nth-child(1){
+    padding-top: 25px;
+}
+
+ul.search-perpendicular::last-child{
+    padding-bottom: 25px;
+    border-right: 0px;
+}
+
+ul li{
+    padding: 1px 5px!important;
+}
+
+.search-toggle{
+}
+
+.search-hidden-content{
+}

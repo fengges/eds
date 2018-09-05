@@ -100,7 +100,6 @@ def my_strip(text=""):
     return text
 
 
-
 def clear_1():
     """
     # 去除有工作描述的句子，没有工作经历的去除生日年份
@@ -581,9 +580,64 @@ def ne2sentence():
     print(dbs.exe_many(u_sql, update_list))
 
 
+def get_abroad():
+    school_dict = eval(open(".\\dicts\\school2en_dict.txt", "r", encoding='utf8').read())
+
+    abroad = {}.fromkeys(open(".\\dicts\\in.txt", "r", encoding='utf8').read().split('\n'))
+    s_sql = "select id, ne, exp_clear from teacher_eduexp where ok = 1"
+    teacher_list = dbs.getDics(s_sql)
+    print(len(teacher_list))
+    update_list = []
+    num = 0
+    o_list = []
+    for teacher in teacher_list:
+        try:
+            ne_list = eval(teacher["ne"])
+        except:
+            print(teacher["id"])
+            continue
+        if not ne_list:
+            continue
+        flag = 0
+        for i in range(0, len(ne_list)):
+
+            ne = ne_list[i]
+
+            org_list = ne.get("org", "").split(';')
+            for o in org_list:
+                o = re.sub('大学.+?系', '大学', o)
+                o = re.sub('大学.+?学院', '大学', o)
+                if school_dict.get(o, "") == "" and re.findall('国|日本|澳大利亚|州|芬兰|瑞典|挪威|冰岛|丹麦|爱沙尼亚'
+                                                               '|拉脱维亚|立陶宛|白俄罗斯|俄罗斯|乌克兰|摩尔多瓦|波兰|捷克'
+                                                               '|斯洛伐克|匈牙利|德国|奥地利|瑞士|列支敦士登|英国|爱尔兰|荷兰'
+                                                               '|比利时|卢森堡|法国|摩纳哥|罗马尼亚|保加利亚|塞尔维亚|马其顿'
+                                                               '|阿尔巴尼亚|希腊|斯洛文尼亚|克罗地亚|波斯尼亚和墨塞哥维那'
+                                                               '|意大利|梵蒂冈|圣马力诺|马耳他|西班牙|葡萄牙|安道尔', o) \
+                        and not re.findall('中国|首都|华东|华北|华南|华西|华中|西北|西南|东北|东南|北京|天津|上海|重庆|河北'
+                                           '|山西|辽宁|吉林|黑龙江|江苏|浙江|安徽|福建|江西|山东|河南|湖北|湖南|广东|海南|四川'
+                                           '|贵州|云南|陕西|甘肃|青海|台湾|内蒙|广西|西藏|宁夏|新疆|香港|澳门|石家庄|沈阳'
+                                           '|哈尔滨|杭州|福州|济南|广州|武汉|成都|昆明|兰州|台北|南宁|银川|太原|长春|南京|合肥'
+                                           '|南昌|郑州|长沙|海口|贵阳|西安|西宁|呼和浩特|拉萨|乌鲁木齐', o)\
+                        or abroad.get(o, "") != "":
+                    flag = 1
+                    break
+            if flag == 1:
+                break
+        if flag == 1:
+            num += 1
+            update_list.append((str(flag), teacher["id"]))
+
+    print(num)
+
+    print(len(update_list))
+    u_sql = "update teacher_edu_description set abroad = %s where id = %s"
+    print(dbs.exe_many(u_sql, update_list))
+
+
 if __name__ == "__main__":
     # clear_7()
     # show_data()
     # date2date()
-    ne2sentence()
+    # ne2sentence()
+    get_abroad()
     pass
