@@ -93,6 +93,13 @@ class SearchService:
             teacher={}
         else:
             teacher=expertService.get_infosByIds(t_id)
+        for id in teacher:
+            if teacher[id]["fields"] is None or len(teacher[id]["fields"])==0:
+                teacher[id]["fields"]=[]
+            else:
+                item=eval(teacher[id]["fields"])
+                te = sorted(item.items(), key=lambda item: item[1], reverse=True)
+                teacher[id]["fields"]=[t[0] for t in te[0:5]]
         key = self.getKey2(params)
         if not self.findFilter2(params['filer']):
             re['filter'] = self.getfilter2(res,teacher)
