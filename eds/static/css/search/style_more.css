@@ -1,10 +1,51 @@
 
+hr{
+
+}
+
+i{
+    position:relative;
+    up:2px;
+}
+
+ul li{
+    padding: 1px 5px!important;
+    font-size: 15px;
+}
 
 .search-container {
-    width:970px;
+    width:900px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 18px;
+}
+
+.search-head{
+    padding-top:20px;
+}
+.search-head p{
+    font-size:18px;
+    font-weight:600;
+}
+
+.search-neck p{
+    font-size:16px;
+    font-weight:550;
+    padding-left:55px;
+}
+
+.search-neck ul{
+    padding-left:85px
+}
+
+.search-li{
+    border-bottom:solid 1px transparent;
+    border-color: #888888;
+    margin-top:none;
+}
+
+.search-li:last-child{
+    border-bottom:none;
+    margin-top:none;
 }
 
 .search-li:hover{
@@ -50,25 +91,49 @@ ul.search-perpendicular li{
     padding: 1px 10px 1px 5px!important;
 }
 
-ul.search-perpendicular:nth-child(1){
-    padding-top: 25px;
+ul.search-perpendicular li:last-child{
+    border-right:none;
 }
 
-ul.search-perpendicular::last-child{
-    padding-bottom: 25px;
-    border-right: 0px;
+ul.search-line{
+    margin-top:5px;
 }
 
-ul li{
-    padding: 1px 5px!important;
+ul.search-person>li{
+    margin-top:31px;
+    border-bottom:solid 1px transparent;
+    border-color: #f0f0f0;
+}
+
+ul.search-person>li:last-child{
+    border-bottom:none;
+}
+
+ul.search-person>li:hover{
+    -moz-box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    -webkit-box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    cursor: auto;
+}
+
+ul.search-person p{
+    font-size:16px;
+    font-weight:600;
 }
 
 ul.search-more{
     margin-bottom: 10px;
     margin-left: 46px;
     width: 878px;
+    line-height:25px;
+}
 
-    line-height:22px;
+ul.search-more>li{
+    margin-bottom: 10px;
+}
+
+ul.search-more div{
+    font-size:16px;
 }
 
 ul.search-more li{
@@ -81,8 +146,9 @@ ul.search-text{
 
 .search-toggle{
     position:relative;
-    left:800px;
-    bottom:37px;
+    left:750px;
+    bottom:41px;
+    visibility: hidden;
 }
 
 .search-hidden-content{
