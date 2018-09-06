@@ -63,8 +63,28 @@ ul li{
     padding: 1px 5px!important;
 }
 
+ul.search-more{
+    margin-bottom: 10px;
+    margin-left: 46px;
+    width: 878px;
+
+    line-height:22px;
+}
+
+ul.search-more li{
+    margin-left:10px;
+}
+
+ul.search-text{
+    margin-left:15px;
+}
+
 .search-toggle{
+    position:relative;
+    left:800px;
+    bottom:37px;
 }
 
 .search-hidden-content{
+    background:none;
 }

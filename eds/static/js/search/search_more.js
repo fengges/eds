@@ -8,7 +8,7 @@ $(function() {
 
     function clickHandler(event) {
         var i= event.data.index;
-        $(this).text(contents.eq(i).is(":hidden") ? "收起" : "展开");
+        $(this).text(contents.eq(i).is(":hidden") ? "收起信息" : "更多信息");
         contents.eq(i).slideToggle();
     }
 
