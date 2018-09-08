@@ -35,7 +35,7 @@ index= new Vue({
                    institution:'',
                    h_index:'',
                    paper_num:'',
-                   link:'',
+                   id:'',
                    citation:'',
                    title:'',
                    field:[],

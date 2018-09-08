@@ -192,7 +192,7 @@
                   <a :href="item.link" class="ml3 link-soft-black basis20p basis40p-md basis20p-lg block">
                     <img class="w100p block img-circle"style="width:110px"  :src="'/main/propic/'+item.id" alt="Project"></a>
                   <div class="basis60p-md basis80p basis80p-lg">
-                    <div class="type-16 dark-grey-400 display-none block-md percent-funded"><strong><a  :href="item.link">${item.name}</a></strong></div>
+                    <div class="type-16 dark-grey-400 display-none block-md percent-funded"><strong><a  :href="'/main/expert/'+item.id">${item.name}</a></strong></div>
                     <div class="type-16 dark-grey-400 display-none block-md percent-funded"><a :href="'/main/school/'+item.school">${item.school}</a></div>
                     <div><el-tag  v-on:click.native='click_word($event)' v-for="f in item.fields" class=" btn-u btn-brd rounded btn-u-xs btn-interest ng-scope">${f}</el-tag></div>
                   </div>

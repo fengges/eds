@@ -51,7 +51,7 @@ vm = new Vue({
 	       name:'',
            school:'',
            institution:'',
-           link:'',
+           id:'',
            citation:'',
            abstract:'',
            title:'',
