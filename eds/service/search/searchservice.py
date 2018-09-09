@@ -82,7 +82,6 @@ class SearchService:
                 r['light_abstract']=r['abstract']
         return re
     def getSearchResult2(self,params):
-        re={}
         requrl ="http://"+ environment['se']["host"] + ":" + str(environment['se']["port"])+ environment['se']["url"]
         s = json.dumps(params)
         r = requests.post(requrl, data=s)
@@ -93,6 +92,23 @@ class SearchService:
             teacher={}
         else:
             teacher=expertService.get_infosByIds(t_id)
+        in_value={}
+        t_value={str(r[0]):str(r[1]) for code in res for r in res[code]}
+        for t in teacher:
+            c=teacher[t]
+            k=str(c["school_id"])+"_"+c["institution"]
+            if k not in in_value:
+                in_value[k]=0
+            in_value[k]+=float(t_value[str(c['id'])])
+        temp = sorted(in_value.items(), key=lambda item: item[1], reverse=True)[0:3]
+        teacher_temp={}
+        for t in temp:
+            for ta in teacher:
+                c=teacher[ta]
+                k = str(c["school_id"]) + "_" + c["institution"]
+                if k==t[0]:
+                    teacher_temp[ta]=c
+        teacher=teacher_temp
         for id in teacher:
             if teacher[id]["fields"] is None or len(teacher[id]["fields"])==0:
                 teacher[id]["fields"]=[]
@@ -100,25 +116,42 @@ class SearchService:
                 item=eval(teacher[id]["fields"])
                 te = sorted(item.items(), key=lambda item: item[1], reverse=True)
                 teacher[id]["fields"]=[t[0] for t in te[0:5]]
-        key = self.getKey2(params)
-        if not self.findFilter2(params['filer']):
-            re['filter'] = self.getfilter2(res,teacher)
-            self.cache.set(key, re['filter'], timeout=5 * 60*60)
-        else:
-            value=self.cache.get(key)
-            if value is None:
-                re['filter'] = self.getfilter2(res,teacher)
-                self.cache.set(key, re['filter'], timeout=5 * 60 * 60)
+            if teacher[id]["age"] is None:
+                teacher[id]["age"]=''
+            if teacher[id]["eduexp"] is None or len(teacher[id]["eduexp"])==0:
+                teacher[id]["eduexp"]=[]
             else:
-                re['filter']=value
-        re['params']=params
-        temp=[]
-        for code in res:
-            temp.extend(res[code])
-        sortrk = sorted(temp, key=lambda item: item[1], reverse=True)
-        re['result']=[teacher[str(t[0])]for t in sortrk][0:20]
-        re["num"]=len(sortrk)
-        return re
+                teacher[id]["eduexp"] =teacher[id]["eduexp"].split('\n')
+
+
+        school=list({str(teacher[t]['school_id']) for t in teacher})
+        school=schoolService.get_infosByIds(school)
+        for s in school:
+            school[s]["important"]=schoolService.get_important_discipline_num(s)
+            school[s]["main_lab"] = schoolService.get_main_lab_num(school[s]['name'])
+            if school[s]["characteristic"]=="-":
+                school[s]["characteristic"]=[]
+            elif school[s]["characteristic"]=="-211":
+                school[s]["characteristic"] = [211]
+            elif school[s]["characteristic"]=="985-211":
+                school[s]["characteristic"] = [985,211]
+        result=[]
+        temp2 = sorted(t_value.items(), key=lambda item: item[1], reverse=True)
+        for t in temp:
+            te=t[0].split('_')
+            item={}
+            item['school']=school[te[0]]
+            item['institution']={"name":te[1],"main_lab":schoolService.get_main_lab(te)}
+            teacher_list=[]
+            for t2 in temp2:
+                if str(t2[0]) in teacher:
+                    c=teacher[str(t2[0])]
+                    k = str(c["school_id"]) + "_" + c["institution"]
+                    if k==t[0] and len(teacher_list)<3:
+                        teacher_list.append(c)
+            item['teacher']=teacher_list
+            result.append(item)
+        return result
     # 对查询的结果显示不同的样式
     def setLight(self,result,keys):
         for r in result:

@@ -30,6 +30,15 @@ class SchoolDao:
         result = dbs.getDics(d_sql, id)
         return result
 
+    def get_main_lab(self,param):
+        sql="select a.* from main_lab a join school_info b on a.org =b.name where b.id=%s and institution=%s "
+        info_result = dbs.getDics(sql,(param[0],param[1]))
+        return info_result
+    def get_main_lab_num(self,name):
+        sql = "select count(*) as num from main_lab where org=%s"
+
+        info_result = dbs.getDics(sql,name)
+        return info_result
     def get_important_discipline(self, id):
         d_sql = "SELECT code, name FROM discipline_school where school_id=%s"
         if not id.isdigit():

@@ -121,6 +121,35 @@ class SchoolService:
                 dis_dict[word] = {'xueke': i_list, 'lines': int(len(i_list)/2)}
 
         return dis_dict
+    def get_main_lab(self,params):
+        result = school_dao.get_main_lab(params)
+        return result
+    def get_main_lab_num(self,params):
+        result = school_dao.get_main_lab_num(params)
+        if len(result)==0:
+            result=[{"num":0}]
+        return result[0]
+    def get_important_discipline_num(self, params):
+        result = school_dao.get_important_discipline(params)
+        level_1_list = []
+        level_2_list = []
+        for r in result:
+            if len(r["code"]) == 4:
+                level_1_list.append(r["name"])
+            else:
+                level_2_list.append(r["name"])
+        if not len(level_1_list) % 4 == 0:
+            for i in range(0, (int(len(level_1_list)/4) + 1) * 4 - len(level_1_list)):
+                level_1_list.append('')
+        if not len(level_2_list) % 4 == 0:
+            for i in range(0, (int(len(level_2_list)/4) + 1) * 4 - len(level_2_list)):
+                level_2_list.append('')
+        imp_dic = [0,0]
+        if level_1_list:
+            imp_dic[0]+=1
+        if level_2_list:
+            imp_dic[1] += 1
+        return imp_dic
 
     def get_important_discipline(self, params):
         result = school_dao.get_important_discipline(params)

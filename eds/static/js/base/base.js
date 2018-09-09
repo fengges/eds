@@ -82,7 +82,10 @@ index= new Vue({
        window.location="/search/searchall3?keyword="+encodeURI(encodeURI(this.keyWord));
      },
       search:function(){
-        url='/search/search3';
+
+        window.location="/search/test/"+encodeURI(encodeURI(this.keyWord));
+        return
+        /*url='/search/search3';
         self=this;
         params={'keyword':this.keyWord,'filer':{}};
 
@@ -105,7 +108,7 @@ index= new Vue({
             error:function (res) {
                 layer.closeAll('loading');
             }
-        });
+        });*/
     },
     },
      created:function() {
