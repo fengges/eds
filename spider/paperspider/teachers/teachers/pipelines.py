@@ -14,8 +14,8 @@ class TeachersPipeline(object):
 
 class TeacherDataPipeline(object):
     def process_item(self, item, spider):
-        sql = "update teacherdata_info set info = %s, html = %s where id = %s"
-        params = (item["info"], item["html"], item["id"])
+        sql = "update eds_985teacher set html = %s where id = %s"
+        params = (item["html"], item["id"])
         dbs.exe_sql(sql, params=params)
         return item
 

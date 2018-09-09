@@ -261,7 +261,9 @@ def get_abroad():
 
 def get_total():
     """
-    各维度归一化后相加
+    1：各维度归一化后相加
+    2：非985/211的总分为0, 985学校总分*2
+    3：重点实验室
     :return:
     """
     import pandas as pd
@@ -278,8 +280,16 @@ def get_total():
     for index in df_normal.index:
         total = df_normal.loc[index].total
         id = df_id[index]
+
+        # 非985/211的总分为0, 985学校总分*2
         if df_normal.loc[index].school == 0.0:
             total = 0
+        elif df_normal.loc[index].school == 1.0:
+            total = total + df_normal.loc[index].total
+
+        # 重点实验室
+        total = total + df_normal.loc[index].total * df_normal.loc[index].main_lab
+
         u_list.append((float(total), int(id)))
 
     print(len(u_list))

@@ -12,13 +12,13 @@ class KaoyanbangSpider(scrapy.Spider):
     start_urls = ["http://www.baidu.com"]
 
     def parse(self, response):
-        sql = "select id, homepage from teacherdata_info where html = '' or html is null"
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%.sdu.edu.cn%';"
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:
             teacher = TeachersItem()
             teacher["id"] = info["id"]
-            request_url = info["homepage"]
+            request_url = info["all_link"]
             try:
                 yield scrapy.Request(url=request_url,
                                      meta={"teacher": teacher},
