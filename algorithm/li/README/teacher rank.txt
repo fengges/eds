@@ -49,4 +49,6 @@ age, integrity, title, school, institution, abroad
 	no	0
 
 8.总分-total
-	各维度归一化后相加
+	1：各维度归一化后相加
+	2：非985/211的总分为0, 985学校总分*2
+	3：重点实验室
