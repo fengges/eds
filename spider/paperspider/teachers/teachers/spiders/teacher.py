@@ -13,7 +13,7 @@ class KaoyanbangSpider(scrapy.Spider):
     start_urls = ["http://www.baidu.com"]
 
     def parse(self, response):
-        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%.sdu.edu.cn%' and MOD(id, %s)=%s" % (PC_COUNT, PC_NO)
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%%.sdu.edu.cn%%' and MOD(id, %s)=%s" % (PC_COUNT, PC_NO)
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:
