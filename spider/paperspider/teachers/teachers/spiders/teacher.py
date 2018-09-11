@@ -2,8 +2,9 @@
 import scrapy
 from scrapy.http import XmlResponse
 import re
-from teachers.dbutils import dbs
-from teachers.items import *
+from spider.paperspider.teachers.teachers.dbutils import dbs
+from spider.paperspider.teachers.teachers.items import *
+from spider.paperspider.teachers.teachers.settings import PC_COUNT, PC_NO
 
 
 class KaoyanbangSpider(scrapy.Spider):
@@ -12,7 +13,7 @@ class KaoyanbangSpider(scrapy.Spider):
     start_urls = ["http://www.baidu.com"]
 
     def parse(self, response):
-        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%.sdu.edu.cn%';"
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%%.sdu.edu.cn%%' and MOD(id, %s)=%s" % (PC_COUNT, PC_NO)
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:

@@ -109,7 +109,9 @@ import time
 
 class IPPOOLS(HttpProxyMiddleware):
     def __init__(self, ip=''):
-        ''' 初始化 '''
+        """
+            初始化
+        """
         # self.db = mysql.Aliyun()
         self.iplist = []
 
@@ -119,7 +121,7 @@ class IPPOOLS(HttpProxyMiddleware):
         """
         import re
         if re.search(r'www\.chinakaoyan\.com', request.url) is not None:
-            from teachers.settings import CHINAKAOYAN_HEADERS
+            from spider.paperspider.teachers.teachers.settings import CHINAKAOYAN_HEADERS
             timestamp = str(int(time.time()) * 1000)
             CHINAKAOYAN_HEADERS["Cookie"] = "__utmz = 265731536.1527562520.4.4.utmcsr = baidu|utmccn = (organic)|utmcmd = organic; lang = zh; PHPSESSID = ps7bpdphqd6orpna465oadmkr2; __utmc = 265731536; Hm_lvt_b39c8daefe867a19aec651fe9bb57881 = 1530363672; __utma = 265731536.317589922.1525416185.1530363672.1530368888.7; __utmt = 1; __utmb = 265731536.1.10.1530368888; Hm_lpvt_b39c8daefe867a19aec651fe9bb57881 = %s" % timestamp
 
