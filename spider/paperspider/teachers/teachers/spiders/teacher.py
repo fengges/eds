@@ -12,8 +12,11 @@ class KaoyanbangSpider(scrapy.Spider):
     allowed_domains = []
     start_urls = ["http://www.baidu.com"]
 
+    handle_httpstatus_list = [400, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 500, 501, 502, 503, 504, 505]
+
     def parse(self, response):
-        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND all_link NOT LIKE '%%.sdu.edu.cn%%' and MOD(id, %s)=%s" % (PC_COUNT, PC_NO)
+
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL;"
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:
@@ -31,7 +34,14 @@ class KaoyanbangSpider(scrapy.Spider):
                 pass
 
     def parse_info(self, response):
+
         teacher = response.meta.get("teacher", "")
+        if response.status in self.handle_httpstatus_list:
+            print("*" * 3)
+            print(response.status)
+            u_sql = "UPDATE eds_985teacher set status = %s where id = %s" % (response.status, teacher['id'])
+            dbs.exe_sql(u_sql)
+            return
         # 分别解析 考研网链接
         if re.search(r'yz\.kaoyan\.com', response.url) is not None:
             html = response.css(".articleCon").extract_first("")

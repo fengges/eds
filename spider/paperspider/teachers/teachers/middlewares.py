@@ -107,7 +107,7 @@ from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
 import time
 
 
-class IPPOOLS(HttpProxyMiddleware):
+class MyDownloaderMiddleware(HttpProxyMiddleware):
     def __init__(self, ip=''):
         """
             初始化
@@ -119,6 +119,8 @@ class IPPOOLS(HttpProxyMiddleware):
         """
         处理request
         """
+
+        # 如果是chinakaoyan的链接，需要加头信息
         import re
         if re.search(r'www\.chinakaoyan\.com', request.url) is not None:
             from spider.paperspider.teachers.teachers.settings import CHINAKAOYAN_HEADERS

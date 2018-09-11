@@ -10,5 +10,5 @@ from eds import app
 app.jinja_env.auto_reload = True
 app.run(host="0.0.0.0", debug=True, port=80)
 
-#-----session_key-----
+# -----session_key-----
 # app.SECRET_KEY = os.urandom(24)
