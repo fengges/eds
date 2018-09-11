@@ -123,9 +123,11 @@ class SearchService:
             else:
                 teacher[id]["eduexp"] =teacher[id]["eduexp"].split('\n')
 
-
         school=list({str(teacher[t]['school_id']) for t in teacher})
-        school=schoolService.get_infosByIds(school)
+        if len(school)==0:
+            school={}
+        else:
+            school = schoolService.get_infosByIds(school)
         for s in school:
             school[s]["important"]=schoolService.get_important_discipline_num(s)
             school[s]["main_lab"] = schoolService.get_main_lab_num(school[s]['name'])
