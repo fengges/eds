@@ -26,4 +26,11 @@ $(function() {
         });
     }
 
+    //关键词
+
+    var reg = /test\/(.*)/
+    $("#keyword").text(decodeURI(decodeURI(reg.exec(document.URL)[1])));
+
+    //人数
+    $("#person_count").text(persons.length)
 });
