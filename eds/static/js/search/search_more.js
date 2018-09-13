@@ -26,11 +26,8 @@ $(function() {
         });
     }
 
-    //关键词
-
+    //关键词提示
     var reg = /test\/(.*)/
-    $("#keyword").text(decodeURI(decodeURI(reg.exec(document.URL)[1])));
 
-    //人数
-    $("#person_count").text(persons.length)
+    $("#keyword-hint").html("<P style='font-size:18px;padding-top:25px;padding-left:25px;margin-bottom:25px'>根据关键词&nbsp;<b>"+ decodeURI(decodeURI(reg.exec(document.URL)[1])) +"</b>，为您推荐&nbsp;<b>"+ persons.length +"</b>&nbsp;名专家</P>")
 });

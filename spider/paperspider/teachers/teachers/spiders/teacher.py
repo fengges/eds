@@ -16,7 +16,7 @@ class KaoyanbangSpider(scrapy.Spider):
 
     def parse(self, response):
 
-        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL;"
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND status IS NULL;"
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:

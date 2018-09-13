@@ -137,10 +137,7 @@
 <script src="/static/js/search/search_more.js"></script>
 <body>
     <div class="search-container">
-        <div style="border-bottom:solid 1px transparent;border-color: #888888;">
-
-            <P style="font-size:18px;padding-top:25px;padding-left:25px;margin-bottom:25px">根据关键词&nbsp;<b id="keyword">关键词</b>，为您推荐&nbsp;<b id="person_count">0</b>&nbsp;名专家</P>
-        </div>
+        <div style="border-bottom:solid 1px transparent;border-color: #888888;" id="keyword-hint"></div>
         <ul>
             {% for item in result %}
                 <li class="search-li">
