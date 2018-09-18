@@ -201,8 +201,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="search-toggle">更多信息<i class="glyphicon glyphicon-chevron-down"></i></div>
-                        <div class="search-hidden-content" hidden>
+                        {% if teacher["eduexp"]|length!=0  %}
+                            <div class="search-toggle">更多信息<i class="glyphicon glyphicon-chevron-down"></i></div>
+                            <div class="search-hidden-content" hidden>
                             <ul class="search-more">
                                 <li>
                                     <div style="display:inline-block;width:900px;"><i class="glyphicon glyphicon-chevron-right"></i>教育经历</div>
@@ -239,6 +240,8 @@
                                 -->
                             </ul>
                         </div>
+                        {% endif %}
+
                     </li>
                     {% endfor %}
                 </ul>
