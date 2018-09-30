@@ -58,3 +58,24 @@ class UpdateInstitutionItem(scrapy.Item):
     _id = scrapy.Field()
     author = scrapy.Field()
     pass
+
+
+class ZhuanliItem(scrapy.Item):
+    p_name = scrapy.Field()
+    author_list = scrapy.Field()
+    proposer = scrapy.Field()
+    date1 = scrapy.Field()
+    date2 = scrapy.Field()
+    pass
+
+
+class PSSZhuanliItem(scrapy.Item):
+    INVIEW = scrapy.Field()
+    PAVIEW = scrapy.Field()
+    TIVIEW = scrapy.Field()
+    APD = scrapy.Field()
+    AP = scrapy.Field()
+    PD = scrapy.Field()
+    PN = scrapy.Field()
+    search_id = scrapy.Field()
+    pass

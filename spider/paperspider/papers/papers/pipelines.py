@@ -53,3 +53,21 @@ class AbstractPipeline(object):
         return item
 
 
+class ZhuanliPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == ZhuanliItem:
+            sql = "INSERT INTO zhuanli VALUES(NULL,%s,%s,%s,%s,%s)"
+            params = (item["p_name"], item["author_list"], item["proposer"], item["date1"], item["date2"])
+            dbs.exe_sql(sql, params=params)
+        return item
+
+
+class PSSZhuanliPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == PSSZhuanliItem:
+            sql = "INSERT INTO pss_zhuanli VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
+            params = (item["TIVIEW"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"], item["search_id"])
+            dbs.exe_sql(sql, params=params)
+        return item
+
+

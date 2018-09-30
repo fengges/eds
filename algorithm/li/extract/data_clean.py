@@ -8,11 +8,9 @@ from algorithm.li.extract.templates.tag_template import *
 # 去除没有信息的标签和格式字符串
 def f():
 
-    select_sql = "select id, name, html from teacherdata_info where id > 73111"
+    select_sql = "SELECT id, name, html FROM `eds_985teacher` WHERE school = '清华大学';"
     teacher_list = dbs.getDics(select_sql)
     print(len(teacher_list))
-    print(block_tags)
-    print(inline_tags)
     update_list = []
     for teacher in teacher_list:
         if teacher["html"] is None or teacher["html"] == "":
@@ -38,13 +36,13 @@ def f():
         if text:
             print(teacher["id"])
             update_list.append((text, teacher["id"]))
-        if len(update_list) == 100:
-            update_sql = "update teacher_info_clear set info_clear=%s where id=%s"
-            print("插入……100")
+        if len(update_list) == 1000:
+            update_sql = "update eds_985teacher set info=%s where id=%s"
+            print("插入……1000")
             print(dbs.exe_many(update_sql, update_list))
             update_list = []
     if update_list:
-        update_sql = "update teacher_info_clear set info_clear=%s where id=%s"
+        update_sql = "update eds_985teacher set info=%s where id=%s"
         print("插入……%s" % len(update_list))
         print(dbs.exe_many(update_sql, update_list))
     pass
@@ -635,9 +633,5 @@ def get_abroad():
 
 
 if __name__ == "__main__":
-    # clear_7()
-    # show_data()
-    # date2date()
-    # ne2sentence()
-    get_abroad()
+    f()
     pass
