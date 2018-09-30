@@ -144,11 +144,7 @@ class SchoolService:
         if not len(level_2_list) % 4 == 0:
             for i in range(0, (int(len(level_2_list)/4) + 1) * 4 - len(level_2_list)):
                 level_2_list.append('')
-        imp_dic = [0,0]
-        if level_1_list:
-            imp_dic[0]+=1
-        if level_2_list:
-            imp_dic[1] += 1
+        imp_dic = [len(level_1_list),len(level_2_list)]
         return imp_dic
 
     def get_important_discipline(self, params):
