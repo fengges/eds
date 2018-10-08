@@ -179,28 +179,33 @@ def match_teacher():
 
 
 def zhuanli_duplicate():
-    s_sql = "SELECT * FROM `pss_zhuanli` GROUP BY TIVIEW, INVIEW, APD"
-    info_list = dbs.getDics(s_sql)
+    s_sql = "SELECT * FROM `pss_zhuanli_copy` GROUP BY TIVIEW, INVIEW"
+    save_list = dbs.getDics(s_sql)
 
-    update_list = []
-    for info in info_list:
-        update_list.append((info['TIVIEW'], info['INVIEW'], info['APD'], info['id']))
+    save_dict = dict()
+    print(len(save_list))
+    for s in save_list:
+        save_dict[str(s['id'])] = "1"
 
-    for i in update_list:
-        print(i)
-    print(len(update_list))
+    s_sql = "SELECT * FROM `pss_zhuanli_copy`"
+    delete_list = dbs.getDics(s_sql)
+
+    id_list = []
+
+    for d in delete_list:
+        if not save_dict.get(str(d['id'])):
+            id_list.append(d['id'])
+
+    print(len(id_list))
     d_sql = '''
             DELETE FROM `pss_zhuanli_copy`
-            WHERE TIVIEW=%s
-            AND INVIEW=%s
-            AND APD=%s
-            AND id !=%s
+            WHERE id =%s
     '''
-    print(dbs.exe_many(d_sql, update_list))
+    print(dbs.exe_many(d_sql, id_list))
 
 
 def mentor_extract():
-    s_sql = "SELECT * FROM `pss_zhuanli_clean`;"
+    s_sql = "SELECT * FROM `pss_zhuanli_copy`;"
     info_list = dbs.getDics(s_sql)
     mentor_dict = {}.fromkeys(open('.\\qinghua\\mentor_list.txt', 'r', encoding='utf-8').read().split('\n'))
     print(mentor_dict)
@@ -527,7 +532,7 @@ def honor_huizong():
     import os
     import xlwt
     import xlrd
-    dir_list = os.listdir('.\\qinghua\\processed\\')
+    dir_list = os.listdir('.\\qinghua\\process\\')
     print(dir_list)
 
     wbk = xlwt.Workbook(encoding='utf-8')
@@ -536,7 +541,7 @@ def honor_huizong():
     sum = 0
     for file in dir_list:
         print(file)
-        wb_rd = xlrd.open_workbook('.\\qinghua\\processed\\' + file)
+        wb_rd = xlrd.open_workbook('.\\qinghua\\process\\' + file)
         sheet1_rd = wb_rd.sheet_by_index(0)
 
         for row in range(1, sheet1_rd.nrows):
@@ -550,9 +555,9 @@ def honor_huizong():
             school = line[5]
             year = line[6]
 
-            if school == "" and not re.findall('清华大学', school):
+            if not(school == "" or re.findall('清华大学', school)):
                 continue
-            print(honor,level,code,p_name,name,school,year)
+            print(honor, level, code, p_name, name, school, year)
             sheet.write(sum, 0, honor)
             sheet.write(sum, 1, level)
             sheet.write(sum, 2, code)
@@ -573,13 +578,251 @@ def t_():
     pass
 
 
+def team_honor():
+    # 清华院士团队_国奖.xls
+
+    import xlwt
+    import xlrd
+
+    wb_rd_1 = xlrd.open_workbook('.\\qinghua\\processed\\' + "清华大学_奖励汇总.xls")
+    sheet1_rd_1 = wb_rd_1.sheet_by_index(0)
+
+    teacher_dict = dict()
+    for row in range(1, sheet1_rd_1.nrows):
+        # honor	level   code    p_name	name	school	year
+        line = sheet1_rd_1.row_values(row)
+        honor = line[0]
+        level = line[1]
+        code = line[2]
+        p_name = line[3]
+        name = line[4]
+        year = int(float(line[6]))
+        print(honor, level, code, p_name, name, year)
+        p_list = teacher_dict.get(name, [])
+        if p_list:
+            p_list.append((honor, level, code, p_name, year))
+        else:
+            p_list = [(honor, level, code, p_name, year)]
+        teacher_dict[name] = p_list
+
+    print(teacher_dict)
+
+    wbk = xlwt.Workbook(encoding='utf-8')
+    sheet = wbk.add_sheet('sheet1')
+
+    sum = 0
+    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并.xls")
+    sheet1_rd = wb_rd.sheet_by_index(0)
+
+    for row in range(1, sheet1_rd.nrows):
+        # 学院	院士姓名	院士简介	团队专家	项目成果统计	专利数据	重点项目	国家科技奖	名单
+        line = sheet1_rd.row_values(row)
+        name = line[1]
+        name_list = str(line[8]).split(',')
+        name_list.insert(0, name)
+        honor_list = []
+        for n in name_list:
+            the_honor = teacher_dict.get(n, [])
+            if the_honor:
+                honor_list.extend(the_honor)
+        honor_list = list(set(honor_list))
+        honor_list.sort(reverse=True, key=lambda k: k[4])
+        honor_list.sort(key=lambda k: k[1])
+        honor_list.sort(key=lambda k: k[0])
+
+        co = dict()
+        honor_str_list = []
+        for i in honor_list:
+            print(i)
+            the_c = co.get(i[0], 0)
+            the_c += 1
+            co[i[0]] = the_c
+
+            honor_str_list.append((i[0]+i[1]+"，"+i[3]+" ("+str(i[4])+")"))
+
+        co_list = []
+        for key, value in co.items():
+            if value != 0:
+                co_list.append(key + "：" + str(value) + "项")
+        co_str = "\n".join(co_list)
+
+        honor_str = "\n".join(honor_str_list)
+
+        print(name, co_str, honor_str)
+        sheet.write(sum, 0, name)
+        sheet.write(sum, 1, co_str)
+        sheet.write(sum, 2, honor_str)
+        sum += 1
+
+    wbk.save('.\\qinghua\\processed\\' + "院士团队_国奖_2018.10.1.xls")
+    pass
+
+
+def team_zhuanli():
+    # 院士团队_专利.xls
+
+    import xlwt
+    import xlrd
+
+    s_sql = "SELECT * FROM pss_zhuanli_clean;"
+    db_zhuanli_list = dbs.getDics(s_sql)
+
+    teacher_dict = dict()
+    for line in db_zhuanli_list:
+        # TIVIEW INVIEW AP APD
+        p_name = line["TIVIEW"]
+        in_list = line["INVIEW"].split(';')
+        ap = line["AP"]
+        apd = line["APD"]
+        year = re.findall(r'[0-9]{4}', apd)[0]
+
+        for in_name in in_list:
+
+            z_list = teacher_dict.get(in_name, [])
+            if z_list:
+                z_list.append((p_name, ap, apd, year))
+            else:
+                z_list = [(p_name, ap, apd, year)]
+            teacher_dict[in_name] = z_list
+
+    zhuanlijiang_dict = get_zhuanlijiang_dict()
+
+    wbk = xlwt.Workbook(encoding='utf-8')
+    sheet = wbk.add_sheet('sheet1')
+
+    sum = 0
+    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并.xls")
+    sheet1_rd = wb_rd.sheet_by_index(0)
+
+    for row in range(1, sheet1_rd.nrows):
+        # 学院	院士姓名	院士简介	团队专家	项目成果统计	专利数据	重点项目	国家科技奖	名单
+        line = sheet1_rd.row_values(row)
+        name = line[1]
+        name_list = str(line[8]).split(',')
+        name_list.insert(0, name)
+        zhuanli_list = []
+
+        for n in name_list:
+            the_honor = teacher_dict.get(n, [])
+            if the_honor:
+                zhuanli_list.extend(the_honor)
+
+        if not zhuanli_list:
+            print(name, "", "")
+            sheet.write(sum, 0, name)
+            sheet.write(sum, 1, "")
+            sheet.write(sum, 2, "")
+            sum += 1
+            continue
+
+        zhuanli_list = list(set(zhuanli_list))
+        zhuanli_list.sort(reverse=True, key=lambda k: k[3])
+
+        zhuanli_str_list = []
+        for z in get_5_year(zhuanli_list):
+            zhuanli_str_list.append(z[0]+"("+z[3]+")")
+
+        get_5_year(zhuanli_list)
+
+        jiang_dict = {}.fromkeys(["金奖", "优秀奖"])
+        for n in name_list:
+            # 根据名字找专利奖
+            jiang = zhuanlijiang_dict.get(n, [])
+            if not jiang:
+                continue
+        # ('变流器限流保护系统控制装置及其限流控制方法', '优秀奖', '戴瑜兴、毕大强、陈义财、郑崇伟、郜克存、曾国强')
+            for j in jiang:
+                the_jiang = jiang_dict.get(j[1], [])
+                if the_jiang:
+                    the_jiang.append(j[0] + "，发明人："+j[2])
+                else:
+                    the_jiang = [j[0] + "，发明人："+j[2]]
+                jiang_dict[j[1]] = the_jiang
+
+        str_list = []
+
+        co_str_list = []
+
+        for k, value in jiang_dict.items():
+            # print(value)
+            if value:
+                str_list.append("【" + k + "】\n" + "\n".join(set(value)))
+                co_str_list.append(k+"："+str(len(set(value))))
+
+        str_list.append("【"+"近5年专利"+"】")
+        str_list.extend(zhuanli_str_list)
+
+        co_str_list.append("专利总数："+str(len(zhuanli_list)))
+
+        print(name, '\n'.join(co_str_list), "\n".join(str_list))
+        sheet.write(sum, 0, name)
+        sheet.write(sum, 1, '\n'.join(co_str_list))
+        sheet.write(sum, 2, "\n".join(str_list))
+        sum += 1
+    wbk.save('.\\qinghua\\processed\\' + "院士团队_专利_2018.9.30.xls")
+    pass
+
+
+def get_zhuanlijiang_dict():
+    import xlrd
+    sum = 0
+    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "水平_清华专利.xlsx")
+    sheet1_rd = wb_rd.sheet_by_index(0)
+
+    teacher_dict = dict()
+    for row in range(1, sheet1_rd.nrows):
+        # 专利号	专利名称	专利权人	发明人	金奖
+        line = sheet1_rd.row_values(row)
+        p_name = line[1]
+        in_list = line[3].split(',')
+        h_name = line[4]
+
+        for n in in_list:
+            jiang_list = teacher_dict.get(n, [])
+            if jiang_list:
+                jiang_list.append((p_name, h_name, "、".join(in_list)))
+            else:
+                jiang_list = [(p_name, h_name, "、".join(in_list))]
+
+            teacher_dict[n] = list(set(jiang_list))
+            if len(teacher_dict[n]) > 3:
+                print(n)
+
+    return teacher_dict
+
+
+def get_5_year(zhuanli_list=[]):
+    year_dict = dict()
+    for i in zhuanli_list:
+        print(i)
+    new_list = []
+    for z in zhuanli_list:
+        if len(year_dict.keys()) > 5:
+            new_list.pop(len(new_list)-1)
+            break
+        y_c = year_dict.get(z[3])
+        # if y_c == 5 and len(year_dict.keys()) == 5:
+        #     break
+        if y_c == 3:
+            continue
+        if y_c:
+            year_dict[z[3]] += 1
+        else:
+            year_dict[z[3]] = 1
+        new_list.append(z)
+
+    return new_list
+
+
 if __name__ == "__main__":
     # zhuanli_duplicate()
     # mentor_extract()
     # create_sheet()
     # mentor_team_year_zhuanli()
     # merge_table()
-    # honor_huizong()
+    honor_huizong()
     # mentor_team_year_honor()
-    t_()
+    # t_()
+    # team_honor()
+    team_zhuanli()
     pass
