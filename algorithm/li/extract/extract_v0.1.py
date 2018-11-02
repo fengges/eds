@@ -377,12 +377,12 @@ def get_title():
     extractor = Extractor()
     result_list = []
 
-    select_sql = "select * from teacherdata_info where id >= 40146"
+    select_sql = "SELECT id, name, info, all_link FROM `eds_985teacher` WHERE school = '清华大学';"
     teacher_list = dbs.getDics(select_sql)
     print(len(teacher_list))
 
     for teacher in teacher_list:
-        if re.search(r'cksp\.eol\.cn', teacher["homepage"]) is not None:
+        if re.search(r'cksp\.eol\.cn', teacher["all_link"]) is not None:
             info_dict = eval(teacher["info"])
             try:
                 extractor.set_text(info_dict["个人简介"])
@@ -397,7 +397,7 @@ def get_title():
             if person_info is None:
                 continue
             extractor.set_text(person_info)
-        re_list = [r'职称', r'个人简介|个人简历', teacher["name"]]
+        re_list = [r'职称|职务', r'个人简介|个人简历', teacher["name"]]
         # 匹配模式
         size = [50, 200, 200]
         extractor.sub()
@@ -413,21 +413,21 @@ def get_title():
                 break
             index += 1
 
-        print((teacher["id"], title))
         if title != "":
-            result_list.append((title, teacher["id"]))
+            # result_list.append((title, teacher["id"]))
 
-    print(len(result_list))
-    update_sql = "update teacherdata_info set title=%s where id=%s"
-    dbs.exe_many(update_sql, result_list)
+            print((teacher["id"], title))
+    # print(len(result_list))
+    # update_sql = "update teacherdata_info set title=%s where id=%s"
+    # dbs.exe_many(update_sql, result_list)
 
 
 if __name__ == "__main__":
 
-    get_age()
+    # get_age()
     # get_overseas_exp()
     # institution_email()
     # get_email()
     # test()
-    # get_title()
+    get_title()
     pass
