@@ -7,14 +7,7 @@ import uuid
 # 连接数据库
 class DB(object):
     connectdic={
-        "local": pymysql.Connect(
-                host=DB_SETTING['host'],
-                port=DB_SETTING['port'],
-                user=DB_SETTING['user'],
-                passwd=DB_SETTING['passwd'],
-                db=DB_SETTING['db'],
-                charset=DB_SETTING['charset']
-        ),
+
         "LiWei": pymysql.Connect(
             host='10.6.11.44',
             port=3306,
@@ -28,6 +21,14 @@ class DB(object):
             port=3306,
             user='root',
             password='zdf.0126',
+            db='eds',
+            charset='utf8'
+        ),
+        "SLX": pymysql.Connect(
+            host='47.104.236.183',
+            port=3306,
+            user='root',
+            password='SLX..eds123',
             db='eds',
             charset='utf8'
         ),
@@ -49,6 +50,22 @@ class DB(object):
         params=tuple(paramList)
         sql="insert into "+table+ ",".join(columnList)+")"+column
         self.exe_sql(sql,params)
+
+    def updateTeacherById(self,id,search):
+        sql="update eds_985teacher set search=%s where id=%s"
+        params = (search,id)
+        self.cursor.execute(sql,params)
+        self.connect.commit()
+    def updateTeacherBySearch(self,search1,search2):
+        sql="update eds_985teacher set search=%s where search=%s"
+        params = (search1,search2)
+        self.cursor.execute(sql,params)
+        self.connect.commit()
+    def getTeacher(self,search):
+        sql="select * from eds_985teacher where search=%s limit 0,10"
+        params =(search)
+        self.cursor.execute(sql,params)
+        return self.cursor.fetchall()
     def getCnById(self,id):
         sql="select * from englist_to_cn where id=%s"
         params = (id)
@@ -73,18 +90,6 @@ class DB(object):
         self.cursor.execute(sql, params)
         self.connect.commit()
 
-    def insertItem(self, item):
-        table = item["table"] + "("
-        temp = ",".join(["%s" for i in item["params"]])
-        column = " values(" + temp + ")"
-        paramList = []
-        columnList = []
-        for k in item["params"]:
-            columnList.append(k)
-            paramList.append(item["params"][k])
-        params = tuple(paramList)
-        sql = "insert into " + table + ",".join(columnList) + ")" + column
-        self.exe_sql(sql, params)
 
     def exe_sql(self, sql, params=None):
         if params is None:
@@ -92,6 +97,7 @@ class DB(object):
         else:
             self.cursor.execute(sql, params)
         self.connect.commit()
+        return self.cursor.fetchall()
     # 插入论文
     def InsertPaper(self, item):
         sql = "INSERT INTO paper VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"

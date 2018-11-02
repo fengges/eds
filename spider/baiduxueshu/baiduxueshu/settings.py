@@ -5,7 +5,7 @@ DB_SETTING = {
    'port':3306,
    'user':'root',
    'passwd':'123456',
-   'db':'schoollink',
+   'db':'eds',
    'charset':'utf8'
 }
 name="chen"

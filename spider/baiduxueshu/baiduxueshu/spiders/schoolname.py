@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import scrapy
+import scrapy,os
 import json
 import re
 import time
@@ -13,11 +13,10 @@ from spider.baiduxueshu.baiduxueshu import settings
 
 class PaperSpider(scrapy.Spider):
     handle_httpstatus_list = [403]
-    name = 'google'
+    name = 'schoolname'
     allowed_domains = []
     start_urls = ['http://www.baidu.com/']
-    # db_li = mysql.DB("LiWei")
-    # db_localhost = mysql.DB("feng3")
+    slx=mysql.DB("SLX")
 
     def parse(self, response):
         self.ctx = execjs.compile("""
@@ -60,40 +59,32 @@ class PaperSpider(scrapy.Spider):
             return a
         }
         """)
-        print("update db")
-        # ids=self.db_li.getEnglishPaperSerach()
-        # for i in ids:
-        #     cn=self.db_localhost.getCnById(i["_id"])
-        #     if len(cn)==0:
-        #         self.db_li.updateEnglishPaper(i["_id"],0)
-        while True:
-            print("select ")
-            paper = self.db_li.getEnglishPaper()
-            if len(paper) != 0:
-                for p in paper:
-                    key = p["name"] + "." + p["abstract"]
-                    url = self.getUrl(key)
-
-                    id = p["_id"]
-                    print(id)
-                    if len(url) >= 16000:
-                        self.db_li.updateEnglishPaper(id, 1)
-                        continue
-                    else:
-                        self.db_li.updateEnglishPaper(id, 1)
-                        yield scrapy.Request(url, lambda arg1=response, arg2=id: self.PaperInfo(arg1, arg2),
-                                              dont_filter=True)
+        root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.file=open(root+'/data/school2en_dict.txt', 'w', encoding='utf8')
+        sql = "select name,english_name from school_info"
+        school = self.slx.exe_sql(sql)
+        sql2="select school from eds_985teacher group by school"
+        school2 = self.slx.exe_sql(sql2)
+        dic=[s['school'] for s in school2]
+        for s in school:
+            if s['english_name'] and len(s['english_name']) > 0:
+                name=s["name"]
+                if name in dic:
+                    print(name)
+                    url = self.getUrl(name)
+                    yield scrapy.Request(url, lambda arg1=response, arg2=name: self.PaperInfo(arg1, arg2),
+                                         dont_filter=True)
             else:
-                break
-
+                self.file.write(s['name']+":"+ s['english_name']+'\n')
 
     def getUrl(self,q):
-        url="https://translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&source=btn&ssel=0&tsel=0&kc=0&tk="+self.getTk(q)+"&q="+q
+        url="https://translate.google.cn/translate_a/single?client=t&sl=zh-CN&tl=en&hl=zh-CN&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&ie=UTF-8&oe=UTF-8&source=btn&ssel=3&tsel=3&kc=0&tk="+self.getTk(q)+"&q="+q
         return url
+
     def getTk(self, text):
         return self.ctx.call("TL", text)
 
-    def PaperInfo(self, response,id):
+    def PaperInfo(self, response,name):
         s=str(response.body,encoding="utf-8")
         null=None
         true=True
@@ -101,17 +92,11 @@ class PaperSpider(scrapy.Spider):
         if response.status==403:
             return
         list=eval(s)
-
         cn=""
-        item={"id":id}
         for l in list[0]:
             if l[0]:
                 cn+=l[0]
-        item["cn"]=cn
-        records = {"table": "englist_to_cn", "params": item}
-        self.db_localhost.insertItem(records)
-        print("save_id:"+str(id))
-
+        self.file.write(name+":"+cn+'\n')
 
 
 
