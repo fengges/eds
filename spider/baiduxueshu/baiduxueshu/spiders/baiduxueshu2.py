@@ -1,6 +1,7 @@
 
 from pypinyin import lazy_pinyin
-import scrapy,time
+import scrapy,time,pickle
+from  spider.baiduxueshu.baiduxueshu.settings import cookie_str
 import re,os
 from spider.baiduxueshu.baiduxueshu.spiders import mysql
 from urllib.parse import quote
@@ -14,27 +15,75 @@ def qs(url):
 class CnkiSpider(scrapy.Spider):
     name = 'baiduxueshu2'
     start_urls = ['http://www.baidu.com']
-
+    slx=mysql.DB("SLX")
     feng3=mysql.DB("feng3")
     school={}
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     def parse(self, response):
+        if len(self.school)==0:
+            sql="select name,english_name from school_info"
+
+            file=open(self.root+'/data/school2en_dict.txt', 'r', encoding='utf8').readlines()
+            self.school={s.split(":")[0]:s.split(":")[1].strip() for s in file}
+            school=self.slx.exe_sql(sql)
+            for s in school:
+                if s['english_name'] and len(s['english_name'])>0:
+                    self.school[s['name']]=s['english_name']
+        try:
+            self.teacher=pickle.load(open(self.root+"/data/teacherdic",'rb'))
+        except:
+            file=open(self.root+"/data/teacher.txt",'r',encoding='utf8').readlines()
+            self.teacher={f.strip():{"all":-1,"page":[]} for f in file}
+
+        school="清华大学"
+        for t in self.teacher:
+            if self.teacher[t]['all']==len(self.teacher[t]['page']):
+                continue
+            url = "https://apps-webofknowledge-com.vpn.seu.edu.cn/WOS_AdvancedSearch.do"
+            cookie=self.getCookie()
+            formdata=self.getFromData(cookie['SID'],t,school)
+            yield scrapy.FormRequest(url=url,
+                                     meta={"teacher": t},
+                                     formdata=formdata,
+                                     callback=self.parse_list,
+                                     cookies=cookie)
+
+    def parse_list(self, response):
+        error=self.setValue(response.xpath('//div[@id="client_error_input_message"]/text()'))
+        print('----------')
+        print(error)
+        # print(str(response.body, 'utf8'))
+        teacher = response.meta.get("teacher", -1)
 
 
-        self.slx.updateTeacherBySearch(0,1)
-        while True:
-            teacher=self.slx.getTeacher(0)
-            if len(teacher)==0:
-                break
-            for t in teacher:
-                self.slx.updateTeacherById(t['id'],1)
-                if len(t['name'])==0:
-                    continue
-                url=self.getSearchUrl1(t,0)
-                request = scrapy.Request(url, callback=self.PaperList)
-                request.meta['teacher'] = t
-                yield request
-
+    def getCookie(self):
+        items=cookie_str.split(';')
+        cookies={}
+        for item in items:
+            c=item.split("=")
+            cookies[c[0].strip()]=''.join(c[1:]).strip()
+        return cookies
+    def getFromData(self,sid,name,school):
+        sid=sid[1:-1]
+        en_name=self.name2enjianc(name)
+        en_shcool=self.school[school]
+        value='au='+en_name+' and oo='+en_shcool
+        value= quote(value, 'utf-8')
+        str1="product=UA&search_mode=AdvancedSearch&SID="+sid+"&input_invalid_notice=%E6%A3%80%E7%B4%A2%E9%94%99%E8%AF%AF%3A+%E8%AF%B7%E8%BE%93%E5%85%A5%E6%A3%80%E7%B4%A2%E8%AF%8D%E3%80%82&input_invalid_notice_limits=+%3Cbr%2F%3E%E6%B3%A8%E6%84%8F%3A+%E6%BB%9A%E5%8A%A8%E6%A1%86%E4%B8%AD%E6%98%BE%E7%A4%BA%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BF%85%E9%A1%BB%E8%87%B3%E5%B0%91%E4%B8%8E%E4%B8%80%E4%B8%AA%E5%85%B6%E4%BB%96%E6%A3%80%E7%B4%A2%E5%AD%97%E6%AE%B5%E7%9B%B8%E7%BB%84%E9%85%8D%E3%80%82&action=search&replaceSetId=&goToPageLoc=SearchHistoryTableBanner&value%28input1%29="+value+"&value%28searchOp%29=search&limitStatus=collapsed&ss_lemmatization=On&ss_spellchecking=Suggest&SinceLastVisit_UTC=&SinceLastVisit_DATE=&period=Range+Selection&range=ALL&startYear=1900&endYear=2018&editions=WOS.ESCI&editions=WOS.SSCI&editions=WOS.SCI&editions=WOS.IC&editions=WOS.AHCI&editions=WOS.ISSHP&editions=WOS.ISTP&editions=WOS.CCR&collections=WOS&editions=CSCD.CSCD&collections=CSCD&editions=DIIDW.EDerwent&editions=DIIDW.CDerwent&editions=DIIDW.MDerwent&collections=DIIDW&editions=KJD.KJD&collections=KJD&editions=MEDLINE.MEDLINE&collections=MEDLINE&editions=RSCI.RSCI&collections=RSCI&editions=SCIELO.SCIELO&collections=SCIELO&update_back2search_link_param=yes&ssStatus=display%3Anone&ss_showsuggestions=ON&ss_query_language=auto&rs_sort_by=PY.D%3BLD.D%3BSO.A%3BVL.D%3BPG.A%3BAU.A"
+        str2='product=WOS&search_mode=AdvancedSearch&SID='+sid+'&input_invalid_notice=%E6%A3%80%E7%B4%A2%E9%94%99%E8%AF%AF%3A+%E8%AF%B7%E8%BE%93%E5%85%A5%E6%A3%80%E7%B4%A2%E8%AF%8D%E3%80%82&input_invalid_notice_limits=+%3Cbr%2F%3E%E6%B3%A8%E6%84%8F%3A+%E6%BB%9A%E5%8A%A8%E6%A1%86%E4%B8%AD%E6%98%BE%E7%A4%BA%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BF%85%E9%A1%BB%E8%87%B3%E5%B0%91%E4%B8%8E%E4%B8%80%E4%B8%AA%E5%85%B6%E4%BB%96%E6%A3%80%E7%B4%A2%E5%AD%97%E6%AE%B5%E7%9B%B8%E7%BB%84%E9%85%8D%E3%80%82&action=search&replaceSetId=&goToPageLoc=SearchHistoryTableBanner&value%28input1%29='+value+'&value%28searchOp%29=search&value%28select2%29=LA&value%28input2%29=&value%28select3%29=DT&value%28input3%29=&value%28limitCount%29=14&limitStatus=collapsed&ss_lemmatization=On&ss_spellchecking=Suggest&SinceLastVisit_UTC=&SinceLastVisit_DATE=&period=Range+Selection&range=ALL&startYear=1900&endYear=2018&editions=SCI&editions=SSCI&editions=AHCI&editions=ISTP&editions=ISSHP&editions=ESCI&editions=CCR&editions=IC&update_back2search_link_param=yes&ss_query_language=&rs_sort_by=PY.D%3BLD.D%3BSO.A%3BVL.D%3BPG.A%3BAU.A'
+        data=str2.split('&')
+        dic={}
+        for d in data:
+            t=d.split('=')
+            if t[0] not in dic:
+                dic[t[0]]=[]
+            dic[t[0]].append(t[1])
+        for k in dic:
+            if len(dic[k]):
+                dic[k]=dic[k][0]
+            else:
+                dic[k]=';'.join(dic[k])
+        return dic
     def PaperList(self,response):
         teacher = response.meta['teacher']
         list = response.xpath("//div[@class='result sc_default_result xpath-log']")
@@ -90,6 +139,7 @@ class CnkiSpider(scrapy.Spider):
         for node in source_list:
             source = self.setValue(node.xpath("./span[2]/text()"), "", 0)
             source_url = self.setValue(node.xpath("./@data-url"), "", 0)
+            source_dic[source] = source_url
             if len(source.strip())==0:
                 continue
             source_dic[source] = source_url
@@ -105,26 +155,6 @@ class CnkiSpider(scrapy.Spider):
         temp["table"]="en_paper"
         temp["params"] =item
         self.feng3.insertItem(temp)
-
-    def getAuthorOrg(self, paper_author_list):
-        name_list = paper_author_list.xpath("./text()").extract()
-        url_list = paper_author_list.xpath("./@href").extract()
-        if (len(name_list) == len(url_list) and len(name_list) < 6):
-            paper_author_out = "["
-            for i in range(0, len(url_list)):
-                t = re.findall(r'[\u4E00-\u9FA5]+', parse.unquote(url_list[i]))
-                if len(t) == 2:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (t[0], t[1])
-                elif len(t) == 1:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (t[0], "")
-                elif len(t) == 0:
-                    paper_author_out = paper_author_out + "{\"name\":\"%s\",\"org\":\"%s\"}," % (
-                        name_list[i].replace("\r\n        ", ""), "")
-                else:
-                    return ""
-            return paper_author_out.rstrip(',') + ']'
-        else:
-            return ""
 
     def qs(self,url):
         parseResult = parse.urlparse(url)
@@ -143,12 +173,6 @@ class CnkiSpider(scrapy.Spider):
             return node.extract()[index].strip()
         else:
             return value
-    def setPaperOrg(self, node):
-        data = node.xpath("./div[1]/div[1]/span[2]/a")
-        if len(data):
-            return data.xpath('string(.)').extract()[0].strip()
-        else:
-            return self.setValue(node.xpath("./div[1]/div[1]/span[2]/em/text()"), "", 0)
     def name2en(self,name=""):
         fu_dict = {}.fromkeys(
             open(self.root+'/data/fu.txt', 'r', encoding='utf8').read().split('\n'), "ok")
@@ -157,6 +181,21 @@ class CnkiSpider(scrapy.Spider):
             return "".join(name_list[2:]) + " " + name_list[0] + name_list[1]
         else:
             return "".join(name_list[1:]) + " " + name_list[0]
+
+    def name2enjianc(self,name=""):
+        fu_dict = {}.fromkeys(
+            open(self.root+'/data/fu.txt', 'r', encoding='utf8').read().split('\n'), "ok")
+        name_list = lazy_pinyin(name)
+
+        if len(name) > 2 and fu_dict.get(name[0:2], "") != "":
+            for n in range(2, len(name_list)):
+                name_list[n]=name_list[n][0]
+            return name_list[0] + name_list[1]+ " " +  "".join(name_list[2:])
+        else:
+            for n in range(1, len(name_list)):
+                name_list[n]=name_list[n][0]
+            return name_list[0]+ " " + "".join(name_list[1:])
+
 
 
 

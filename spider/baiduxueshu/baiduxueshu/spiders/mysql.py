@@ -8,22 +8,22 @@ import uuid
 class DB(object):
     connectdic={
 
-        "LiWei": pymysql.Connect(
-            host='10.6.11.44',
-            port=3306,
-            user='root',
-            password='1111',
-            db='englishpaper',
-            charset='utf8'
-        ),
-        "feng3": pymysql.Connect(
-            host='10.6.11.40',
-            port=3306,
-            user='root',
-            password='zdf.0126',
-            db='eds',
-            charset='utf8'
-        ),
+        # "LiWei": pymysql.Connect(
+        #     host='10.6.11.44',
+        #     port=3306,
+        #     user='root',
+        #     password='1111',
+        #     db='englishpaper',
+        #     charset='utf8'
+        # ),
+        # "feng3": pymysql.Connect(
+        #     host='10.6.11.40',
+        #     port=3306,
+        #     user='root',
+        #     password='zdf.0126',
+        #     db='eds',
+        #     charset='utf8'
+        # ),
         "SLX": pymysql.Connect(
             host='47.104.236.183',
             port=3306,
@@ -34,8 +34,11 @@ class DB(object):
         ),
     }
     def __init__(self,name):
-        self.connect=self.connectdic[name]
-        self.cursor = self.connect.cursor(cursor=pymysql.cursors.DictCursor)
+        try:
+            self.connect=self.connectdic[name]
+            self.cursor = self.connect.cursor(cursor=pymysql.cursors.DictCursor)
+        except:
+            print(name+":数据库链接失败")
 
 
     def insertItem(self,item):
