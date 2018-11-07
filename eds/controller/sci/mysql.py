@@ -28,14 +28,6 @@ class DB(object):
             db='eds',
             charset='utf8'
         ),
-        "SLX": pymysql.Connect(
-            host='47.104.236.183',
-            port=3306,
-            user='root',
-            password='SLX..eds123',
-            db='eds',
-            charset='utf8'
-        ),
     }
     def __init__(self,name):
         try:

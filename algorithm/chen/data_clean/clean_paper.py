@@ -40,10 +40,10 @@ class Mysql(object):
         # db='eds',
         # charset='utf8'
 
-        host = '47.104.236.183',
+        host = '127.0.0.1',
         port = 3306,
         user = 'root',
-        passwd = 'SLX..eds123',
+        passwd = 'xxx',
         db = 'eds',
         charset = 'utf8'
 )
