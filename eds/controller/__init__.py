@@ -32,6 +32,8 @@ eachFile(sys.path[0]+'/eds/controller')
 bp_list=[]
 for bp in bp_file:
     dirs=bp[0].replace(sys.path[0]+'/','').replace('/','.')
+    if bp[1].find('.txt')>=0:
+        continue
     name=bp[1].replace('.py','')
     code="from "+dirs+" import "+name+" as a"
     exec(code)

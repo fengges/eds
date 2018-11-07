@@ -1,8 +1,4 @@
 import pymysql.cursors
-from spider.baiduxueshu.baiduxueshu.settings import DB_SETTING
-from spider.baiduxueshu.baiduxueshu.settings import CRAWL_SETTING
-from spider.baiduxueshu.baiduxueshu.settings import ENGLISH_PAPER,name
-import random
 import uuid
 # 连接数据库
 class DB(object):
@@ -66,7 +62,7 @@ class DB(object):
         self.exe_sql(sql,params)
 
     def updateTeacherById(self,id,search):
-        sql="update eds_985teacher set search=%s where id=%s"
+        sql="update teacher set search=%s where id=%s"
         params = (search,id)
         self.cursor.execute(sql,params)
         self.connect.commit()
@@ -75,35 +71,16 @@ class DB(object):
         params = (search1,search2)
         self.cursor.execute(sql,params)
         self.connect.commit()
-    def getTeacher(self,search):
-        sql="select * from eds_985teacher where search=%s limit 0,10"
-        params =(search)
+    def getTeacher(self,search,num):
+        sql="select * from teacher where search=%s limit 0,%s"
+        params =(search,num)
         self.cursor.execute(sql,params)
         return self.cursor.fetchall()
-    def getCnById(self,id):
-        sql="select * from englist_to_cn where id=%s"
+    def getTeacherById(self,id):
+        sql="select * from teacher where id=%s"
         params = (id)
         self.cursor.execute(sql,params)
         return self.cursor.fetchall()
-
-    def getEnglishPaper(self):
-        sql = "select _id,name,abstract from paper_new where search=0 and mod(_id,3)=" + str(
-            ENGLISH_PAPER[name]) + " limit 0,1000"
-        # sql = "select _id,name,abstract from paper_new where search=0  limit 0,1000"
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
-
-    def getEnglishPaperSerach(self):
-        sql = "select _id from paper_new where search=1 and mod(_id,3)=" + str(ENGLISH_PAPER[name])
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
-
-    def updateEnglishPaper(self, id, num):
-        sql = "update paper_new set search=%s where _id=%s"
-        params = (num, id)
-        self.cursor.execute(sql, params)
-        self.connect.commit()
-
 
     def exe_sql(self, sql, params=None):
         if params is None:
@@ -112,16 +89,6 @@ class DB(object):
             self.cursor.execute(sql, params)
         self.connect.commit()
         return self.cursor.fetchall()
-    # 插入论文
-    def InsertPaper(self, item):
-        sql = "INSERT INTO paper VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
-        params = (str(uuid.uuid1()),
-            item['name'], item['url'], item['abstract'], item['org'], item['year'], item['cited_num'],
-            item['source'],
-            item['source_url'], item['keyword'], item['author'], item['author_id'], item['cited_url'],
-            item['reference_url'], item['paper_md5'])
-        self.cursor.execute(sql, params)
-        self.connect.commit()
 
 

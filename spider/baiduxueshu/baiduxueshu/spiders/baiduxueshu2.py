@@ -5,7 +5,7 @@ from  spider.baiduxueshu.baiduxueshu.settings import cookie_str
 import re,os
 from spider.baiduxueshu.baiduxueshu.spiders import mysql
 from urllib.parse import quote
-from urllib.parse import unquote
+import uuid
 from urllib import parse
 def qs(url):
     parseResult = parse.urlparse(url)
@@ -16,10 +16,13 @@ class CnkiSpider(scrapy.Spider):
     name = 'baiduxueshu2'
     start_urls = ['http://www.baidu.com']
     slx=mysql.DB("SLX")
-    feng3=mysql.DB("feng3")
+    feng1=mysql.DB("feng1")
     school={}
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    query={}
+    url="http://apps.webofknowledge.com"
     def parse(self, response):
+        self.cookie_str = input("请输入cookie")
         if len(self.school)==0:
             sql="select name,english_name from school_info"
 
@@ -33,141 +36,158 @@ class CnkiSpider(scrapy.Spider):
             self.teacher=pickle.load(open(self.root+"/data/teacherdic",'rb'))
         except:
             file=open(self.root+"/data/teacher.txt",'r',encoding='utf8').readlines()
-            self.teacher={f.strip():{"all":-1,"page":[]} for f in file}
-
+            self.teacher={f.strip():{"name":f.strip(),"all":-1,"page":[],"url":"","query":""} for f in file}
         school="清华大学"
+        for t in self.teacher:
+            value=self.getValue(t,school)
+            self.teacher[t]['url']=''
+            self.query[value]=t
+
         for t in self.teacher:
             if self.teacher[t]['all']==len(self.teacher[t]['page']):
                 continue
-            url = "https://apps-webofknowledge-com.vpn.seu.edu.cn/WOS_AdvancedSearch.do"
-            cookie=self.getCookie()
-            formdata=self.getFromData(cookie['SID'],t,school)
+            url = self.url+"/WOS_AdvancedSearch.do"
+            self.cookie=self.getCookie()
+            self.value=self.getValue(t,school)
+            formdata=self.getFromData(self.cookie['SID'],self.value)
             yield scrapy.FormRequest(url=url,
-                                     meta={"teacher": t},
                                      formdata=formdata,
-                                     callback=self.parse_list,
-                                     cookies=cookie)
+                                     callback=self.parse_url,
+                                     cookies=self.cookie)
+            # break
 
-    def parse_list(self, response):
-        error=self.setValue(response.xpath('//div[@id="client_error_input_message"]/text()'))
-        print('----------')
-        print(error)
-        # print(str(response.body, 'utf8'))
-        teacher = response.meta.get("teacher", -1)
+    def parse_url(self, response):
 
+        trs= response.xpath('//div[@class="block-history"]/form/table/tr[@class]')
+        for tr in trs:
+            url=self.setValue(tr.xpath('./td/div[@class="historyResults"]/a/@href'))
+            url=self.url+url
+            all = self.setValue(tr.xpath('./td/div[@class="historyResults"]/a/text()')).replace(',','')
+            query=self.setValue(tr.xpath("string(./td/div[@class='historyQuery'])")).strip()
+            teacher=self.teacher[self.query[query]]
+            if len(teacher['url'])!=0:
+                continue
+            all_page = int(all / 50)
+            if all % 50 != 0:
+                all_page += 1
+            teacher['all']=all_page
+            for i in range(all_page):
+                if i in teacher['page']:
+                    continue
+                url1=self.getSearchUrl1(url,str(i+1))
+                request = scrapy.Request(url1, callback=self.PaperList)
+                request.meta['teacher'] = teacher
+                yield request
+    def PaperList(self,response):
+        page=self.qs(response.url)['page'][0]
+        teacher = response.meta['teacher']
+        teacher['page'].append(page)
+        list = response.xpath("//div[@class='search-results-item']")
+        for node in list:
+            url=node.xpath("./a[class='smallV110 snowplow-full-record']/@href")
+            request = scrapy.Request(url, callback=self.PaperInfo)
+            id=uuid.uuid1()
+            request.meta['id'] = id
+            item = {}
+            item['id'] = id
+            item['source'] = "sci"
+            item['author_id'] = teacher["name"]
+            item['url'] = url
+            item['search'] = 0
+            temp = {}
+            temp["table"] = "en_paper"
+            temp["params"] = item
+            item['url'] = response.url
+            self.feng1.insertItem(temp)
+            yield request
+        # if page==str(teacher['all']):
+        #     print("done a teacher")
+        #     time.sleep(10)
+        #     school = "清华大学"
+        #     for t in self.teacher:
+        #         if self.teacher[t]['all'] == len(self.teacher[t]['page']):
+        #             continue
+        #         url = "http://apps.webofknowledge.com/WOS_AdvancedSearch.do"
+        #         self.value = self.getValue(t, school)
+        #         formdata = self.getFromData(self.cookie['SID'], self.value)
+        #         yield scrapy.FormRequest(url=url,
+        #                                  formdata=formdata,
+        #                                  callback=self.parse_url,
+        #                                  cookies=self.cookie)
+        #         break
 
+    def PaperInfo(self, response):
+        id= response.meta['id']
+        item = {}
+        item['id'] = id
+        item['name'] = self.setValue(response.xpath("//div[@class='title']/value/text()"))
+
+        org= self.setValue(response.xpath('//p[@class="sourceTitle"]/value/text()'))
+        item['org'] = org
+        year=response.xpath('//p[@class="FR_field"]')
+        for y in year:
+            title = y.xpath('./span[@class="FR_label"]/text()')
+            if title=="出版年:":
+                item['year'] = y.xpath('./text()')
+        nodes=response.xpath('//p[@class="FR_field"]')
+
+        for n in nodes:
+            title=self.setValue(n.xpath('./span[@class="FR_label"]')).strip()
+            if title:
+                abstract=self.setValue(n.xpath('./text()'))
+                item['abstract'] = abstract
+            elif title=="KeyWords Plus:":
+                keyWord = n.xpath('./a/text()')
+                keyword=[ self.setValue(node) for node in keyWord]
+                item['keyword'] =";".join(keyword)
+        table=response.xpath('//table[@class="FR_table_noborders"]')
+        addrs={}
+        if len(table)>=1:
+            tong=table[0]
+            addrs['tong']=";".join([ self.setValue(n) for n in   tong.xpath('./tr/td[@class="fr_address_row2"]/text()')])
+        if len(table)==2:
+            addr=table[1]
+            addrs['tong'] =";".join( [self.setValue(n) for n in addr.xpath('./tr/td[@class="fr_address_row2"]/text()')])
+        if len(table)!=2:
+            print(response.url)
+        item['addr']=str(addrs)
+        self.feng1.updateItem(item)
+    @staticmethod
+    def close(spider, reason):
+        print(spider.teacher)
+        pickle.dump(spider.teacher,open(spider.root + "/data/teacherdic", 'wb'))
+        closed = getattr(spider, 'closed', None)
+        if callable(closed):
+            return closed(reason)
     def getCookie(self):
-        items=cookie_str.split(';')
+
+        items=self.cookie_str.split(';')
         cookies={}
         for item in items:
             c=item.split("=")
             cookies[c[0].strip()]=''.join(c[1:]).strip()
         return cookies
-    def getFromData(self,sid,name,school):
-        sid=sid[1:-1]
+    def getValue(self,name,school):
         en_name=self.name2enjianc(name)
         en_shcool=self.school[school]
         value='au='+en_name+' and oo='+en_shcool
+        return value
+    def getFromData(self,sid,value):
+        sid=sid[1:-1]
         value= quote(value, 'utf-8')
         str1="product=UA&search_mode=AdvancedSearch&SID="+sid+"&input_invalid_notice=%E6%A3%80%E7%B4%A2%E9%94%99%E8%AF%AF%3A+%E8%AF%B7%E8%BE%93%E5%85%A5%E6%A3%80%E7%B4%A2%E8%AF%8D%E3%80%82&input_invalid_notice_limits=+%3Cbr%2F%3E%E6%B3%A8%E6%84%8F%3A+%E6%BB%9A%E5%8A%A8%E6%A1%86%E4%B8%AD%E6%98%BE%E7%A4%BA%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BF%85%E9%A1%BB%E8%87%B3%E5%B0%91%E4%B8%8E%E4%B8%80%E4%B8%AA%E5%85%B6%E4%BB%96%E6%A3%80%E7%B4%A2%E5%AD%97%E6%AE%B5%E7%9B%B8%E7%BB%84%E9%85%8D%E3%80%82&action=search&replaceSetId=&goToPageLoc=SearchHistoryTableBanner&value%28input1%29="+value+"&value%28searchOp%29=search&limitStatus=collapsed&ss_lemmatization=On&ss_spellchecking=Suggest&SinceLastVisit_UTC=&SinceLastVisit_DATE=&period=Range+Selection&range=ALL&startYear=1900&endYear=2018&editions=WOS.ESCI&editions=WOS.SSCI&editions=WOS.SCI&editions=WOS.IC&editions=WOS.AHCI&editions=WOS.ISSHP&editions=WOS.ISTP&editions=WOS.CCR&collections=WOS&editions=CSCD.CSCD&collections=CSCD&editions=DIIDW.EDerwent&editions=DIIDW.CDerwent&editions=DIIDW.MDerwent&collections=DIIDW&editions=KJD.KJD&collections=KJD&editions=MEDLINE.MEDLINE&collections=MEDLINE&editions=RSCI.RSCI&collections=RSCI&editions=SCIELO.SCIELO&collections=SCIELO&update_back2search_link_param=yes&ssStatus=display%3Anone&ss_showsuggestions=ON&ss_query_language=auto&rs_sort_by=PY.D%3BLD.D%3BSO.A%3BVL.D%3BPG.A%3BAU.A"
         str2='product=WOS&search_mode=AdvancedSearch&SID='+sid+'&input_invalid_notice=%E6%A3%80%E7%B4%A2%E9%94%99%E8%AF%AF%3A+%E8%AF%B7%E8%BE%93%E5%85%A5%E6%A3%80%E7%B4%A2%E8%AF%8D%E3%80%82&input_invalid_notice_limits=+%3Cbr%2F%3E%E6%B3%A8%E6%84%8F%3A+%E6%BB%9A%E5%8A%A8%E6%A1%86%E4%B8%AD%E6%98%BE%E7%A4%BA%E7%9A%84%E5%AD%97%E6%AE%B5%E5%BF%85%E9%A1%BB%E8%87%B3%E5%B0%91%E4%B8%8E%E4%B8%80%E4%B8%AA%E5%85%B6%E4%BB%96%E6%A3%80%E7%B4%A2%E5%AD%97%E6%AE%B5%E7%9B%B8%E7%BB%84%E9%85%8D%E3%80%82&action=search&replaceSetId=&goToPageLoc=SearchHistoryTableBanner&value%28input1%29='+value+'&value%28searchOp%29=search&value%28select2%29=LA&value%28input2%29=&value%28select3%29=DT&value%28input3%29=&value%28limitCount%29=14&limitStatus=collapsed&ss_lemmatization=On&ss_spellchecking=Suggest&SinceLastVisit_UTC=&SinceLastVisit_DATE=&period=Range+Selection&range=ALL&startYear=1900&endYear=2018&editions=SCI&editions=SSCI&editions=AHCI&editions=ISTP&editions=ISSHP&editions=ESCI&editions=CCR&editions=IC&update_back2search_link_param=yes&ss_query_language=&rs_sort_by=PY.D%3BLD.D%3BSO.A%3BVL.D%3BPG.A%3BAU.A'
-        data=str2.split('&')
-        dic={}
-        for d in data:
-            t=d.split('=')
-            if t[0] not in dic:
-                dic[t[0]]=[]
-            dic[t[0]].append(t[1])
-        for k in dic:
-            if len(dic[k]):
-                dic[k]=dic[k][0]
-            else:
-                dic[k]=';'.join(dic[k])
-        return dic
-    def PaperList(self,response):
-        teacher = response.meta['teacher']
-        list = response.xpath("//div[@class='result sc_default_result xpath-log']")
-        for node in list:
-
-            url= "http://xueshu.baidu.com" + self.setValue(node.xpath("./div[1]/h3/a/@href"), "", 0)
-            request = scrapy.Request(url, callback=self.PaperInfo)
-            request.meta['teacher'] = teacher
-            yield request
-
-        a = response.xpath("//span[@class='pc']")
-        if len(a)==0:
-            self.slx.updateTeacherById(teacher['id'],2)
-        else:
-            node=a[-1]
-            b = self.setValue(node.xpath("./text()"), "", 0)
-            pagestr  = re.findall(r"pn=([0-9]+)", response.url)[0]
-            page = int(int(pagestr) / 10)+1
-            if b == str(page):
-                self.slx.updateTeacherById(teacher['id'], 2)
-            else:
-                url=self.getSearchUrl1(teacher,page)
-                request = scrapy.Request(url, callback=self.PaperList)
-                request.meta['teacher'] = teacher
-                yield request
-
-    def PaperInfo(self, response):
-        teacher = response.meta['teacher']
-        item={}
-        item['author_id'] = teacher["id"]
-        # 不在百度学术页面保存老师，因为老师数量大于五的后面的老师解析不出来
-        item['name'] = self.setValue(response.xpath("//div[@id='dtl_l']/div[1]/h3[1]/a/text()"))
-        item['url'] = response.url
-        item['org']= self.setValue(response.xpath("//p[@class='publish_text']/a/text()"))
-        item['year'] = self.setValue(response.xpath("//p[@class='publish_text']/span[1]/text()"))
-        paper_author_list = response.xpath("//div[@class='author_wr']/p[2]/a")
-        item['author'] = self.getAuthorOrg(paper_author_list)
-        # 获取构造json链接的相关字段
-        try:
-            paper_md5 = re.findall(r"paperuri:\((.+)\)", str(response.body, 'utf-8'))[0]
-            item['paper_md5'] = paper_md5
-        except:
-            try:
-                paper_md5 = re.findall(r"paperuri:\((.+)\)", str(response.body))[0]
-                item['paper_md5'] = paper_md5
-            except:
-                item['paper_md5'] = ""
-                pass
-
-        source_dic = {}
-        step={}
-        source_list = response.xpath("//a[@class='dl_item']")
-        for node in source_list:
-            source = self.setValue(node.xpath("./span[2]/text()"), "", 0)
-            source_url = self.setValue(node.xpath("./@data-url"), "", 0)
-            source_dic[source] = source_url
-            if len(source.strip())==0:
-                continue
-            source_dic[source] = source_url
-            step[source]=False
-        item['lib_url']=str(source_dic)
-        item['step']=str(step)
-        abstract = self.setValue(response.xpath("//p[@class='abstract']/text()"), "", 0)
-        item['abstract']= abstract
-        item['search']=1
-
-
-        temp={}
-        temp["table"]="en_paper"
-        temp["params"] =item
-        self.feng3.insertItem(temp)
+        return str2
 
     def qs(self,url):
         parseResult = parse.urlparse(url)
         param_dict = parse.parse_qs(parseResult.query)
         return param_dict
-    def getSearchUrl1(self,teacher,page):
-        name=self.name2en(teacher['name'])
-        page*=10
-        school=self.school[teacher['school']]
-        text="\""+school+"\" author:("+name+")"
-        text = quote(text, 'utf-8')
-        url="http://xueshu.baidu.com/s?wd="+text+"&pn="+str(page)+"&tn=SE_baiduxueshu_c1gjeupa&ie=utf-8&filter=sc_la%3D%7B1%7D&sc_f_para=sc_tasktype%3D%7BfirstAdvancedSearch%7D&sc_hit=1"
-        return url
+    def getSearchUrl1(self,url,page):
+        qid=self.qs(url)['qid']
+        SID=self.qs(url)['SID']
+        new_url="https://apps-webofknowledge-com.vpn.seu.edu.cn/summary.do?product=WOS&parentProduct=WOS&search_mode=AdvancedSearch&qid="+qid+"&SID="+SID+"&page="+str(page)+"&action=changePageSize&pageSize=50"
+        return new_url
     def setValue(self, node, value=None, index=0):
         if len(node):
             return node.extract()[index].strip()
