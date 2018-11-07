@@ -8,7 +8,7 @@ class ZhuanliService:
         return info_list
 
     #
-    def update_search_list(self, params):
+    def update_search_list_all(self, params):
         sql = "update zhuanli_search set status=1 where id=%s"
         r = dbs.exe_sql(sql % params)
         return r

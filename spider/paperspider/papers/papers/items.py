@@ -73,9 +73,16 @@ class PSSZhuanliItem(scrapy.Item):
     INVIEW = scrapy.Field()
     PAVIEW = scrapy.Field()
     TIVIEW = scrapy.Field()
+    ABSTRACT = scrapy.Field()
     APD = scrapy.Field()
     AP = scrapy.Field()
     PD = scrapy.Field()
     PN = scrapy.Field()
     search_id = scrapy.Field()
+    pass
+
+
+class TermItem(scrapy.Item):
+    id = scrapy.Field()
+    term = scrapy.Field()
     pass

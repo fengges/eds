@@ -18,6 +18,7 @@ POOL = PooledDB(
     password='1111',
     # database='englishpaper',
     database='shixi',
+    # database='paper',
     # host='127.0.0.1',
     # port=3306,
     # user='root',

@@ -113,8 +113,15 @@ def sch2dict():
 
 
 def name2en(name=""):
+    from pypinyin import lazy_pinyin
+
+    fu_dict = {}.fromkeys(open('E:\\eds\\spider\\paperspider\\dicts\\fu.txt', 'r', encoding='utf8').read().split('\n'), "ok")
     name_list = lazy_pinyin(name)
-    return "".join(name_list[1:]) + name_list[0], "".join(name_list)
+
+    if len(name) > 2 and fu_dict.get(name[0:2], "") != "":
+        return "".join(name_list[2:]) + " " + name_list[0]+name_list[1]
+    else:
+        return "".join(name_list[1:]) + " " + name_list[0]
 
 
 if __name__ == "__main__":
@@ -124,6 +131,8 @@ if __name__ == "__main__":
     #     print(item['name'])
     #     print(name2en(item['name']))
     # ins2dict()
-    sch2dict()
+    # sch2dict()
+    # print(name2en('百里屠苏'))
+    # print(name2en('李微'))
     pass
 

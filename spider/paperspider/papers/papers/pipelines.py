@@ -65,8 +65,19 @@ class ZhuanliPipeline(object):
 class PSSZhuanliPipeline(object):
     def process_item(self, item, spider):
         if type(item) == PSSZhuanliItem:
-            sql = "INSERT INTO pss_zhuanli VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
-            params = (item["TIVIEW"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"], item["search_id"])
+            # sql = "INSERT INTO pss_zhuanli VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
+            # params = (item["TIVIEW"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"], item["search_id"])
+            sql = "INSERT INTO pss_zhuanli(id, TIVIEW, ABSTRACT, INVIEW, PAVIEW, AP, APD, PN, PD) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
+            params = (item["TIVIEW"], item["ABSTRACT"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"])
+            dbs.exe_sql(sql, params=params)
+        return item
+
+
+class TermPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == TermItem:
+            sql = "UPDATE paper_data SET term_doc=%s WHERE id=%s"
+            params = (item["term"], item["id"])
             dbs.exe_sql(sql, params=params)
         return item
 

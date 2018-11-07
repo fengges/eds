@@ -179,6 +179,10 @@ def match_teacher():
 
 
 def zhuanli_duplicate():
+    '''
+    专利去重
+    :return:
+    '''
     s_sql = "SELECT * FROM `pss_zhuanli_copy` GROUP BY TIVIEW, INVIEW"
     save_list = dbs.getDics(s_sql)
 
@@ -220,9 +224,55 @@ def mentor_extract():
         print(author_list, mentor_list)
         update_list.append((";".join(mentor_list), item['id']))
 
-    u_sql = "UPDATE `pss_zhuanli_clean` SET MENTOR = %s WHERE id=%s"
+    u_sql = "UPDATE `pss_zhuanli_copy` SET MENTOR = %s WHERE id=%s"
     print(len(update_list))
     print(dbs.exe_many(u_sql, update_list))
+
+
+def teacher_extract():
+    s_sql = "SELECT * FROM `pss_zhuanli_copy`;"
+    info_list = dbs.getDics(s_sql)
+
+    teacher_dict = {}.fromkeys(open('C:\\Users\\Administrator\\Desktop\\teacher.txt', 'r', encoding='utf-8').read().split('\n'))
+    print(teacher_dict)
+    print("*" * 10)
+    update_list = []
+    for item in info_list:
+        author_list = item['INVIEW'].split(';')
+        teacher_list = []
+        for author in author_list:
+            if teacher_dict.get(author, "") != "":
+                teacher_list.append(author)
+        print(author_list, teacher_list)
+        update_list.append((";".join(teacher_list), item['id']))
+
+    u_sql = "UPDATE `pss_zhuanli_copy` SET TEACHERS = %s WHERE id=%s"
+    print(len(update_list))
+    print(dbs.exe_many(u_sql, update_list))
+
+
+def zhuanli_guanxi_extract():
+    import xlwt
+
+    s_sql = "SELECT TEACHERS, TIVIEW FROM `pss_zhuanli_copy`;"
+    info_list = dbs.getDics(s_sql)
+    wbk = xlwt.Workbook(encoding='utf-8')
+    sheet = wbk.add_sheet('sheet1')
+    row = 0
+    for info in info_list:
+
+        teacher_list = info['TEACHERS'].split(';')
+        title = info['TIVIEW']
+        for i in range(0, len(teacher_list)-1):
+            for j in range(i+1, len(teacher_list)):
+                sheet.write(row, 0, teacher_list[i])
+                sheet.write(row, 1, teacher_list[j])
+                sheet.write(row, 2, title)
+                row += 1
+
+    wbk.save('.\\qinghua\\材料学院专利合著信息.xls')
+    print(row)
+    pass
 
 
 def create_sheet():
@@ -611,7 +661,7 @@ def team_honor():
     sheet = wbk.add_sheet('sheet1')
 
     sum = 0
-    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并.xls")
+    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并1016.xls")
     sheet1_rd = wb_rd.sheet_by_index(0)
 
     for row in range(1, sheet1_rd.nrows):
@@ -654,7 +704,7 @@ def team_honor():
         sheet.write(sum, 2, honor_str)
         sum += 1
 
-    wbk.save('.\\qinghua\\processed\\' + "院士团队_国奖_2018.10.1.xls")
+    wbk.save('.\\qinghua\\processed\\' + "院士团队_国奖_2018.10.16.xls")
     pass
 
 
@@ -691,7 +741,7 @@ def team_zhuanli():
     sheet = wbk.add_sheet('sheet1')
 
     sum = 0
-    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并.xls")
+    wb_rd = xlrd.open_workbook('.\\qinghua\\processing\\' + "清华院士团队及其成果_合并1016.xls")
     sheet1_rd = wb_rd.sheet_by_index(0)
 
     for row in range(1, sheet1_rd.nrows):
@@ -759,7 +809,7 @@ def team_zhuanli():
         sheet.write(sum, 1, '\n'.join(co_str_list))
         sheet.write(sum, 2, "\n".join(str_list))
         sum += 1
-    wbk.save('.\\qinghua\\processed\\' + "院士团队_专利_2018.9.30.xls")
+    wbk.save('.\\qinghua\\processed\\' + "院士团队_专利_2018.10.16.xls")
     pass
 
 
@@ -817,12 +867,14 @@ def get_5_year(zhuanli_list=[]):
 if __name__ == "__main__":
     # zhuanli_duplicate()
     # mentor_extract()
+    # teacher_extract()
+    zhuanli_guanxi_extract()
     # create_sheet()
     # mentor_team_year_zhuanli()
     # merge_table()
-    honor_huizong()
+    # honor_huizong()
     # mentor_team_year_honor()
     # t_()
     # team_honor()
-    team_zhuanli()
+    # team_zhuanli()
     pass
