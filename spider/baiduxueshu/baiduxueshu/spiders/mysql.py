@@ -43,7 +43,41 @@ class DB(object):
     def __init__(self,name):
         self.connect=self.connectdic[name]
         self.cursor = self.connect.cursor(cursor=pymysql.cursors.DictCursor)
-
+    def updataPaperById(self,item):
+        sql = "update en_paper set abstract=%s,org=%s,keyword=%s,step=%s,search=%s where id=%s"
+        params=(item["abstract"],item["org"],item["keyword"],item["step"],item["search"],item["id"])
+        # self.cursor.execute(sql,params)
+        # self.connect.commit()
+    def getPaperBySearch(self,search,num):
+        sql = "select * from en_paper where search=%s limit 0,%s"
+        params=(search,num)
+        self.cursor.execute(sql,params)
+        return self.cursor.fetchall()
+    def updatePaperSearchById(self,id,search):
+        sql = "update en_paper set search=%s where id=%s"
+        params=(search,id)
+        self.cursor.execute(sql,params)
+        self.connect.commit()
+    def updatePaperStepById(self,id,step):
+        sql = "update en_paper set step=%s where id=%s"
+        params=(step,id)
+        self.cursor.execute(sql,params)
+        self.connect.commit()
+    def getEnglishTeacher(self):
+        sql = "select author_id from paper_english_clean where t_search=0 or t_search is Null group by author_id"
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+    def getDics(self,sql,params=None):
+        if params is None:
+            self.cursor.execute(sql)
+        else :
+            self.cursor.execute(sql, params)
+        result = self.cursor.fetchall()
+        return result
+    def getEnglishPaperByTeacherId(self,id):
+        sql = "select _id,name,keyword from paper_english_clean where  author_id=%s"
+        self.cursor.execute(sql,(id,))
+        return self.cursor.fetchall()
 
     def insertItem(self,item):
         table=item["table"]+"("
@@ -64,35 +98,28 @@ class DB(object):
         return self.cursor.fetchall()
 
     def getEnglishPaper(self):
-        sql = "select _id,name,abstract from paper_new where search=0 and mod(_id,3)=" + str(
-            ENGLISH_PAPER[name]) + " limit 0,1000"
-        # sql = "select _id,name,abstract from paper_new where search=0  limit 0,1000"
+        sql = "select _id,name,abstract from paper_english where search=0 and mod(_id,2)=" + str(
+            ENGLISH_PAPER[name]) + " limit 0,100"
+        # sql = "select _id,name,abstract from paper_new where search=1"
         self.cursor.execute(sql)
         return self.cursor.fetchall()
-
-    def getEnglishPaperSerach(self):
-        sql = "select _id from paper_new where search=1 and mod(_id,3)=" + str(ENGLISH_PAPER[name])
-        self.cursor.execute(sql)
+    def getDics(self,sql,params=None):
+        if params is None:
+            self.cursor.execute(sql)
+        else :
+            self.cursor.execute(sql, params)
+        result = self.cursor.fetchall()
+        return result
+    def getEnglishPaperSerach(self,param):
+        sql = "select _id from paper_new where search=1  limit %s,%s"
+        self.cursor.execute(sql,(param[0],param[1]))
         return self.cursor.fetchall()
-
     def updateEnglishPaper(self, id, num):
-        sql = "update paper_new set search=%s where _id=%s"
+        sql = "update paper_english set search=%s where _id=%s"
         params = (num, id)
         self.cursor.execute(sql, params)
         self.connect.commit()
 
-    def insertItem(self, item):
-        table = item["table"] + "("
-        temp = ",".join(["%s" for i in item["params"]])
-        column = " values(" + temp + ")"
-        paramList = []
-        columnList = []
-        for k in item["params"]:
-            columnList.append(k)
-            paramList.append(item["params"][k])
-        params = tuple(paramList)
-        sql = "insert into " + table + ",".join(columnList) + ")" + column
-        self.exe_sql(sql, params)
 
     def exe_sql(self, sql, params=None):
         if params is None:

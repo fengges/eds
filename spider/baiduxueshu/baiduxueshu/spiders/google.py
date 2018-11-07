@@ -17,7 +17,7 @@ class PaperSpider(scrapy.Spider):
     allowed_domains = []
     start_urls = ['http://www.baidu.com/']
     db_li = mysql.DB("LiWei")
-    db_localhost = mysql.DB("feng3")
+    db_localhost =mysql.DB("LiWei")
 
     def parse(self, response):
         self.ctx = execjs.compile("""
@@ -61,30 +61,25 @@ class PaperSpider(scrapy.Spider):
         }
         """)
         print("update db")
-        # ids=self.db_li.getEnglishPaperSerach()
-        # for i in ids:
-        #     cn=self.db_localhost.getCnById(i["_id"])
-        #     if len(cn)==0:
-        #         self.db_li.updateEnglishPaper(i["_id"],0)
-        while True:
-            print("select ")
-            paper = self.db_li.getEnglishPaper()
-            if len(paper) != 0:
-                for p in paper:
-                    key = p["name"] + "." + p["abstract"]
-                    url = self.getUrl(key)
+        sql="select id from englist_title"
+        teacher=self.db_li.getDics(sql)
+        ids=[]
+        for t in teacher:
+            ids.append(t["id"])
+        file=open("baiduxueshu/spiders/englist_title.txt",'r',encoding="utf8")
+        for line in file.readlines():
+            p=eval(line)
+            id = p["_id"]
+            if id in ids:
+                continue
+            key = p["title"]
+            url = self.getUrl(key)
 
-                    id = p["_id"]
-                    print(id)
-                    if len(url) >= 16000:
-                        self.db_li.updateEnglishPaper(id, 1)
-                        continue
-                    else:
-                        self.db_li.updateEnglishPaper(id, 1)
-                        yield scrapy.Request(url, lambda arg1=response, arg2=id: self.PaperInfo(arg1, arg2),
-                                              dont_filter=True)
-            else:
-                break
+            print(id)
+            self.db_li.updateEnglishPaper(id, 1)
+            yield scrapy.Request(url, lambda arg1=response, arg2=id: self.PaperInfo(arg1, arg2),
+                                  dont_filter=True)
+
 
 
     def getUrl(self,q):
@@ -103,12 +98,12 @@ class PaperSpider(scrapy.Spider):
         list=eval(s)
 
         cn=""
-        item={"id":id}
+        item = {"id": id, "wh": 0}
         for l in list[0]:
             if l[0]:
                 cn+=l[0]
         item["cn"]=cn
-        records = {"table": "englist_to_cn", "params": item}
+        records = {"table": "englist_title", "params": item}
         self.db_localhost.insertItem(records)
         print("save_id:"+str(id))
 

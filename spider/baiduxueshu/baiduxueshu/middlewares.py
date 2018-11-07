@@ -61,11 +61,13 @@ from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
 import requests
 import time
 import random
+import threading
 class IPPOOLS(HttpProxyMiddleware):
 
     def __init__(self,ip=''):
         '''初始化'''
         # self.db = mysql.Aliyun()
+        self.lock = threading.Lock()
         self.iplist = []
 
     def get_ip_from_web(self):
@@ -74,15 +76,10 @@ class IPPOOLS(HttpProxyMiddleware):
         :return: iplist  例: [{'ip': '171.11.137.159:14330', 'success': 0, 'failure': 0}, {'ip': '112.113.154.145:17478', 'success': 0, 'failure': 0}]
         """
         time.sleep(random.randint(2,10))
-        url = "http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=1&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson="
+        url = "http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=0&fa=0&fetch_key=&qty=3&time=100&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson="
         data = requests.get(url).text
         iplist = data.split('\r\n')
-        if iplist[0].find('false')!=-1:
-            time.sleep(random.randint(2,10))
-            print('时间ip不够用')
-            url = "http://ip.11jsq.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=0&fa=0&fetch_key=&qty=1&time=1&pro=&city=&port=1&format=txt&ss=1&css=&dt=1&specialTxt=3&specialJson="
-            data = requests.get(url).text
-            iplist = data.split('\r\n')
+
 
         result = []
         for ip in iplist:
@@ -95,26 +92,24 @@ class IPPOOLS(HttpProxyMiddleware):
         # return tempresult
 
     def getIP(self):
-        """
-        从 iplist中获取一个ip，如果iplist为空，则去代理网站接口请求新的iplist
-        :return: ip  例: {'ip': '171.11.137.159:14330', 'success': 20, 'failure': 2}
-        """
-        if len(self.iplist)>0:
-            iplist = sorted(self.iplist, key=lambda k: k["success"], reverse=True)
-            return iplist[-1]['ip']
+
+        if len(self.iplist)>1:
+            iplist = self.iplist
         else:
-            self.iplist = self.get_ip_from_web()
-            iplist = sorted(self.iplist, key=lambda k: k["success"], reverse=True)
-            return iplist[-1]['ip']
+            self.iplist.extend(self.get_ip_from_web())
+            iplist = self.iplist
+        index=random.randint(0,len(iplist)-1)
+        print(index)
+        print(iplist[index])
+        return iplist[index]['ip']
 
     def process_request(self, request, spider):
         """
         处理request，即设置request代理
         """
+        self.lock.acquire()
         ip = self.getIP()
-        print(ip)
-        print(self.iplist)
-        # ip = '223.153.242.13:15058'
+        self.lock.release()
         request.meta["proxy"] = "http://" + ip
 
     def process_response(self, request, response, spider):
@@ -123,7 +118,8 @@ class IPPOOLS(HttpProxyMiddleware):
         如果不是200，则failure+1，若failure>3，则删除这条ip
         如果是200，则success+1
         """
-        if response.status == 407 :
+        if response.status == 407 or response.status == 502 or response.status == 503:
+
             ip = request.meta["proxy"][7:]
             x = self.get_list_index(ip,self.iplist)
 

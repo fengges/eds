@@ -4,8 +4,8 @@ DB_SETTING = {
    'host':'localhost',
    'port':3306,
    'user':'root',
-   'passwd':'123456',
-   'db':'schoollink',
+   'passwd':'zdf.0126',
+   'db':'eds',
    'charset':'utf8'
 }
 name="zhang"
@@ -68,7 +68,7 @@ NEWSPIDER_MODULE = 'baiduxueshu.spiders'
 # ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 16
+CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -100,7 +100,7 @@ DOWNLOAD_DELAY = 0
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # 'baiduxueshu.middlewares.MyCustomDownloaderMiddleware': 543,
-   'baiduxueshu.middlewares.IPPOOLS': 125,
+   #  'baiduxueshu.middlewares.IPPOOLS': 125,
 }
 
 # Enable or disable extensions
