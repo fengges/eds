@@ -14,6 +14,7 @@ from scrapy.cmdline import execute
 # execute(["scrapy", "crawl", "google_translate"])
 # execute(["scrapy", "crawl", "conference_translate"])
 execute(["scrapy", "crawl", "pss_zhuanli"])
+# execute(["scrapy", "crawl", "term_spider"])
 # execute(["scrapy", "crawl", "kejijiang"])
 # execute(["scrapy", "crawl", "discipline"])
 # execute(["scrapy", "crawl", "letpub"])

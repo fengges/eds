@@ -1,12 +1,10 @@
 import os
 import sys
 import re
-from utils.dbutils import dbs
+from algorithm.li.extract.utils.dbutils import dbs
 import jieba
 import jieba.posseg as pseg
 
-DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(DIR)
 
 split_list = ["，", "。", ",", "."]
 reSPLIT = r"[。|\n]"
@@ -14,7 +12,7 @@ reYEAR = r'[1-2][9,0][0-9]{2}'
 reS = r'\n|\r|\0xa0|\a|\t|\\xa0|\u3000|\xa0|◆| '
 reEmail = r'([A-Za-z0-9_]+([-+.][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*(\.[A-Za-z0-9_])*([-.][A-Za-z0-9_]+)*\.(cn|co m|net|CN|COM|NET|TW|HK|tw|hk))'
 word_bag = ["留学", "毕业", "学位", "硕士", "博士", "学士", "研究生", "专业", "方向"]
-school_dict = {}.fromkeys(open(DIR + '\\dicts\\in.txt', 'r', encoding='utf-8').read().split('\n'))
+school_dict = {}.fromkeys(open('\\dicts\\in.txt', 'r', encoding='utf-8').read().split('\n'))
 
 
 class Extractor:

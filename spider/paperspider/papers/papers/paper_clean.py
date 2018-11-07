@@ -349,9 +349,9 @@ def test():
 if __name__ == "__main__":
     # strip_name()
     # clean_duplicate()
-    # clean_by_author_org()
-    # clean_select_name()
-    # clean_select_school()
+    clean_by_author_org()
+    clean_select_name()
+    clean_select_school()
     # clean_select_ins()
     # test()
     pass
