@@ -1,16 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon"/>
     <script src="./resources/flat-ui-2.2.2-dist/js/vendor/jquery.min.js"></script>
     <script src="./resources/vue/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="/static/resources/layer/layer.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<title>专家发现系统</title>
+    <title>专家发现系统</title>
 
-<style>
+    <style>
     body {
     font-family: 'Microsoft Yahei',"微软雅黑",arial,"宋体",sans-serif;
     font-size: 18px;
@@ -20,7 +21,8 @@
     line-height: 1.4em;
     letter-spacing: 0.08em;}
     
-</style>
+
+    </style>
 
 </head>
 
@@ -28,18 +30,18 @@
 <body>
 
 <div id="app" style="padding:20px">
-<el-form ref="form"  label-width="80px">
-  <el-form-item label="主题">
-    <el-input v-model="title"></el-input>
-  </el-form-item>
-  <el-form-item label="意见反馈">
-    <el-input type="textarea" v-model="message"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="onSubmit">留言</el-button>
-    <el-button>取消</el-button>
-  </el-form-item>
-</el-form>
+    <el-form ref="form" label-width="80px">
+        <el-form-item label="主题">
+            <el-input v-model="title"></el-input>
+        </el-form-item>
+        <el-form-item label="意见反馈">
+            <el-input type="textarea" v-model="message"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">留言</el-button>
+            <el-button>取消</el-button>
+        </el-form-item>
+    </el-form>
 </div>
 </body>
 <script>
@@ -82,5 +84,6 @@ vm = new Vue({
      },
   });
 });
+
 </script>
 </html>

@@ -40,10 +40,10 @@ class Mysql(object):
         # db='eds',
         # charset='utf8'
 
-        host = '47.104.236.183',
+        host = '127.0.0.1',
         port = 3306,
         user = 'root',
-        passwd = 'SLX..eds123',
+        passwd = 'xxx',
         db = 'eds',
         charset = 'utf8'
 )
@@ -243,7 +243,6 @@ def get_core_journal():
     # print(cjlist)
     return cjlist
 
-
 def paper_core_journal():
     """
     给paper判断是否是核心期刊
@@ -269,8 +268,71 @@ def paper_core_journal():
         db.UpdateCorej(update_list)
         i += b
         print(i,b)
+
+from algorithm.chen.data_clean.utils.dbutils import dbs
+def check_org():
+
+
+
+    sql = 'select id,name,school,institution from teacher'
+    teacherlist = dbs.getDics(sql)
+    teacherdic = {}
+    for teacher in teacherlist:
+        teacherdic[teacher['id']] = teacher['name'] + "-split-" + teacher['institution'] +"-split-" + teacher['school']
+
+    i = 1243000
+    b = 10000
+    num = 3812079
+    yu = num % b
+    while i < num:
+        if i == num - yu: b = yu
+
+        sql = 'select id,author,author_id from paper_clean1 limit %s,%s'%(i,b)
+        data = dbs.getDics(sql)
+        updatelist = []
+        for paper in data:
+            author_id = paper['author_id']
+            author = paper['author']
+            try:
+                teacher = teacherdic[author_id]
+                teachername = teacher.split('-split-')[0]
+                teacherinstitution = teacher.split('-split-')[1]
+                teacherschool = teacher.split('-split-')[2]
+            except:
+                print('这个paper没有这个authorid', author_id)
+                continue
+
+            flag = 0
+            authorjson = json.loads(author)
+            for node in authorjson:
+                if node['name'] == teachername:
+                    org = node['org']
+                    org = org.replace(teacherschool,'')
+                    if org!='' and include(org,teacherinstitution):
+                        flag = 1
+            updatelist.append([flag,paper['id']])
+        sql = 'UPDATE paper_clean1 SET checkOrg=%s WHERE id=%s'
+        dbs.exe_many(sql,updatelist)
+        i += b
+        print(i,b)
+
+def include(a,b):
+    if len(a)>len(b):
+        lista = set(a)
+        listb = set(b)
+    else:
+        lista = set(b)
+        listb = set(a)
+    c = len(lista)-len(listb)
+    if len(lista-listb)<=c:
+        return True
+    else:return False
+
+
 if __name__ == '__main__':
     # db = Mysql()
-    paper_core_journal()
+    # paper_core_journal()
     # get_core_journal()
+    check_org()
+
     pass

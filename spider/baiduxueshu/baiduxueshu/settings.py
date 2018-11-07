@@ -4,8 +4,8 @@ DB_SETTING = {
    'host':'localhost',
    'port':3306,
    'user':'root',
-   'passwd':'zdf.0126',
-   'db':'eds',
+   'passwd':'123456',
+   'db':'schoollink',
    'charset':'utf8'
 }
 name="zhang"
@@ -68,7 +68,7 @@ NEWSPIDER_MODULE = 'baiduxueshu.spiders'
 # ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 8
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -100,9 +100,9 @@ DOWNLOAD_DELAY = 0
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # 'baiduxueshu.middlewares.MyCustomDownloaderMiddleware': 543,
-   #  'baiduxueshu.middlewares.IPPOOLS': 125,
+   'baiduxueshu.middlewares.IPPOOLS': 125,
 }
-
+cookie_str='_abck=E671906EA982528E2C74D3911431ADB2170F01372250000075A3DA5B7CF45303~0~jGNzAIaLv2e0Om8g/s9gzonk/AQ5XllEq7wITUD1zdk=~-1~-1; dotmatics.elementalKey=SLsLWlMhrHnTjDerSrlG; bm_sz=AAD94558DC0F884AA224619A9AB9E1A3~QAAQpdocuLAmi+NmAQAAFj7V58uL54w0BODWhRyzta54eNYCvCXcR/6+Zb8nL2/+KnyjL5IadPplqrtqZm4Z0IPELcji6lqTyTGj3dnjWGSj+f+lCP3EOP9iGg0hF1cNQCpKKgnf17hvcQGFsZ0mxjt6QqkoPxATOv8eNQ98JKbuQtV+gEcp6yxDzqs3vh4wumuPqycQTQ==; SID="5CGhqqQOMCZRiulglrg"; CUSTOMER="Southeast University"; E_GROUP_NAME="Southeast University"; ak_bmsc=2B52C8A1BF88694555F38F10778E8773B81CDAA51D3A0000785AE15B6C848271~pliNLfzcjfFORI6RnwwXyGouW5JYYciGAhJAaR2FPZwu7NYZZWUBgxfzan/Vx9EEPE11KGQrR2goCWxSCIJxfmsbQ+tuNyPi9vSWXdEeuM1XU3QFZk/jkPwEMW0xCJWlaanvDQCV+/i/7gWwonMhBA+edw9PaFPjPZ/THGVoT3cPlqx2eGCEnbeAgwV5w/J1rpjztnByzB4dvXJCoGUaqoXdfQU87hVHsStnBtaSmcsrDcRW552wVLr3cLuEEs3tFp; _sp_ses.630e=*; JSESSIONID=20EB5D9BB160078D68A6B2A0BBE72A1C; bm_sv=0B3AF8F6669F7E4D0C809E7CDFB3CE3D~eocV/NNRBqhcrnPqikNYu9AvxwhjLlg9l0e2efrMrFMZJuvi5B6FXqi+oZofgdNYo4I1tJj7mBJM5AOXaSiU74cSSgatHHxwFvPFGtQO0WBXWqm6/wINKRavYfUlskKczvLWuu5MndclNBvNsg/qsPx8r0G4ouMpqKKsK4+azgY=; _sp_id.630e=5443240d-4ce8-44c2-bae7-fab328f92256.1541487809.2.1541496652.1541490566.f2471a62-f31b-4321-bb94-8798815b81b1'
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
 #EXTENSIONS = {

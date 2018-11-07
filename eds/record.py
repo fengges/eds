@@ -9,14 +9,32 @@ class Record:
             "search":self.search,
             "main":self.expert,
             "message": self.message,
+            "code":self.code,
+
         }
         self.catalog={
-            "search":{"search":"搜索全部","index":"搜索前5"},
-            "login":{"login":"登陆","register":"注册"},
-            "main":{"expert":"专家","school":"学校"},
-            "message":{"save": "留言"}
-        }
 
+            "search":{"search":"搜索全部","index":"搜索前5","search3":"搜索全部"},
+            "login":{"login":"登陆","register":"注册","phonelogin":"登陆"},
+            "main":{"expert":"专家","school":"学校"},
+            "message":{"save": "留言"},
+            "code": {"sendSms": "手机验证码"}
+        }
+    def code(self, list, response):
+        if list[1] in self.catalog[list[0]]:
+            data = self.getData(response)
+            item = self.getItem(data)
+            item["type"] = self.catalog[list[0]][list[1]]
+            true=True
+            false=False
+            obj=eval(response.data.decode())['obj']
+            if 'phone' in obj:
+                item["value"]=obj["phone"]
+            else:
+                item["value"] =""
+            item["other"] = str({})
+            records = {"table": "records", "params": item}
+            dbs.insertItem(records)
     def message(self, list, response):
         if list[1] in self.catalog[list[0]]:
             data = self.getData(response)
@@ -51,7 +69,11 @@ class Record:
             data = self.getData(response)
             item = self.getItem(data)
             item["type"] = self.catalog[list[0]][list[1]]
-            item["value"] = request.form.get('account')
+            obj=json.loads(response.data.decode())
+            if "msg" in obj:
+                if obj["msg"]=="登陆" or "注册"==obj["msg"]:
+                    item["type"]=obj["msg"]
+            item["value"] = obj["obj"]['account']
             item["other"] = str({})
             records={"table":"records","params":item}
             dbs.insertItem(records)

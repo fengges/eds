@@ -1,0 +1,255 @@
+{% extends 'base/base.html' %}
+
+
+{% block head %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>搜索结果</title>
+    <link rel="stylesheet" media="screen,print" href="/static/css/pure-atomic-77a89317e0b3c7426a296e339669c6c39e4a4a0901a767f996be54c4d22759ff.css">
+    <style>
+      .center{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .list{
+        width: 60%;
+      }
+      a{
+       color:#555;
+       width: auto;
+      }
+      a:hover, a:focus {
+        color: #009E74;
+        text-decoration: none;
+      }
+      strong{
+        font-weight:700;
+      }
+      .btn, .btn:focus{
+            padding: 10px 15px;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.4;
+            border: solid 1px transparent;
+            border-radius: 5px;
+            border-color: #009E74;
+            color: #009E74;
+            -webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;
+            transition: border .25s linear,color .25s linear,background-color .25s linear;
+            -webkit-font-smoothing: subpixel-antialiased;
+      }
+      .btn:hover{
+            color: #fff;
+            background-color: #009E74;
+            border-color: #009E74;
+      }
+       li.search_li{transition: transform 0.25s ease;}
+       li.search_li:hover{
+            box-shadow: 0 0px 0px #D4D4D4, /*左边阴影*/
+                        0 0px 0px #D4D4D4, /*右边阴影*/
+                        0 -2px 5px #D4D4D4, /*顶部阴影*/
+                        0 2px 5px #D4D4D4; /*底边阴影*/
+            cursor: auto;
+        }
+       .btn-u.btn-brd.btn-interest {
+            border-color: #f5f5f5;
+            margin-right: 5px;
+            margin-bottom: 4px;
+            padding: 1px 5px!important;
+            height:auto;
+        }
+        .btn-u.btn-brd {
+            color: gray;
+            font-weight: 200;
+            background: 0 0;
+            border: solid 1px transparent;
+            transition: all .1s ease-in-out;
+        }
+        .rounded {
+            border-radius: 4px!important;
+        }
+        .btn-u-xs, a.btn-u-xs {
+            font-size: 12px;
+            padding: 2px 12px;
+            line-height: 18px;
+        }
+        .btn-u {
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+        }
+        el-form{
+            color:#009E74
+        }
+        .el-input__inner:hover, focus {
+            border-color: #009E74;
+        }
+        .el-radio__input.is-checked .el-radio__inner {
+            border-color: #009E74;
+            background: #009E74;
+        }
+        .el-radio__input.is-checked+.el-radio__label {
+            color: #009E74;
+        }
+        .el-switch.is-checked .el-switch__core {
+            border-color: #009E74;
+            background-color: #009E74;
+        }
+        .el-form-item {
+            margin-bottom: 3px;
+        }
+        .el-pager li.active {
+            color: #009E74;
+            cursor: default;
+        }
+        .el-pager li:hover {
+            color: #009E74;
+        }
+        .el-input.is-active .el-input__inner, .el-input__inner:focus {
+            border-color: #009E74;
+            outline: 0;
+        }
+        .el-select-dropdown__item.selected {
+            color: #009E74;
+            font-weight: 700;
+        }
+        .el-input__inner:hover, focus {
+            border: solid 1px transparent;
+            border-color: #009E74;
+        }
+        .el-select .el-input.is-focus .el-input__inner {
+            border-color: #009E74;
+        }
+        .el-pagination__sizes .el-input .el-input__inner:hover {
+            border-color: #009E74;
+        }
+        .el-select .el-input__inner:focus {
+            border-color: #009E74;
+        }
+    </style>
+
+    <link rel="stylesheet" href="/static/css/search/style_more.css">
+{% endblock %}
+
+{% block main %}
+<script src="/static/js/search/search_more.js"></script>
+<body>
+    <div class="search-container">
+        <div style="border-bottom:solid 1px transparent;border-color: #888888;" id="keyword-hint"></div>
+        <ul>
+            {% for item in result %}
+                <li class="search-li">
+                <div class="row search-head">
+                    <div class="col-lg-3" style="text-align:center;height:165px">
+                        <img src="/main/schpic/{{item['school']['id']}}" style="width:130px;padding-top:5px">
+                        <p style="margin-bottom:5px;font-size:18px">{{item['school']['name']}}</p>
+                    </div>
+                    <div class="col-lg-9">
+                        <ul class="search-pill">
+                           <li>{{item['school']['province']}}</li>
+                        </ul>
+                        <ul class="search-pill">
+                           {% for temp in item["school"]['characteristic'] %}
+                                <li>{{temp}}</li>
+                           {% endfor %}
+                        </ul>
+                        <ul class="search-pill">
+                           <li>{{item['school']["important"][0]}}个一级学科国家重点学科</li>
+                           <li>{{item['school']["important"][1]}}个二级学科国家重点学科</li>
+                           <li>{{item['school']["main_lab"]['num']}}个国家重点实验室</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="search-neck">
+                    <p>{{item['institution']["name"]}}</p>
+                    <ul>
+                        <!--<li>一级学科国家重点学科：计算机科学与技术</li>-->
+                        {% for temp in item["institution"]['main_lab'] %}
+                        <li>国家重点实验室：{{temp['name']}}</li>
+                        {% endfor %}
+                        <!--<li>院士5人，长江学者7人，千人计划2人，万人计划1人，杰出青年11人</li>-->
+                    </ul>
+                </div>
+                <hr>
+                <ul class="search-person">
+                    {% for teacher in item['teacher'] %}
+                    <li>
+                        <div class="row">
+                            <div class="col-lg-3" style="text-align:center">
+                                <img src="/main/propic/{{teacher['id']}}" style="width:100px">
+                            </div>
+                            <div class="col-lg-9">
+                                <p>{{teacher['name']}}</p>
+                                <ul class="search-perpendicular">
+                                    {% if teacher['age']!=''  %}
+                                    <li>{{teacher['age']}}岁</li>
+                                    {% endif %}
+                                    <li>{{teacher['title']|none_filter}}</li><!--<li>博士生导师</li><li>中国工程院院士</li><li>长江学者</li><li>杰出青年</li>-->
+                                </ul>
+                                <ul class="search-pill">
+                                    {% for f in teacher['fields'] %}
+                                    <li>{{f}}</li>
+                                    {% endfor %}
+                                </ul>
+                                <ul class="search-line">
+                                    {% if teacher["eduexp"]|length!=0  %}
+                                    <li><i class="glyphicon glyphicon-book" style="background:#f0f0f0"></i>&nbsp;{{teacher["eduexp"][-1]}}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% if teacher["eduexp"]|length!=0  %}
+                            <div class="search-toggle">更多信息<i class="glyphicon glyphicon-chevron-down"></i></div>
+                            <div class="search-hidden-content" hidden>
+                            <ul class="search-more">
+                                <li>
+                                    <div style="display:inline-block;width:900px;"><i class="glyphicon glyphicon-chevron-right"></i>教育经历</div>
+                                    <ul class="search-text">
+                                         {% for ex in teacher["eduexp"] %}
+                                            <li>{{ex}}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                <!--
+                                <li >
+                                    <div style="display:inline-block;width:900px;"><i class="glyphicon glyphicon-chevron-right">工作经历</i></div>
+                                    <ul class="search-text">
+                                        <li>清华大学信息化工作领导小组: 副组长、办公室主任 (2010-)；</li>
+                                        <li>清华大学信息网络工程研究中心: 主任 (1994-)；</li>
+                                    </ul>
+                                </li>
+                                <li >
+                                    <div style="display:inline-block;width:900px;"><i class="glyphicon glyphicon-chevron-right">项目经历</i></div>
+                                    <ul class="search-text">
+                                        <li>主持研制中国教育和科研计算机网CERNET示范工程</li>
+                                        <li>长期研究计算机网络路由和交换核心技术</li>
+                                    </ul>
+                                </li>
+                                <li >
+                                    <div style="display:inline-block;width:900px;"><i class="glyphicon glyphicon-chevron-right">获奖经历</i></div>
+                                    <ul class="search-text">
+                                        <li>国家科技进步二等奖—— CNGI示范网络核心CNGI-CERNET/6IX (2007)</li>
+                                        <li>国家科技进步二等奖——IPv6核心路由器 (2005)</li>
+                                        <li>国家科技进步二等奖——中国教育计算机科研CERNET网示范工程 (1997)</li>
+                                        <li>国家科技进步三等奖——北京交易所计算机交易系统 (1997)</li>
+                                    </ul>
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+</body>
+
+{% endblock %}

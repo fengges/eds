@@ -2,8 +2,9 @@
 import scrapy
 from scrapy.http import XmlResponse
 import re
-from teachers.dbutils import dbs
-from teachers.items import *
+from spider.paperspider.teachers.teachers.dbutils import dbs
+from spider.paperspider.teachers.teachers.items import *
+from spider.paperspider.teachers.teachers.settings import PC_COUNT, PC_NO
 
 
 class KaoyanbangSpider(scrapy.Spider):
@@ -11,14 +12,17 @@ class KaoyanbangSpider(scrapy.Spider):
     allowed_domains = []
     start_urls = ["http://www.baidu.com"]
 
+    handle_httpstatus_list = [400, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 500, 501, 502, 503, 504, 505]
+
     def parse(self, response):
-        sql = "select id, homepage from teacherdata_info where html = '' or html is null"
+
+        sql = "SELECT * FROM eds_985teacher WHERE html IS NULL AND all_link IS NOT NULL AND status IS NULL;"
         info_list = dbs.getDics(sql)
         print(len(info_list))
         for info in info_list:
             teacher = TeachersItem()
             teacher["id"] = info["id"]
-            request_url = info["homepage"]
+            request_url = info["all_link"]
             try:
                 yield scrapy.Request(url=request_url,
                                      meta={"teacher": teacher},
@@ -30,7 +34,14 @@ class KaoyanbangSpider(scrapy.Spider):
                 pass
 
     def parse_info(self, response):
+
         teacher = response.meta.get("teacher", "")
+        if response.status in self.handle_httpstatus_list:
+            print("*" * 3)
+            print(response.status)
+            u_sql = "UPDATE eds_985teacher set status = %s where id = %s" % (response.status, teacher['id'])
+            dbs.exe_sql(u_sql)
+            return
         # 分别解析 考研网链接
         if re.search(r'yz\.kaoyan\.com', response.url) is not None:
             html = response.css(".articleCon").extract_first("")

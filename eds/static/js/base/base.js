@@ -35,7 +35,7 @@ index= new Vue({
                    institution:'',
                    h_index:'',
                    paper_num:'',
-                   link:'',
+                   id:'',
                    citation:'',
                    title:'',
                    field:[],
@@ -79,12 +79,15 @@ index= new Vue({
     $("#mySearch").css("visibility","");
 },
      search_word:function(){
-       window.location="/search/searchall?keyword="+encodeURI(encodeURI(this.keyWord));
+       window.location="/search/searchall3?keyword="+encodeURI(encodeURI(this.keyWord));
      },
       search:function(){
-        url='/search/index';
+
+        window.location="/search/test/"+encodeURI(encodeURI(this.keyWord));
+        return
+        /*url='/search/search3';
         self=this;
-        params={'keyword':this.keyWord};
+        params={'keyword':this.keyWord,'filer':{}};
 
         var data= {
             data: JSON.stringify(params),
@@ -97,7 +100,7 @@ index= new Vue({
             dataType: 'json',
             success:function(data){
                 re=data.obj;
-                self.results=re['result'];
+                self.results=re['result'].splice(0,5);
                 self.num=re['num']
                 layer.closeAll('loading');
                 $("#mySearchResult").css("visibility","");
@@ -105,7 +108,7 @@ index= new Vue({
             error:function (res) {
                 layer.closeAll('loading');
             }
-        });
+        });*/
     },
     },
      created:function() {

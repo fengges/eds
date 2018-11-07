@@ -1,0 +1,161 @@
+
+hr{
+
+}
+
+i{
+    position:relative;
+    up:2px;
+}
+
+body{
+    background-color: #f3f3f3;
+}
+
+ul li{
+    padding: 1px 5px!important;
+    font-size: 15px;
+}
+
+.search-container {
+    width:900px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+}
+
+.search-head{
+    padding-top:20px;
+}
+.search-head p{
+    font-size:18px;
+    font-weight:600;
+}
+
+.search-neck p{
+    font-size:16px;
+    font-weight:550;
+    padding-left:55px;
+}
+
+.search-neck ul{
+    padding-left:85px
+}
+
+.search-li{
+    border-bottom:solid 1px transparent;
+    border-color: #888888;
+    margin-top:none;
+}
+
+.search-li:last-child{
+    border-bottom:none;
+    margin-top:none;
+}
+
+.search-li:hover{
+    box-shadow: 0 0px 0px #D4D4D4, /*左边阴影*/
+                0 0px 0px #D4D4D4, /*右边阴影*/
+                0 -2px 5px #D4D4D4, /*顶部阴影*/
+                0 2px 5px #D4D4D4; /*底边阴影*/
+    cursor: auto;
+}
+
+ul.search-pill{
+    padding-top:5px;
+}
+
+ul.search-pill li{
+    display:inline-block;
+    border:solid 1px transparent;
+    border-color: #d0d0d0;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 1px 5px!important;
+}
+
+ul.search-pill:nth-child(1){
+    padding-top: 25px;
+}
+
+ul.search-pill::last-child{
+    padding-bottom: 25px;
+}
+
+ul.search-perpendicular{
+    padding-top:5px;
+}
+
+ul.search-perpendicular li{
+    display:inline-block;
+    border-right:solid 1px transparent;
+    border-color: #d0d0d0;
+    margin-right: 5px;
+    margin-bottom: 4px;
+    padding: 1px 10px 1px 5px!important;
+}
+
+ul.search-perpendicular li:last-child{
+    border-right:none;
+}
+
+ul.search-line{
+    margin-top:5px;
+}
+
+ul.search-person>li{
+    margin-top:31px;
+    border-bottom:solid 1px transparent;
+    border-color: #f0f0f0;
+}
+
+ul.search-person>li:last-child{
+    border-bottom:none;
+}
+
+ul.search-person>li:hover{
+    -moz-box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    -webkit-box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    box-shadow:0px 0px 0px #FFFFFF, 0px 5px 5px #F0F0F0;
+    cursor: auto;
+}
+
+ul.search-person p{
+    font-size:16px;
+    font-weight:600;
+}
+
+ul.search-more{
+    margin-bottom: 10px;
+    margin-left: 46px;
+    width: 878px;
+    line-height:25px;
+}
+
+ul.search-more>li{
+    margin-bottom: 10px;
+}
+
+ul.search-more div{
+    font-size:16px;
+}
+
+ul.search-more li{
+    margin-left:10px;
+}
+
+ul.search-text{
+    margin-left:15px;
+}
+
+.search-toggle{
+    position:relative;
+    left:750px;
+    bottom:41px;
+    visibility: hidden;
+}
+
+.search-hidden-content{
+    background:none;
+}

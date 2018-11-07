@@ -2,7 +2,6 @@
 #  time     ：2018/6/22
 #  function ：留言
 from eds.dao.base import dbs
-
 class FieldDao:
     def getFieldTeacher(self):
         sql="SELECT c.*,d.name,d.school,d.institution,d.theme,d.title from (select a.codeName,a.time,b.id from (SELECT code,time,name as codeName FROM `discipline_new` where selected=1 ORDER BY time desc) a LEFT JOIN teacher_dis_code b on b.selected=1 and a.`code`=b.discipline_code ORDER BY a.time desc,b.time desc) c LEFT JOIN teacher d on c.id=d.id"

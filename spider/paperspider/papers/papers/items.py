@@ -46,13 +46,43 @@ class PaperItem(scrapy.Item):
 class UpdateAbstractItem(scrapy.Item):
     _id = scrapy.Field()
     name = scrapy.Field()
+    url = scrapy.Field()
     abstract = scrapy.Field()
-    keyword = scrapy.Field()
-    author = scrapy.Field()
+    org = scrapy.Field()
+    source_url = scrapy.Field()
+    keyword = scrapy.Field("")
     pass
 
 
 class UpdateInstitutionItem(scrapy.Item):
     _id = scrapy.Field()
     author = scrapy.Field()
+    pass
+
+
+class ZhuanliItem(scrapy.Item):
+    p_name = scrapy.Field()
+    author_list = scrapy.Field()
+    proposer = scrapy.Field()
+    date1 = scrapy.Field()
+    date2 = scrapy.Field()
+    pass
+
+
+class PSSZhuanliItem(scrapy.Item):
+    INVIEW = scrapy.Field()
+    PAVIEW = scrapy.Field()
+    TIVIEW = scrapy.Field()
+    ABSTRACT = scrapy.Field()
+    APD = scrapy.Field()
+    AP = scrapy.Field()
+    PD = scrapy.Field()
+    PN = scrapy.Field()
+    search_id = scrapy.Field()
+    pass
+
+
+class TermItem(scrapy.Item):
+    id = scrapy.Field()
+    term = scrapy.Field()
     pass

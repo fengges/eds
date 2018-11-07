@@ -45,11 +45,40 @@ class AuthorPipeline(object):
 
 class AbstractPipeline(object):
     def process_item(self, item, spider):
-        if type(item) == UpdateInstitutionItem:
-            sql = "UPDATE paper_new SET author=%s WHERE _id=%s"
-            params = (item["author"], item["_id"])
-            print(params)
-            # dbs.exe_sql(sql, params=params)
+        if type(item) == UpdateAbstractItem:
+            sql = "UPDATE paper_90_clean_1 SET name=%s,abstract=%s,org=%s,keyword=%s WHERE _id=%s"
+            params = (item["name"], item["abstract"], item["org"], item["keyword"], item["_id"])
+            dbs.exe_sql(sql, params=params)
+            paper_service.abstract_search_list_update(item["_id"])
+        return item
+
+
+class ZhuanliPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == ZhuanliItem:
+            sql = "INSERT INTO zhuanli VALUES(NULL,%s,%s,%s,%s,%s)"
+            params = (item["p_name"], item["author_list"], item["proposer"], item["date1"], item["date2"])
+            dbs.exe_sql(sql, params=params)
+        return item
+
+
+class PSSZhuanliPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == PSSZhuanliItem:
+            # sql = "INSERT INTO pss_zhuanli VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
+            # params = (item["TIVIEW"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"], item["search_id"])
+            sql = "INSERT INTO pss_zhuanli(id, TIVIEW, ABSTRACT, INVIEW, PAVIEW, AP, APD, PN, PD) VALUES(NULL,%s,%s,%s,%s,%s,%s,%s,%s)"
+            params = (item["TIVIEW"], item["ABSTRACT"], item["INVIEW"], item["PAVIEW"], item["AP"], item["APD"], item["PN"], item["PD"])
+            dbs.exe_sql(sql, params=params)
+        return item
+
+
+class TermPipeline(object):
+    def process_item(self, item, spider):
+        if type(item) == TermItem:
+            sql = "UPDATE paper_data SET term_doc=%s WHERE id=%s"
+            params = (item["term"], item["id"])
+            dbs.exe_sql(sql, params=params)
         return item
 
 

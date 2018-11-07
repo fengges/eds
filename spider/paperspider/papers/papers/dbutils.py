@@ -12,11 +12,13 @@ POOL = PooledDB(
     maxusage=None,  # 一个链接最多被重复使用的次数，None表示无限制
     setsession=[],  # 开始会话前执行的命令列表。如：["set datestyle to ...", "set time zone ..."]
     ping=0,
-    host='10.6.11.65',
+    host='10.6.11.44',
     port=3306,
     user='root',
     password='1111',
-    database='englishpaper',
+    # database='englishpaper',
+    database='shixi',
+    # database='paper',
     # host='127.0.0.1',
     # port=3306,
     # user='root',
@@ -29,6 +31,7 @@ POOL = PooledDB(
     # database='eds',
     charset='utf8'
 )
+
 
 class Dbutil:
 

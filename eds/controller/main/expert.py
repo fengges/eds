@@ -8,18 +8,9 @@ main_expert = Blueprint('main_expert', __name__)
 
 @main_expert.route('/main/expert/<id>')
 def show_expert(id):
-    infoEty = expertService.get_info(id)
-    try:
-        infoEty[0]['email'] = infoEty[0]['email'].split(";")[0]
-    except:
-        infoEty[0]['email'] = ''
-    if not infoEty:
-        return render_template('/main/notfound.html')
-    if not infoEty[0]["homepage"] and not re.search(r'^http', infoEty[0]["homepage"]):
-        infoEty[0]["homepage"] = "http://" + infoEty[0]["homepage"]
-
+    info = expertService.get_info(id)
     paperEty = expertService.get_paper(id)
-    return render_template('/main/expert.html', info_dict=infoEty[0] ,paperlist = paperEty)
+    return render_template('/main/expert.html', info=info ,paperlist = paperEty)
 
 
 @main_expert.route('/main/propic/<id>')
@@ -42,12 +33,17 @@ def get_draw_data():
     # ajax['obj']['theme'] = themeEty
 
     # 单轴图数据获取
-    themeSingleaxis = expertService.get_single_axis(id)
+    # themeSingleaxis = expertService.get_single_axis(id)
+    wordcloud = expertService.get_topics(id)
+    paperbar = expertService.get_paperbar(id)
     ajax = {}
     ajax['success']=True
     ajax['msg']=''
     ajax['obj'] ={}
-    ajax['obj']['theme'] = themeSingleaxis
+    # ajax['obj']['theme'] = themeSingleaxis
+    ajax['obj']['wordcloud'] = wordcloud
+    ajax['obj']['paperbar'] = paperbar
+
     return json.jsonify(ajax)
 
 

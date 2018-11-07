@@ -1,21 +1,18 @@
 import os
 import sys
 import re
-from utils.dbutils import dbs
+from algorithm.li.extract.utils.dbutils import dbs
 import jieba
 import jieba.posseg as pseg
 
-DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(DIR)
 
 split_list = ["，", "。", ",", "."]
 reSPLIT = r"[。|\n]"
 reYEAR = r'[1-2][9,0][0-9]{2}'
-reS = r'\n|\r|\0xa0|\a|\t|\\xa0|\u3000|\xa0|◆'
+reS = r'\n|\r|\0xa0|\a|\t|\\xa0|\u3000|\xa0|◆| '
 reEmail = r'([A-Za-z0-9_]+([-+.][A-Za-z0-9_]+)*@[A-Za-z0-9_]+([-.][A-Za-z0-9_]+)*(\.[A-Za-z0-9_])*([-.][A-Za-z0-9_]+)*\.(cn|co m|net|CN|COM|NET|TW|HK|tw|hk))'
-
-word_bag = ["留学", "毕业", "学位", "硕士", "博士", "学士", "研究生"]
-school_dict = {}.fromkeys(open(DIR + '\\dicts\\in.txt', 'r', encoding='utf-8').read().split('\n'))
+word_bag = ["留学", "毕业", "学位", "硕士", "博士", "学士", "研究生", "专业", "方向"]
+school_dict = {}.fromkeys(open('\\dicts\\in.txt', 'r', encoding='utf-8').read().split('\n'))
 
 
 class Extractor:
@@ -24,14 +21,15 @@ class Extractor:
         self.lines = []
         self.gravities = []
 
-    # 分句
-    def seg_sentence(self):
-        lines = re.split(reSPLIT, self.text)
-        lines = [re.sub(reS, "", i) for i in lines if i]
-        lines = [i for i in lines if len(i) >= 8]
-        self.lines = lines
+    # 去除格式字符串
+    def sub(self):
+        self.text = re.sub(reS, "", self.text)
+
+    # 计算句子权重
+    def compute_gravity(self):
+        self.seg_sentence()
         count = []
-        for line in lines:
+        for line in self.lines:
             s = 0
             for word in word_bag:
                 if not line.find(word) == -1:
@@ -41,6 +39,13 @@ class Extractor:
             count.append(s)
         self.gravities = count
         pass
+
+    # 分句
+    def seg_sentence(self):
+        lines = re.split(reSPLIT, self.text)
+        lines = [re.sub(reS, "", i) for i in lines if i]
+        lines = [i for i in lines if len(i) >= 8]
+        self.lines = lines
 
     # 得到准确的描述学历的句子
     def filter_sentence(self):
@@ -119,100 +124,8 @@ class Extractor:
             return ''
 
 
-reBody = r'<body.*?>[\s\S]*?<\/body>'
-reCOMM = r'<!--.*?-->'
-reTRIM = r'<{0}.*?>[\s\S]*?<\/{0}>'
-reTAG = r'<[\s\S]*?>|[ \t\r\f\v]'
-reLINK = r'<a.*?>[\s\S]*?<\/a>'
-reStyle = r'&nbsp;'
-reS_ = r'<.*?>'
-reSpace = r' '
-
-
-class ExtractorTest:
-    def __init__(self, html_text="", block_size=10):
-        self.htmlText = html_text
-        self.blockSize = block_size
-        self.ctexts = []
-        self.cblocks = []
-        self.body = ""
-        self.start = 0
-        self.end = 0
-
-    def process_tags(self):
-        # self.body = re.sub(reCOMM, "", self.body)
-        # self.body = re.sub(reLINK, "", self.body)
-        self.body = re.sub(reTRIM.format("script"), "", re.sub(reTRIM.format("style"), "", self.body))
-        # self.body = re.sub(reTAG, "", self.body)
-        self.body = re.sub(reS_, "", self.body)
-        self.body = re.sub(reStyle, "", self.body)
-        self.body = re.sub(reSpace, "", self.body)
-
-    def process_blocks(self):
-        self.ctexts = self.body.split("\n")
-        text_lens = [len(txt) for txt in self.ctexts]
-        self.cblocks = [0]*(len(self.ctexts) - self.blockSize - 1)
-        lines = len(self.ctexts)
-        for i in range(self.blockSize):
-            self.cblocks = list(map(lambda x, y: x + y, text_lens[i: lines - 1 - self.blockSize + i], self.cblocks))
-        max_textl = max(self.cblocks)
-        start = end = self.cblocks.index(max_textl)
-        while start > 0 and self.cblocks[start] > min(text_lens):
-            start -= 1
-        while end < lines - self.blockSize - 1 and self.cblocks[end] > min(text_lens):
-            end += 1
-        return "\n".join([txt for txt in self.ctexts[start:end] if not txt == ""])
-
-    def process_blocks_from_name(self, name):
-
-        self.ctexts = self.body.split("\n")
-        txt_list = [txt for txt in self.ctexts if not txt == ""]
-        s = 0
-        e = len(txt_list)
-        name = re.sub(pattern=" ", string=name, repl="")
-        for i in range(s, e):
-            if txt_list[i] == name or name in txt_list[i]:
-                print("==+++++++::::%s" % name)
-                print(txt_list[i])
-                s = i
-                break
-        if e > s + 15:
-            e = s + 15
-        return [txt_list[i] for i in range(s, e)]
-
-    def process_blocks_title(self):
-        bo = re.findall(reBody, self.htmlText)
-        if len(bo) == 0:
-            bo = self.htmlText
-        else:
-            self.body = bo[0]
-        self.process_tags()
-        self.ctexts = self.body.split("\n")
-        txt_list = [txt for txt in self.ctexts if not txt == ""]
-        s = 0
-        e = len(txt_list)
-        for i in range(s, e):
-            if "职称" in txt_list[i] or "职" in txt_list[i] and "称" in txt_list[i+1]:
-                print("%s" % txt_list[i])
-                s = i
-                break
-        if e > s + 10:
-            e = s + 10
-        return [txt_list[i] for i in range(s, e)]
-
-    def get_context(self, name=""):
-        self.body = self.htmlText
-        self.process_tags()
-        if name == "":
-            return self.process_blocks_title()
-        return self.process_blocks_from_name(name)
-
-    def set_html(self, html_text):
-        self.htmlText = html_text
-
-
 def get_age():
-    select_sql = "SELECT * from teacherdata_info where id in (SELECT id FROM `teacher_age_overseas` WHERE age = '')"
+    select_sql = "SELECT * from teacherdata_info"
     teacherdata = dbs.getDics(select_sql)
     print(len(teacherdata))
 
@@ -275,7 +188,7 @@ def get_age():
         uplistNew.append(data)
 
     print(len(uplistNew))
-    update_sql = "update teacher_age_overseas set age_description=%s,age=%s where id=%s"
+    update_sql = "update teacher_age set age_description=%s,age=%s where id=%s"
     print(dbs.exe_many(update_sql, li=uplistNew))
 
 
@@ -306,7 +219,7 @@ def get_overseas_exp():
             reList = [r'教育经历|学习经历|教育背景', r'个人简介|个人简历', teacher["name"]]
             extractor.cut_blocks(reList)
 
-        extractor.seg_sentence()
+        extractor.compute_gravity()
         sentences = extractor.filter_sentence()
         if sentences is None:
             continue
@@ -457,42 +370,54 @@ def test():
 
 
 def get_title():
-    title_dict = ["副教授", "教授", "讲师", "助教", "助理教授", "副研究员", "助理研究员", "研究员", "高级工程师", "高级实验师", "高工", "工程师", "实验师"]
+    title_dict = ["副教授", "助理教授", "教授", "讲师", "助教", "副研究员", "助理研究员", "研究员", "高级工程师", "高级实验师", "高工", "工程师", "实验师"]
 
     extractor = Extractor()
     result_list = []
 
-    select_sql = "select * from teacherdata_info where id >= 40146"
+    select_sql = "SELECT id, name, info, all_link FROM `eds_985teacher` WHERE school = '清华大学';"
     teacher_list = dbs.getDics(select_sql)
     print(len(teacher_list))
 
     for teacher in teacher_list:
-        if re.search(r'cksp\.eol\.cn', teacher["homepage"]) is not None:
+        if re.search(r'cksp\.eol\.cn', teacher["all_link"]) is not None:
             info_dict = eval(teacher["info"])
-            extractor.set_text(info_dict["个人简介"])
+            try:
+                extractor.set_text(info_dict["个人简介"])
+            except:
+                person_info = teacher['info']
         else:
             try:
                 info = eval(teacher['info'])
                 person_info = "".join(list(info.values()))
-            except Exception as e:
+            except:
                 person_info = teacher['info']
             if person_info is None:
                 continue
             extractor.set_text(person_info)
-        re_list = [r'个人简介|个人简历', teacher["name"]]
+        re_list = [r'职称|职务', r'个人简介|个人简历', teacher["name"]]
         # 匹配模式
-        size = [50, 50]
+        size = [50, 200, 200]
+        extractor.sub()
         extractor.cut_blocks(re_list, size)
-
         index = 0
-        title = 0
+        title = ""
         while index < len(title_dict):
             if title_dict[index] in extractor.text:
+                if title_dict[index] == "副教授" and len(re.findall(r'教授', extractor.text)) > 1:
+                    title = "教授"
+                    break
                 title = title_dict[index]
-                index += 1
                 break
+            index += 1
 
-        print((teacher["id"], title, extractor.text))
+        if title != "":
+            # result_list.append((title, teacher["id"]))
+
+            print((teacher["id"], title))
+    # print(len(result_list))
+    # update_sql = "update teacherdata_info set title=%s where id=%s"
+    # dbs.exe_many(update_sql, result_list)
 
 
 if __name__ == "__main__":

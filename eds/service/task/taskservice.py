@@ -9,6 +9,7 @@ from eds.service.login.loginservice import userService
 class TaskService:
     def __init__(self):
         self.value=["登陆","注册","留言"]
+        self.hot = ["学校", "平台", "专家"]
     def statistics(self):
         taskDao.delRecord()
         today = datetime.date.today()
@@ -75,4 +76,31 @@ class TaskService:
     def getExpers(self,ids):
         return expertService.get_infosByIds(ids)
 
+    def getLocationfromAlibaba(self,ip):
+        import requests
+        import json
+        if ip is None or ip=='':
+            return ''
+        URL = 'http://ip.taobao.com/service/getIpInfo.php?ip=' + ip
+        try:
+            data = requests.get(URL,timeout=3)
+            result = str(data.content, encoding='utf-8')
+            jsondata = json.loads(result)
+            ipinfo = '%s,%s,%s' % (jsondata['data']['country'], jsondata['data']['region'], jsondata['data']['city'])
+            return ipinfo
+        except:
+            return '未知ip'
+
+    def updateLocation(self):
+        iplist = taskDao.selectIPwhereLocationisNull()
+        for node in iplist:
+            id = node['id']
+            ip = node['ip']
+            location = self.getLocationfromAlibaba(ip)
+            taskDao.updateIPLocation([(location,id)])
+    def getHotSearch(self,param):
+        if param["type"] in self.hot:
+            return taskDao.getHotSearch(param)
+        else:
+            return []
 taskService=TaskService()
