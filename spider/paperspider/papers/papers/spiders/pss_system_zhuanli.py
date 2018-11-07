@@ -9,6 +9,7 @@ from spider.paperspider.papers.papers.services.zhuanliservices import zhuanli_se
 from spider.paperspider.papers.papers.settings import DEFAULT_REQUEST_HEADERS
 import json
 
+
 class PSSZhuanliSpider(scrapy.Spider):
     name = 'pss_zhuanli'
     allowed_domains = []
