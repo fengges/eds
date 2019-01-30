@@ -18,7 +18,7 @@ class Service:
         pages=eval(teacher['page'])
         if all_page and teacher['all_page']==-1:
             teacher['all_page']=int(all_page)
-        if page not in pages:
+        if int(page) not in pages:
             pages.append(int(page))
         teacher['page']=str(pages)
         if teacher['all_page']==len(pages):
@@ -48,16 +48,23 @@ class Service:
         if len(name) > 2 and fu_dict.get(name[0:2], "") != "":
             return name_list[0] + name_list[1]+ " " +  "".join(name_list[2:])
         else:
+
             return name_list[0]+ " " + "".join(name_list[1:])
 
     def searchCheck(self):
         while True:
-            teacher = self.db.getTeacher(1, 100)
+            teacher = self.db.getTeacher(1, 1000)
             if len(teacher) == 0:
                 break
             for t in teacher:
-                page=eval(t['page'])
-                if t['all_page']!=page:
+                if t['id']==252845:
+                    print(t)
+                page=list(set(eval(t['page'])))
+                # t['page']=str(page)
+                # param = (t['page'], t['id'])
+                # sql = 'update teacher set page=%s where id=%s'
+                # self.db.exe_sql(sql, param)
+                if t['all_page']!=len(page):
                     self.db.updateTeacherById(t['id'],0)
                 else:
                     self.db.updateTeacherById(t['id'],2)

@@ -13,7 +13,7 @@ def qs(url):
 
 class CnkiSpider(scrapy.Spider):
     name = 'sci'
-    start_urls = ['http://www.baidu.com']
+    start_urls = ['http://apps.webofknowledge.com/WOS_AdvancedSearch_input.do?product=WOS&search_mode=AdvancedSearch&replaceSetId=&goToPageLoc=SearchHistoryTableBanner&SID=6FScVuwfssVQKRb2tqn&errorQid=2078#SearchHistoryTableBanner']
     feng3=mysql.DB("feng3")
     school={}
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
