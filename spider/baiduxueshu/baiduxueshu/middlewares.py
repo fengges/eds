@@ -61,11 +61,13 @@ from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
 import requests
 import time
 import random
+import threading
 class IPPOOLS(HttpProxyMiddleware):
 
     def __init__(self,ip=''):
         '''初始化'''
         # self.db = mysql.Aliyun()
+        self.lock = threading.Lock()
         self.iplist = []
 
     def get_ip_from_web(self):
@@ -111,10 +113,9 @@ class IPPOOLS(HttpProxyMiddleware):
         """
         处理request，即设置request代理
         """
+        self.lock.acquire()
         ip = self.getIP()
-        print(ip)
-        print(self.iplist)
-        # ip = '223.153.242.13:15058'
+        self.lock.release()
         request.meta["proxy"] = "http://" + ip
 
     def process_response(self, request, response, spider):
@@ -124,6 +125,7 @@ class IPPOOLS(HttpProxyMiddleware):
         如果是200，则success+1
         """
         if response.status == 407 or response.status == 502 or response.status == 503:
+
             ip = request.meta["proxy"][7:]
             x = self.get_list_index(ip,self.iplist)
 
