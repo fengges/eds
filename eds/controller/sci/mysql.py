@@ -21,11 +21,11 @@ class DB(object):
         #     charset='utf8'
         # ),
         "feng1": pymysql.Connect(
-            host='10.6.11.166',
+            host='127.0.0.1',
             port=3306,
             user='root',
-            password='123456',
-            db='eds',
+            password='SLX..eds123',
+            db='eds_spider',
             charset='utf8'
         ),
     }
@@ -54,7 +54,7 @@ class DB(object):
         self.exe_sql(sql,params)
 
     def updateTeacherById(self,id,search):
-        sql="update teacher set search=%s where id=%s"
+        sql="update es_teacher set search=%s where id=%s"
         params = (search,id)
         self.cursor.execute(sql,params)
         self.connect.commit()
@@ -64,12 +64,12 @@ class DB(object):
         self.cursor.execute(sql,params)
         self.connect.commit()
     def getTeacher(self,search,num):
-        sql="select * from teacher where search=%s limit 0,%s"
+        sql="select * from es_teacher where search=%s limit 0,%s"
         params =(search,num)
         self.cursor.execute(sql,params)
         return self.cursor.fetchall()
     def getTeacherById(self,id):
-        sql="select * from teacher where id=%s"
+        sql="select * from es_teacher where id=%s"
         params = (id)
         self.cursor.execute(sql,params)
         return self.cursor.fetchall()

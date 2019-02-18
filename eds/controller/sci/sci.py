@@ -51,3 +51,16 @@ def index3():
     # 跨域设置
     s.headers['Access-Control-Allow-Origin'] = '*'
     return s
+#      接收搜索参数
+@sic_sci.route('/sci/endPaper',methods=['GET','POST'])
+def index4():
+    id=request.form.get('id')
+    scis.endPaper(id)
+    ajax={}
+    ajax['success']=True
+    ajax['msg']=''
+    ajax['obj'] = None
+    s=json.jsonify(ajax)
+    # 跨域设置
+    s.headers['Access-Control-Allow-Origin'] = '*'
+    return s
