@@ -24,7 +24,7 @@ ROBOTSTXT_OBEY = False
 DOWNLOAD_FAIL_ON_DATALOSS = False
 RETRY_ENABLED = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -49,6 +49,7 @@ DEFAULT_REQUEST_HEADERS = {
    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 }
 
+
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
@@ -72,13 +73,15 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'papers.pipelines.JournalsPipeline': 1,
-   'papers.pipelines.PapersPipeline': 2,
-   'papers.pipelines.AuthorPipeline': 3,
-   'papers.pipelines.AbstractPipeline': 4,
-   'papers.pipelines.ZhuanliPipeline': 5,
-   'papers.pipelines.PSSZhuanliPipeline': 6,
-   'papers.pipelines.TermPipeline': 7,
+   # 'papers.pipelines.JournalsPipeline': 1,
+   # 'papers.pipelines.PapersPipeline': 2,
+   # 'papers.pipelines.AuthorPipeline': 3,
+   # 'papers.pipelines.AbstractPipeline': 4,
+   # 'papers.pipelines.CNKIZhuanliPipeline': 5,
+   # 'papers.pipelines.PSSZhuanliPipeline': 6,
+   'papers.pipelines.CNKIABSTRACTPipeline': 6,
+   # 'papers.pipelines.TermPipeline': 7,
+   # 'papers.pipelines.JiechuPipeline': 8,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

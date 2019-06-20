@@ -6,13 +6,14 @@ from spider.paperspider.papers.papers.items import *
 
 from spider.paperspider.papers.papers.services.term_service import term_service
 
+
 class PSSZhuanliSpider(scrapy.Spider):
     name = 'term_spider'
     allowed_domains = []
     start_urls = ['http://www.termonline.cn/index.htm']
 
     def parse(self, response):
-        info_list = term_service.get_search_list(('0812', 'doc'))
+        info_list = term_service.get_search_list(('0805', 'doc'))
 
         for info in info_list:
             text = info["abstract"]

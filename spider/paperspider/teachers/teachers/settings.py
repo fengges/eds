@@ -56,10 +56,10 @@ CONCURRENT_REQUESTS = 4
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-   # 'teachers.middlewares.TeachersDownloaderMiddleware': 543,
-   'teachers.middlewares.MyDownloaderMiddleware': 125,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#    # 'teachers.middlewares.TeachersDownloaderMiddleware': 543,
+#    'teachers.middlewares.MyDownloaderMiddleware': 125,
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -70,9 +70,12 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   # 'teachers.pipelines.TeachersPipeline': 300,
-   'teachers.pipelines.TeacherDataPipeline': 300,
+   # 'teachers.pipelines.TeachersPipeline': 200,
+   # 'teachers.pipelines.NewTeacherPipeline': 200,
+   # 'teachers.pipelines.BaikePipeline': 100,
+   # 'teachers.pipelines.TeacherDataPipeline': 300,
    # 'teachers.pipelines.TeacherImgPipeline': 300,
+   'teachers.pipelines.SamplesPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -96,17 +99,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-CHINAKAOYAN_HEADERS = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q = 0.9,image/webp,image/apng,*/*;q = 0.8",
-    "Accept-Encoding": "gzip, deflate",
-    "Accept-Language": "zh-CN,zh;q = 0.9",
-    "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
-    "Host": "www.chinakaoyan.com",
-    "Pragma": "no-cache",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
-}
+
 
 # NO从0开始
 PC_NO = 0

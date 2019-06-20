@@ -14,10 +14,12 @@ sic_sci = Blueprint('sic_sci', __name__)
 
 @sic_sci.route('/sci/getQuery',methods=['GET','POST'])
 def index():
+    print("get")
     ajax={}
     ajax['success']=True
     ajax['msg']=''
     ajax['obj'] = scis.getQuery()
+    print("send:",ajax['obj'])
     s=json.jsonify(ajax)
     # 跨域设置
     s.headers['Access-Control-Allow-Origin'] = '*'

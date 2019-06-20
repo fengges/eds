@@ -283,13 +283,7 @@ def get_codeResult(url=''):
 
     return
 
+
 if __name__ == "__main__":
-    # test()
-    # tt()
-    # get_BaiDuPicExtract()
-    code = get_codeResult()
-    while not code:
-        print(code)
-        code = get_codeResult()
-    print(code)
+
     pass

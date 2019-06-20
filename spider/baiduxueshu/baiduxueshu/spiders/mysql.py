@@ -24,14 +24,6 @@ class DB(object):
         #     db='eds',
         #     charset='utf8'
         # ),
-        "feng1": pymysql.Connect(
-            host='10.6.11.166',
-            port=3306,
-            user='root',
-            password='123456',
-            db='eds',
-            charset='utf8'
-        ),
         "SLX": pymysql.Connect(
             host='47.104.236.183',
             port=3306,
@@ -48,10 +40,7 @@ class DB(object):
         except:
             print(name+":数据库链接失败")
 
-    def updateItem(self,item):
-        sql="updata en_paper set name=%s,org=%s,year=%s,abstract=%s,keyword=%s,addr=%s where id=%s"
-        params=(item["name"],item["org"],item["year"],item["abstract"],item["keyword"],item["addr"],item["id"])
-        self.exe_sql(sql,params)
+
     def insertItem(self,item):
         table=item["table"]+"("
         temp=",".join(["%s" for i in item["params"]])

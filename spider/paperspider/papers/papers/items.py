@@ -60,12 +60,22 @@ class UpdateInstitutionItem(scrapy.Item):
     pass
 
 
-class ZhuanliItem(scrapy.Item):
-    p_name = scrapy.Field()
+class CNKIZhuanliItem(scrapy.Item):
+    title = scrapy.Field()
+    abstract = scrapy.Field()
     author_list = scrapy.Field()
+    url = scrapy.Field()
     proposer = scrapy.Field()
     date1 = scrapy.Field()
     date2 = scrapy.Field()
+    search_id = scrapy.Field()
+    pass
+
+
+class CNKIABSTRACTItem(scrapy.Item):
+    id = scrapy.Field()
+    abstract = scrapy.Field()
+    ip_content = scrapy.Field()
     pass
 
 
@@ -78,6 +88,7 @@ class PSSZhuanliItem(scrapy.Item):
     AP = scrapy.Field()
     PD = scrapy.Field()
     PN = scrapy.Field()
+    _ID = scrapy.Field()
     search_id = scrapy.Field()
     pass
 
@@ -85,4 +96,13 @@ class PSSZhuanliItem(scrapy.Item):
 class TermItem(scrapy.Item):
     id = scrapy.Field()
     term = scrapy.Field()
+    pass
+
+
+class JiechuItem(scrapy.Item):
+    name = scrapy.Field()
+    year = scrapy.Field()
+    detail = scrapy.Field()
+    url = scrapy.Field()
+    img_url = scrapy.Field()
     pass

@@ -16,8 +16,8 @@ class PaperSpider(scrapy.Spider):
     name = 'google'
     allowed_domains = []
     start_urls = ['http://www.baidu.com/']
-    db_li = mysql.DB("LiWei")
-    db_localhost = mysql.DB("feng3")
+    # db_li = mysql.DB("LiWei")
+    # db_localhost = mysql.DB("feng3")
 
     def parse(self, response):
         self.ctx = execjs.compile("""

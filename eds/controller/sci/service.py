@@ -1,16 +1,16 @@
-from eds.controller.sci.mysql import DB
+from eds.controller.sci.db_util import db
 import os,re
 from pypinyin import lazy_pinyin
 class Service:
     def __init__(self):
-        self.db=DB("feng1")
+        self.db=db
         self.root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         sql = "select name,english_name from school_info"
         self.file = open(self.root + '/controller/sci/data/school2en_dict.txt', 'r', encoding='utf8').readlines()
         self.school = {s.split(":")[0]: s.split(":")[1].strip() for s in self.file}
-        school = self.db.exe_sql(sql)
+        school = self.db.getDics(sql)
         s_sql = "select * from es_school"
-        school_id=self.db.exe_sql(s_sql)
+        school_id=self.db.getDics(s_sql)
         self.school_id={s['ID']:s["NAME"] for s in school_id }
         for s in school:
             if s['english_name'] and len(s['english_name']) > 0:
@@ -31,19 +31,23 @@ class Service:
         sql='update es_teacher set page=%s,all_page=%s,search=%s where id=%s'
         self.db.exe_sql(sql,param)
     def getQuery(self):
+        print("find teacher")
         teacher=self.db.getTeacher(0,1)
         if len(teacher)==0:
             return None
         else:
+            print("update teacher")
             self.db.updateTeacherById(teacher[0]['id'],1)
             teacher[0]['page']=eval(teacher[0]['page'])
             return {'query':self.getQueryByTeacher(teacher[0]),'teacher':teacher[0]}
     def getQueryByTeacher(self,teacher):
+        print("get teacher query")
         name=teacher['name']
         school=self.school_id[teacher['SCHOOL_ID']]
         en_name = self.name2enjianc(name)
         en_shcool = self.school[school]
         value = 'au=' + en_name + ' and oo=' + en_shcool
+        print("return  teacher query")
         return value
     def name2enjianc(self,name=""):
         fu_dict = {}.fromkeys(
@@ -59,7 +63,7 @@ class Service:
         while True:
             print(n)
             sql = "SELECT DISTINCT(a.id) FROM `es_teacher` a join es_institution b on a.INSTITUTION_ID=b.id join es_relation_in_dis c on c.INSTITUTION_ID=b.id where c.DISCIPLINE_CODE like '08%' limit "+str(n)+",1000"
-            teacher=self.db.exe_sql(sql)
+            teacher=self.db.getDics(sql)
             if len(teacher)==0:
                 break
             for t in teacher:

@@ -14,22 +14,23 @@ class PSSZhuanliSpider(scrapy.Spider):
     name = 'pss_zhuanli'
     allowed_domains = []
     # start_urls = ['http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/tableSearch-showTableSearchIndex.shtml']
-    start_urls = ['http://www.pss-system.gov.cn/sipopublicsearch/portal/uilogin-forwardLogin.shtml']
+    start_urls = ['http://www.pss-system.gov.cn/sipopublicsearch/portal/uiIndex.shtml']
 
     def parse(self, response):
 
-        # with open('C:\\Users\\Administrator\\Desktop\\teacher.txt', 'r', encoding='utf-8') as f:
+        # with open('.\\teacher.txt', 'r', encoding='utf-8') as f:
         #     search_list = [_.strip() for _ in f.readlines()]
         search_list = zhuanli_service.get_search_list()
         # # search_list = ["庄大明"]
         print(len(search_list))
+        print(search_list[0])
 
         url = 'http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/executeTableSearch0529-executeCommandSearch.shtml'
 
-        for item in search_list:
+        for info in search_list:
             data_dict = dict()
-            name = item["name"]
-            school = item["school"]
+            name = info["name"]
+            school = info["school"]
             # name = item
             # school = "清华大学"
             data_dict["searchCondition.searchExp"] = "((申请（专利权）人=(%s) AND 发明人=(%s)))" % (school, name)
@@ -44,17 +45,20 @@ class PSSZhuanliSpider(scrapy.Spider):
 
             '''
             最新cookie
-            WEE_SID=wxrsGKYgXk5d6xiebNdCqqjMWgW3U2G1wmLlA5SdegWHvS_fYSaD!773455524!164610502!1541559330336;
-            IS_LOGIN=true;
-            JSESSIONID=wxrsGKYgXk5d6xiebNdCqqjMWgW3U2G1wmLlA5SdegWHvS_fYSaD!773455524!164610502
+            
+            WEE_SID=V65TDXNLX10q5n-gCuPhinhsraZW3nzwEGSeFUQasaRaipCkdQla!-321066461!82474967!1551876584267; 
+            IS_LOGIN=true; 
+            JSESSIONID=V65TDXNLX10q5n-gCuPhinhsraZW3nzwEGSeFUQasaRaipCkdQla!-321066461!82474967
             '''
+
             cookie_dict = dict()
             cookie_dict["IS_LOGIN"] = "true"
-            cookie_dict["WEE_SID"] = "U_ztzflEPeMKFOa3e-PY6I3bCMwtBsIjVg28Ftgr-cM4INdVKOFZ!773455524!164610502!1541587990852"
-            cookie_dict["JSESSIONID"] = "U_ztzflEPeMKFOa3e-PY6I3bCMwtBsIjVg28Ftgr-cM4INdVKOFZ!773455524!164610502"
+            # cookie_dict["avoid_declare"] = "declare_pass"
+            cookie_dict["WEE_SID"] = "V65TDXNLX10q5n-gCuPhinhsraZW3nzwEGSeFUQasaRaipCkdQla!-321066461!82474967!1551876584267"
+            cookie_dict["JSESSIONID"] = "V65TDXNLX10q5n-gCuPhinhsraZW3nzwEGSeFUQasaRaipCkdQla!-321066461!82474967"
 
             yield scrapy.FormRequest(url=url,
-                                     meta={"search_id": item["id"]},
+                                     meta={"search_id": info["id"]},
                                      formdata=data_dict,
                                      callback=self.parse_list,
                                      cookies=cookie_dict)
@@ -65,9 +69,9 @@ class PSSZhuanliSpider(scrapy.Spider):
 
     def parse_list(self, response):
         search_id = response.meta.get("search_id", -1)
-        print(str(response.body, 'utf8'))
+
         if search_id == -1:
-            # zhuanli_service.update_search_list_none(search_id)
+            zhuanli_service.update_search_list_none(search_id)
             print("更新status……-1", search_id)
             return
 
@@ -78,6 +82,7 @@ class PSSZhuanliSpider(scrapy.Spider):
             # 获得item list数据
             searchResultRecord = searchResultDTO.get("searchResultRecord", [])
             if not searchResultRecord:
+                zhuanli_service.update_search_list_none(search_id)
                 print("更新status……-1")
                 return
             for item_dict in searchResultRecord:
@@ -92,21 +97,36 @@ class PSSZhuanliSpider(scrapy.Spider):
                     item["PD"] = fieldMap["PD"]
                     item["PN"] = fieldMap["PN"]
                     item["ABSTRACT"] = ""
+                    item["search_id"] = search_id
+                    item["_ID"] = fieldMap["ID"]
 
-                    # 跳转-->爬取摘要
-                    ID = fieldMap["ID"]
+                    # 跳转-->爬取摘要 form data
 
                     f_data = dict()
                     f_data["nrdAn"] = fieldMap["AP"]
-                    f_data["cid"] = ID
-                    f_data["sid"] = ID
+                    f_data["cid"] = item["_ID"]
+                    f_data["sid"] = item["_ID"]
                     f_data["wee.bizlog.modulelevel"] = "0201101"
 
-                    # yield item
-                    yield scrapy.FormRequest(url="http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/viewAbstractInfo0529-viewAbstractInfo.shtml",
-                                             formdata=f_data,
-                                             meta={"item": item},
-                                             callback=self.parse_abstract)
+                    yield item
+                    # print(item)
+                    print(item["_ID"])
+
+                    # referer_url = '''http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/showViewList-jumpToView.shtml'''
+                    #
+                    # header = dict()
+                    # header['Referer'] = referer_url
+                    # # yield scrapy.FormRequest(url="http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/viewAbstractInfo0529-viewAbstractInfo.shtml",
+                    # #                          meta={"item": item},
+                    # #                          formdata=f_data,
+                    # #                          callback=self.parse_abstract
+                    # #                          )
+                    # yield scrapy.FormRequest(url="http://www.pss-system.gov.cn/sipopublicsearch/patentsearch/viewAbstractInfo0529-viewAbstractInfo.shtml",
+                    #                          meta={"item": item},
+                    #                          formdata=f_data,
+                    #                          headers=header,
+                    #                          callback=self.parse_abstract
+                    #                          )
 
             # 下一页
             resultPagination = result_dict["resultPagination"]
@@ -117,7 +137,7 @@ class PSSZhuanliSpider(scrapy.Spider):
 
             if start + limit >= totalCount:
                 print("更新status……1")
-                # zhuanli_service.update_search_list_all(search_id)
+                zhuanli_service.update_search_list_all(search_id)
                 return
 
             # FormData重要数据
@@ -150,12 +170,12 @@ class PSSZhuanliSpider(scrapy.Spider):
             #                          formdata=data_dict,
             #                          callback=self.parse_list)
             yield scrapy.FormRequest(url=next_url,
-                                     meta={"search_id": item["id"]},
+                                     meta={"search_id": search_id},
                                      formdata=data_dict,
                                      callback=self.parse_list)
         except:
-            # zhuanli_service.update_search_list_none(search_id)
-            print("更新status……-1")
+            zhuanli_service.update_search_list_error(search_id)
+            print("更新status……-2")
 
     def parse_abstract(self, response):
         item = response.meta.get("item")
@@ -176,11 +196,11 @@ class PSSZhuanliSpider(scrapy.Spider):
             # ab_text = ab_list[0]
             ab_text = "".join(ab_list)
             item["ABSTRACT"] = self.my_strip(ab_text)
-            # print(item)
+            print(item)
             yield item
 
         except :
-            print("错误")
+            print("错误 abstract")
         pass
 
     # 去除字符串中空格和其他字符

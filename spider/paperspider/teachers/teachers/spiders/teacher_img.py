@@ -2,8 +2,8 @@
 import scrapy
 from scrapy.http import XmlResponse
 import re
-from teachers.dbutils import dbs
-from teachers.items import *
+from spider.paperspider.teachers.teachers.dbutils import dbs
+from spider.paperspider.teachers.teachers.items import *
 
 
 class KaoyanbangSpider(scrapy.Spider):

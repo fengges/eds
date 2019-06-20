@@ -108,9 +108,10 @@ def t():
     s_sql = "SELECT id, title, abstract FROM paper_data WHERE discipline='0812'"
     data_list = dbs.getDics(s_sql)
 
-    flag_list = ["p", "x", "uj", "f", "c", "uv", "ul", "r"]
+    flag_list = ['vd', 'g', 'h', 'f', 's', 'r', 'nt', 'm', 'ad', 'ns', 'zg', 'z', 'ag', 'q', 'yg', 'd', 'u', 'ul', 'j', 'a', 'y', 'ug', 'vg', 't', 'p', 'mq', 'uj', 'o', 'uv', 'k', 'c', 'nz', 'nrfg', 'tg', 'i']
 
     word_dict = dict()
+    x_word_dict = dict()
     for data in data_list:
         title = data['title']
         abstract = data['abstract']
@@ -121,6 +122,11 @@ def t():
                 key = w+"--SPLIT--"+f
                 c = word_dict.get(key, 0)
                 word_dict[key] = c+1
+            elif f == "x":
+                key = w+"--SPLIT--"+f
+                c = x_word_dict.get(key, 0)
+                x_word_dict[key] = c+1
+                pass
 
     wbk = xlwt.Workbook(encoding='utf-8')
     sheet = wbk.add_sheet('sheet1')
@@ -136,6 +142,35 @@ def t():
 
     wbk.save('.\\test\\con_stop.xls')
     print(row)
+
+
+def x_t():
+    import jieba.posseg as pseg
+
+    s_sql = "SELECT id, title, abstract FROM paper_data WHERE discipline='0812'"
+    data_list = dbs.getDics(s_sql)
+
+    x_word_dict = dict()
+    for data in data_list:
+        title = data['title']
+        abstract = data['abstract']
+
+        word_list = pseg.cut(title + "\n" + abstract, HMM=True)
+        for w, f in word_list:
+            if f == "x":
+                key = w+"--SPLIT--"+f
+                c = x_word_dict.get(key, 0)
+                x_word_dict[key] = c+1
+                pass
+
+    fw = open('.\\stopword_base.txt', 'w', encoding='utf8')
+
+    save_list = ["A", "B", "C", "D", "E"]
+
+    for k, v in x_word_dict.items():
+        word = k.split('--SPLIT--')[0]
+        flag = k.split('--SPLIT--')[1]
+        f = v
 
 
 if __name__ == "__main__":

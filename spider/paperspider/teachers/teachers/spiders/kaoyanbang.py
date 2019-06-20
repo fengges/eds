@@ -3,8 +3,8 @@ import scrapy
 import os
 import re
 import json
-from teachers.dbutils import dbs
-from teachers.items import *
+from spider.paperspider.teachers.teachers.dbutils import dbs
+from spider.paperspider.teachers.teachers.items import *
 
 
 class KaoyanbangSpider(scrapy.Spider):
